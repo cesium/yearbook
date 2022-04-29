@@ -9,3 +9,11 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Yearbook.Accounts.User
+alias Yearbook.Repo
+
+%User{}
+|> User.registration_changeset(%{email: "cesium@di.uminho.pt", password: "Password1234!"})
+|> User.confirm_changeset()
+|> Repo.insert!()
