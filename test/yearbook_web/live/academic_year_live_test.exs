@@ -46,7 +46,9 @@ defmodule YearbookWeb.AcademicYearLiveTest do
     test "updates academic_year in listing", %{conn: conn, academic_year: academic_year} do
       {:ok, index_live, _html} = live(conn, Routes.academic_year_index_path(conn, :index))
 
-      assert index_live |> element("#academic_year-#{academic_year.id} a", "Edit") |> render_click() =~
+      assert index_live
+             |> element("#academic_year-#{academic_year.id} a", "Edit")
+             |> render_click() =~
                "Edit Academic year"
 
       assert_patch(index_live, Routes.academic_year_index_path(conn, :edit, academic_year))
@@ -67,7 +69,10 @@ defmodule YearbookWeb.AcademicYearLiveTest do
     test "deletes academic_year in listing", %{conn: conn, academic_year: academic_year} do
       {:ok, index_live, _html} = live(conn, Routes.academic_year_index_path(conn, :index))
 
-      assert index_live |> element("#academic_year-#{academic_year.id} a", "Delete") |> render_click()
+      assert index_live
+             |> element("#academic_year-#{academic_year.id} a", "Delete")
+             |> render_click()
+
       refute has_element?(index_live, "#academic_year-#{academic_year.id}")
     end
   end
@@ -76,13 +81,15 @@ defmodule YearbookWeb.AcademicYearLiveTest do
     setup [:create_academic_year]
 
     test "displays academic_year", %{conn: conn, academic_year: academic_year} do
-      {:ok, _show_live, html} = live(conn, Routes.academic_year_show_path(conn, :show, academic_year))
+      {:ok, _show_live, html} =
+        live(conn, Routes.academic_year_show_path(conn, :show, academic_year))
 
       assert html =~ "Show Academic year"
     end
 
     test "updates academic_year within modal", %{conn: conn, academic_year: academic_year} do
-      {:ok, show_live, _html} = live(conn, Routes.academic_year_show_path(conn, :show, academic_year))
+      {:ok, show_live, _html} =
+        live(conn, Routes.academic_year_show_path(conn, :show, academic_year))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
                "Edit Academic year"

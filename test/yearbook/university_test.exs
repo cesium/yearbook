@@ -36,14 +36,19 @@ defmodule Yearbook.UniversityTest do
       academic_year = academic_year_fixture()
       update_attrs = %{finish: 43, start: 43}
 
-      assert {:ok, %AcademicYear{} = academic_year} = University.update_academic_year(academic_year, update_attrs)
+      assert {:ok, %AcademicYear{} = academic_year} =
+               University.update_academic_year(academic_year, update_attrs)
+
       assert academic_year.finish == 43
       assert academic_year.start == 43
     end
 
     test "update_academic_year/2 with invalid data returns error changeset" do
       academic_year = academic_year_fixture()
-      assert {:error, %Ecto.Changeset{}} = University.update_academic_year(academic_year, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               University.update_academic_year(academic_year, @invalid_attrs)
+
       assert academic_year == University.get_academic_year!(academic_year.id)
     end
 
