@@ -21,6 +21,13 @@ defmodule YearbookWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live "/academic_years", AcademicYearLive.Index, :index
+    live "/academic_years/new", AcademicYearLive.Index, :new
+    live "/academic_years/:id/edit", AcademicYearLive.Index, :edit
+
+    live "/academic_years/:id", AcademicYearLive.Show, :show
+    live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
