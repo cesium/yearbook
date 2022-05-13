@@ -1,6 +1,6 @@
-<header class="bg-indigo-600">
+<header class="bg-orange-600">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-    <div class="w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
+    <div class="w-full py-6 flex items-center justify-between border-b border-orange-500 lg:border-none">
       <div class="flex items-center">
         <a href="/">
           <span class="sr-only">CeSIUM</span>
@@ -12,7 +12,7 @@
         </a>
         <div class="hidden ml-10 space-x-8 lg:block">
           <%= for page <- navbar(@conn) do %>
-            <a href={page.path} class="text-base font-medium text-white hover:text-indigo-50">
+            <a href={page.path} class="text-base font-medium text-white hover:text-orange-50">
               <%= page.title %>
             </a>
           <% end %>
@@ -24,7 +24,7 @@
     </div>
     <div class="mt-4 flex justify-center space-x-6 lg:hidden">
       <%= for page <- navbar(@conn) do %>
-        <a href={page.path} class="text-base font-medium text-white hover:text-indigo-50">
+        <a href={page.path} class="text-base font-medium text-white hover:text-orange-50">
           <%= page.title %>
         </a>
       <% end %>
