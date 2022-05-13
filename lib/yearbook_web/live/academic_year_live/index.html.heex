@@ -2,14 +2,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.academic_year_index_path(@socket, :index)}>
-    <.live_component
-      module={YearbookWeb.AcademicYearLive.FormComponent}
-      id={@academic_year.id || :new}
-      title={@page_title}
-      action={@live_action}
-      academic_year={@academic_year}
-      return_to={Routes.academic_year_index_path(@socket, :index)}
-    />
+    <.live_component module={YearbookWeb.AcademicYearLive.FormComponent} id={@academic_year.id || :new} title={@page_title} action={@live_action} academic_year={@academic_year} return_to={Routes.academic_year_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 
@@ -29,13 +22,13 @@
         <td><%= academic_year.finish %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.academic_year_show_path(@socket, :show, academic_year) %></span>
-          <span><%= live_patch "Edit", to: Routes.academic_year_index_path(@socket, :edit, academic_year) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: academic_year.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= live_redirect("Show", to: Routes.academic_year_show_path(@socket, :show, academic_year)) %></span>
+          <span><%= live_patch("Edit", to: Routes.academic_year_index_path(@socket, :edit, academic_year)) %></span>
+          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: academic_year.id, data: [confirm: "Are you sure?"]) %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Academic year", to: Routes.academic_year_index_path(@socket, :new) %></span>
+<span><%= live_patch("New Academic year", to: Routes.academic_year_index_path(@socket, :new)) %></span>

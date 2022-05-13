@@ -2,7 +2,7 @@ defmodule YearbookWeb.UserSettingsController do
   use YearbookWeb, :controller
 
   alias Yearbook.Accounts
-  alias YearbookWeb.UserAuth
+  alias YearbookWeb.Plugs.Auth
 
   plug :assign_email_and_password_changesets
 
@@ -43,7 +43,7 @@ defmodule YearbookWeb.UserSettingsController do
         conn
         |> put_flash(:info, "Password updated successfully.")
         |> put_session(:user_return_to, Routes.user_settings_path(conn, :edit))
-        |> UserAuth.log_in_user(user)
+        |> Auth.log_in_user(user)
 
       {:error, changeset} ->
         render(conn, "edit.html", password_changeset: changeset)

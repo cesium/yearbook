@@ -1,24 +1,17 @@
 <div>
   <h2><%= @title %></h2>
 
-  <.form
-    let={f}
-    for={@changeset}
-    id="academic_year-form"
-    phx-target={@myself}
-    phx-change="validate"
-    phx-submit="save">
-  
-    <%= label f, :start %>
-    <%= number_input f, :start %>
-    <%= error_tag f, :start %>
-  
-    <%= label f, :finish %>
-    <%= number_input f, :finish %>
-    <%= error_tag f, :finish %>
-  
+  <.form let={f} for={@changeset} id="academic_year-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+    <%= label(f, :start) %>
+    <%= number_input(f, :start) %>
+    <%= error_tag(f, :start) %>
+
+    <%= label(f, :finish) %>
+    <%= number_input(f, :finish) %>
+    <%= error_tag(f, :finish) %>
+
     <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+      <%= submit("Save", phx_disable_with: "Saving...") %>
     </div>
   </.form>
 </div>

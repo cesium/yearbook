@@ -3,7 +3,7 @@ defmodule YearbookWeb.UserRegistrationController do
 
   alias Yearbook.Accounts
   alias Yearbook.Accounts.User
-  alias YearbookWeb.UserAuth
+  alias YearbookWeb.Plugs.Auth
 
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
@@ -21,7 +21,7 @@ defmodule YearbookWeb.UserRegistrationController do
 
         conn
         |> put_flash(:info, "User created successfully.")
-        |> UserAuth.log_in_user(user)
+        |> Auth.log_in_user(user)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
