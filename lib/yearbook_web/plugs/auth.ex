@@ -1,4 +1,4 @@
-defmodule YearbookWeb.UserAuth do
+defmodule YearbookWeb.Plugs.Auth do
   import Plug.Conn
   import Phoenix.Controller
 

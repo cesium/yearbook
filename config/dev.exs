@@ -22,8 +22,8 @@ config :yearbook, YearbookWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "4czFgDYVIX7l6UAsViy1zlXtE98BJANkBKAUvh0wB7+f5nJvsaJUlwc0kFkYfZ+1",
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support

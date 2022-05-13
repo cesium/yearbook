@@ -1,7 +1,7 @@
 defmodule YearbookWeb.Router do
   use YearbookWeb, :router
 
-  import YearbookWeb.UserAuth
+  import YearbookWeb.Plugs.Auth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -17,8 +17,41 @@ defmodule YearbookWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", YearbookWeb do
+    pipe_through :api
+  end
+
   scope "/", YearbookWeb do
     pipe_through :browser
+
+    scope "/auth" do
+      pipe_through :redirect_if_user_is_authenticated
+
+      get "/register", UserRegistrationController, :new
+      post "/register", UserRegistrationController, :create
+      get "/log_in", UserSessionController, :new
+      post "/log_in", UserSessionController, :create
+      get "/reset_password", UserResetPasswordController, :new
+      post "/reset_password", UserResetPasswordController, :create
+      get "/reset_password/:token", UserResetPasswordController, :edit
+      put "/reset_password/:token", UserResetPasswordController, :update
+    end
+
+    scope "/auth" do
+      delete "/log_out", UserSessionController, :delete
+      get "/confirm", UserConfirmationController, :new
+      post "/confirm", UserConfirmationController, :create
+      get "/confirm/:token", UserConfirmationController, :edit
+      post "/confirm/:token", UserConfirmationController, :update
+    end
+
+    scope "/settings" do
+      pipe_through :require_authenticated_user
+
+      get "/", UserSettingsController, :edit
+      put "/", UserSettingsController, :update
+      get "/confirm_email/:token", UserSettingsController, :confirm_email
+    end
 
     get "/", PageController, :index
 
@@ -29,11 +62,6 @@ defmodule YearbookWeb.Router do
     live "/academic_years/:id", AcademicYearLive.Show, :show
     live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", YearbookWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #
@@ -62,38 +90,5 @@ defmodule YearbookWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
-  end
-
-  ## Authentication routes
-
-  scope "/", YearbookWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
-
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
-  end
-
-  scope "/", YearbookWeb do
-    pipe_through [:browser, :require_authenticated_user]
-
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-  end
-
-  scope "/", YearbookWeb do
-    pipe_through [:browser]
-
-    delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
   end
 end
