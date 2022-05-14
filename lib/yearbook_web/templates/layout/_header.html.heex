@@ -5,9 +5,9 @@
         <a href="/">
           <span class="sr-only">CeSIUM</span>
           <%= if @current_user do %>
-          <img class="h-10 w-auto" src={Routes.static_path(@conn, "/images/logo-WHITE.svg")} alt="CeSIUM's Logo" />
+            <img class="h-10 w-auto" src={Routes.static_path(@conn, "/images/logo-WHITE.svg")} alt="CeSIUM's Logo" />
           <% else %>
-          <img class="h-10 w-auto" src={Routes.static_path(@conn, "/images/cesium-WHITE.svg")} alt="CeSIUM's Logo" />
+            <img class="h-10 w-auto" src={Routes.static_path(@conn, "/images/cesium-WHITE.svg")} alt="CeSIUM's Logo" />
           <% end %>
         </a>
         <div class="hidden ml-10 space-x-8 lg:block">
