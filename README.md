@@ -4,7 +4,7 @@
 
 # Yearbook
 
-> 📖 An online yearbook website
+> 🖼️ An online yearbook website 
 
 ## 🤝 Contributing
 
