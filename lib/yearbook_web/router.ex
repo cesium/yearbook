@@ -56,13 +56,15 @@ defmodule YearbookWeb.Router do
       get "/confirm_email/:token", UserSettingsController, :confirm_email
     end
 
-    scope "/admin", as: :admin do
-      live "/academic_years", AcademicYearLive.Index, :index
-      live "/academic_years/new", AcademicYearLive.Index, :new
-      live "/academic_years/:id/edit", AcademicYearLive.Index, :edit
+    live_session :logged_in, on_mount: [{YearbookWeb.Hooks, :current_user}] do
+      scope "/admin", as: :admin do
+        live "/academic_years", AcademicYearLive.Index, :index
+        live "/academic_years/new", AcademicYearLive.Index, :new
+        live "/academic_years/:id/edit", AcademicYearLive.Index, :edit
 
-      live "/academic_years/:id", AcademicYearLive.Show, :show
-      live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
+        live "/academic_years/:id", AcademicYearLive.Show, :show
+        live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
+      end
     end
   end
 

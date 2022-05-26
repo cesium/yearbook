@@ -2,7 +2,7 @@ defmodule YearbookWeb.AuthTest do
   use YearbookWeb.ConnCase
 
   alias Yearbook.Accounts
-  alias YearbookWeb.Auth
+  alias YearbookWeb.Plugs.Auth
   import Yearbook.AccountsFixtures
 
   @remember_me_cookie "_yearbook_web_user_remember_me"

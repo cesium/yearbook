@@ -4,8 +4,8 @@ defmodule YearbookWeb.AcademicYearLiveTest do
   import Phoenix.LiveViewTest
   import Yearbook.UniversityFixtures
 
-  @create_attrs %{finish: 42, start: 42}
-  @update_attrs %{finish: 43, start: 43}
+  @create_attrs %{finish: 2020, start: 2021}
+  @update_attrs %{finish: 2021, start: 2022}
   @invalid_attrs %{finish: nil, start: nil}
 
   defp create_academic_year(_) do
@@ -14,7 +14,7 @@ defmodule YearbookWeb.AcademicYearLiveTest do
   end
 
   describe "Index" do
-    setup [:create_academic_year]
+    setup [:register_and_log_in_user, :create_academic_year]
 
     test "lists all academic_years", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
@@ -67,6 +67,7 @@ defmodule YearbookWeb.AcademicYearLiveTest do
     end
 
     test "deletes academic_year in listing", %{conn: conn, academic_year: academic_year} do
+      %{conn: conn} = register_and_log_in_user(%{conn: conn})
       {:ok, index_live, _html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert index_live
@@ -78,7 +79,7 @@ defmodule YearbookWeb.AcademicYearLiveTest do
   end
 
   describe "Show" do
-    setup [:create_academic_year]
+    setup [:register_and_log_in_user, :create_academic_year]
 
     test "displays academic_year", %{conn: conn, academic_year: academic_year} do
       {:ok, _show_live, html} =
