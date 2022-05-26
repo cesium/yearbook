@@ -24,13 +24,13 @@ defmodule YearbookWeb.Router do
   scope "/", YearbookWeb do
     pipe_through :browser
 
-    scope "/auth" do
+    scope "/" do
       pipe_through :redirect_if_user_is_authenticated
 
       get "/register", UserRegistrationController, :new
       post "/register", UserRegistrationController, :create
-      get "/log_in", UserSessionController, :new
-      post "/log_in", UserSessionController, :create
+      get "/login", UserSessionController, :new
+      post "/login", UserSessionController, :create
       get "/reset_password", UserResetPasswordController, :new
       post "/reset_password", UserResetPasswordController, :create
       get "/reset_password/:token", UserResetPasswordController, :edit

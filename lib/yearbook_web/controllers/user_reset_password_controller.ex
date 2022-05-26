@@ -3,6 +3,7 @@ defmodule YearbookWeb.UserResetPasswordController do
 
   alias Yearbook.Accounts
 
+  plug :put_layout, {YearbookWeb.LayoutView, "full.html"}
   plug :get_user_by_reset_password_token when action in [:edit, :update]
 
   def new(conn, _params) do

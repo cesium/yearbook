@@ -3,6 +3,8 @@ defmodule YearbookWeb.UserConfirmationController do
 
   alias Yearbook.Accounts
 
+  plug :put_layout, {YearbookWeb.LayoutView, "full.html"}
+
   def new(conn, _params) do
     render(conn, "new.html")
   end
