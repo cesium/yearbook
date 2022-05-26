@@ -1,26 +1,30 @@
-<h1>Log in</h1>
-
-<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
-  <%= if @error_message do %>
-    <div class="alert alert-danger">
-      <p><%= @error_message %></p>
+<div class="h-full w-full p-4">
+  <div class="flex flex-col items-center justify-center">
+    <div class="bg-white ring-orange-700 ring-2 rounded-xl lg:w-1/3  md:w-1/2 w-full p-10 mt-16">
+      <p tabindex="0" class="focus:outline-none text-2xl font-extrabold leading-6 text-orange-600">Login to your account</p>
+      <p tabindex="0" class="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500">
+        Don't have an account? <%= link("Sign up here", to: Routes.user_registration_path(@conn, :new), class: "hover:text-orange-600 focus:text-orange-600 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none text-gray-400 cursor-pointer") %>
+      </p>
+      <span class="w-full flex items-center justify-between py-3"></span>
+      <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+        <%= if @error_message do %>
+          <div class="alert alert-danger">
+            <p><%= @error_message %></p>
+          </div>
+        <% end %>
+        <%= label(f, :email, class: "text-sm font-medium leading-none text-gray-500") %>
+        <%= email_input(f, :email, required: true, class: "focus:outline-orange-700 focus:outline-offset-0 focus:outline-2 bg-orange-100 border-0 rounded-md  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2") %>
+        <%= label(f, :password, class: "text-sm font-medium leading-none text-gray-500") %>
+        <%= password_input(f, :password, required: true, class: "focus:outline-orange-700 focus:outline-offset-0 focus:outline-2 bg-orange-100 border-0 rounded-md  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2") %>
+        <div class="flex flex-col sm:flex-row items-center">
+          <div class="mt-6 w-full flex flex-grow items-center justify-center">
+            <%= checkbox(f, :remember_me, class: "text-orange-500 focus:ring-orange-500 border-gray-300 rounded") %>
+            <%= label(f, :remember_me, "Remember me", class: "text-sm text-gray-500 ml-2") %>
+          </div>
+          <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "w-full flex flex-col space-y-2 items-center justify-center mt-6 text-sm text-gray-500 hover:text-orange-600 ") %>
+        </div>
+        <%= submit("Log in", class: "bg-orange-600 text-white hover:bg-orange-700 mt-6 w-full py-2 px-8 border border-transparent rounded-md shadow-sm text-center text-sm font-medium lg:mt-6") %>
+      </.form>
     </div>
-  <% end %>
-
-  <%= label(f, :email) %>
-  <%= email_input(f, :email, required: true) %>
-
-  <%= label(f, :password) %>
-  <%= password_input(f, :password, required: true) %>
-
-  <%= label(f, :remember_me, "Keep me logged in for 60 days") %>
-  <%= checkbox(f, :remember_me) %>
-
-  <div>
-    <%= submit("Log in") %>
   </div>
-</.form>
-
-<p>
-  <%= link("Register", to: Routes.user_registration_path(@conn, :new)) %> | <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new)) %>
-</p>
+</div>
