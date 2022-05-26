@@ -5,6 +5,8 @@ defmodule YearbookWeb.UserRegistrationController do
   alias Yearbook.Accounts.User
   alias YearbookWeb.Plugs.Auth
 
+  plug :put_layout, {YearbookWeb.LayoutView, "full.html"}
+
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
     render(conn, "new.html", changeset: changeset)

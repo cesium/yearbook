@@ -1,25 +1,40 @@
-<h1>Reset password</h1>
-
-<.form let={f} for={@changeset} action={Routes.user_reset_password_path(@conn, :update, @token)}>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <img class="mx-auto h-20 w-auto" src={Routes.static_path(@conn, "/images/logo-ORANGE.svg")} alt="CeSIUM" />
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Reset password</h2>
     </div>
-  <% end %>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+    <.form let={f} for={@changeset} action={Routes.user_reset_password_path(@conn, :update, @token)} class="mt-8 space-y-6">
+      <input type="hidden" name="remember" value="true" />
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <%= label(f, :password, class: "sr-only") %>
+          <%= password_input(f, :password,
+            required: true,
+            placeholder: "New password",
+            class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+          ) %>
+        </div>
+        <div>
+          <%= label(f, :password_confirmation, class: "sr-only") %>
+          <%= password_input(f, :password_confirmation,
+            required: true,
+            placeholder: "Confirm new password",
+            class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+          ) %>
+        </div>
+      </div>
 
-  <%= label(f, :password, "New password") %>
-  <%= password_input(f, :password, required: true) %>
-  <%= error_tag(f, :password) %>
-
-  <%= label(f, :password_confirmation, "Confirm new password") %>
-  <%= password_input(f, :password_confirmation, required: true) %>
-  <%= error_tag(f, :password_confirmation) %>
-
-  <div>
-    <%= submit("Reset password") %>
+      <div>
+        <%= submit class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" do %>
+          Reset password
+        <% end %>
+      </div>
+    </.form>
   </div>
-</.form>
-
-<p>
-  <%= link("Register", to: Routes.user_registration_path(@conn, :new)) %> | <%= link("Log in", to: Routes.user_session_path(@conn, :new)) %>
-</p>
+</div>

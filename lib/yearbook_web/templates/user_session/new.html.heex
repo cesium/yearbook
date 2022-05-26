@@ -1,30 +1,58 @@
-<div class="h-full w-full p-4">
-  <div class="flex flex-col items-center justify-center">
-    <div class="bg-white ring-orange-700 ring-2 rounded-xl lg:w-1/3  md:w-1/2 w-full p-10 mt-16">
-      <p tabindex="0" class="focus:outline-none text-2xl font-extrabold leading-6 text-orange-600">Login to your account</p>
-      <p tabindex="0" class="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500">
-        Don't have an account? <%= link("Sign up here", to: Routes.user_registration_path(@conn, :new), class: "hover:text-orange-600 focus:text-orange-600 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none text-gray-400 cursor-pointer") %>
-      </p>
-      <span class="w-full flex items-center justify-between py-3"></span>
-      <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+<div class="min-h-full flex">
+  <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+    <div class="mx-auto w-full max-w-sm lg:w-96">
+      <div>
+        <%= link to: Routes.page_path(@conn, :index) do %>
+          <img class="h-20 w-auto" src={Routes.static_path(@conn, "/images/cesium-DARK.svg")} alt="CeSIUM Logo" />
+        <% end %>
+        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+        <p class="mt-2 text-sm text-gray-600">
+          Don't have an account? <%= link("Sign up here.", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-orange-600 hover:text-orange-500") %>
+        </p>
+      </div>
+
+      <div class="mt-8">
         <%= if @error_message do %>
           <div class="alert alert-danger">
             <p><%= @error_message %></p>
           </div>
         <% end %>
-        <%= label(f, :email, class: "text-sm font-medium leading-none text-gray-500") %>
-        <%= email_input(f, :email, required: true, class: "focus:outline-orange-700 focus:outline-offset-0 focus:outline-2 bg-orange-100 border-0 rounded-md  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2") %>
-        <%= label(f, :password, class: "text-sm font-medium leading-none text-gray-500") %>
-        <%= password_input(f, :password, required: true, class: "focus:outline-orange-700 focus:outline-offset-0 focus:outline-2 bg-orange-100 border-0 rounded-md  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2") %>
-        <div class="flex flex-col sm:flex-row items-center">
-          <div class="mt-6 w-full flex flex-grow items-center justify-center">
-            <%= checkbox(f, :remember_me, class: "text-orange-500 focus:ring-orange-500 border-gray-300 rounded") %>
-            <%= label(f, :remember_me, "Remember me", class: "text-sm text-gray-500 ml-2") %>
-          </div>
-          <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "w-full flex flex-col space-y-2 items-center justify-center mt-6 text-sm text-gray-500 hover:text-orange-600 ") %>
+        <div class="mt-6">
+          <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user} class="space-y-6">
+            <div>
+              <%= label(f, :email, class: "block text-sm font-medium text-gray-700") %>
+              <div class="mt-1">
+                <%= email_input(f, :email, required: true, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm") %>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <%= label(f, :password, class: "block text-sm font-medium text-gray-700") %>
+              <div class="mt-1">
+                <%= password_input(f, :password, required: true, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm") %>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <%= checkbox(f, :remember_me, class: "h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded") %>
+                <%= label(f, :remember_me, "Remember me", class: "ml-2 block text-sm text-gray-900") %>
+              </div>
+
+              <div class="text-sm">
+                <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "font-medium text-orange-600 hover:text-orange-500") %>
+              </div>
+            </div>
+
+            <div>
+              <%= submit("Sign in", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500") %>
+            </div>
+          </.form>
         </div>
-        <%= submit("Log in", class: "bg-orange-600 text-white hover:bg-orange-700 mt-6 w-full py-2 px-8 border border-transparent rounded-md shadow-sm text-center text-sm font-medium lg:mt-6") %>
-      </.form>
+      </div>
     </div>
+  </div>
+  <div class="hidden lg:block relative w-0 flex-1">
+    <img class="absolute inset-0 h-full w-full object-cover" src={Routes.static_path(@conn, Enum.random(["/images/di-uminho-3.jpg", "/images/di-uminho-1.jpg"]))} alt="Departamento de Informática da UMinho" />
   </div>
 </div>
