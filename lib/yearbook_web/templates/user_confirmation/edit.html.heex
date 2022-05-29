@@ -1,10 +1,10 @@
-<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
+<div class="flex justify-center items-center py-12 px-4 min-h-full sm:px-6 lg:px-8">
+  <div class="space-y-8 w-full max-w-md">
     <div>
       <%= link to: Routes.page_path(@conn, :index) do %>
-        <img class="mx-auto h-20 w-auto" src={Routes.static_path(@conn, "/images/logo-ORANGE.svg")} alt="CeSIUM" />
+        <img class="mx-auto w-auto h-20" src={Routes.static_path(@conn, "/images/logo-ORANGE.svg")} alt="CeSIUM" />
       <% end %>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Confirm account</h2>
+      <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900">Confirm account</h2>
     </div>
     <.form let={_f} for={:user} action={Routes.user_confirmation_path(@conn, :update, @token)} class="mt-8 space-y-6">
       <div>

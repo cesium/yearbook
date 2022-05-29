@@ -16,17 +16,29 @@ alias Yearbook.Repo
 Repo.delete_all(User)
 
 %User{}
-|> User.registration_changeset(%{email: "cesium@di.uminho.pt", password: "Password1234!"})
+|> User.registration_changeset(%{
+  name: "CeSIUM",
+  email: "cesium@di.uminho.pt",
+  password: "Password1234!"
+})
 |> User.confirm_changeset()
 |> Repo.insert!()
 
 %User{}
-|> User.registration_changeset(%{email: "alex@example.com", password: "Password1234!"})
+|> User.registration_changeset(%{
+  name: "Alexandre Gomes",
+  email: "alex@example.com",
+  password: "Password1234!"
+})
 |> User.confirm_changeset()
 |> Repo.insert!()
 
 %User{}
-|> User.registration_changeset(%{email: "nelson@example.com", password: "Password1234!"})
+|> User.registration_changeset(%{
+  name: "Nelson Estevão",
+  email: "nelson@example.com",
+  password: "Password1234!"
+})
 |> User.confirm_changeset()
 |> Repo.insert!()
 

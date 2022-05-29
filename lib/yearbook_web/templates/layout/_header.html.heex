@@ -1,13 +1,13 @@
 <header class="bg-orange-600">
-  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-    <div class="w-full py-6 flex items-center justify-between border-b border-orange-500 lg:border-none">
+  <nav class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8" aria-label="Top">
+    <div class="flex justify-between items-center py-6 w-full border-b border-orange-500 lg:border-none">
       <div class="flex items-center">
         <a href="/">
           <span class="sr-only">CeSIUM</span>
           <%= if @current_user do %>
-            <img class="h-10 w-auto" src={Routes.static_path(@conn, "/images/logo-WHITE.svg")} alt="CeSIUM's Logo" />
+            <img class="w-auto h-10" src={Routes.static_path(@conn, "/images/logo-WHITE.svg")} alt="CeSIUM's Logo" />
           <% else %>
-            <img class="h-10 w-auto" src={Routes.static_path(@conn, "/images/cesium-WHITE.svg")} alt="CeSIUM's Logo" />
+            <img class="w-auto h-10" src={Routes.static_path(@conn, "/images/cesium-WHITE.svg")} alt="CeSIUM's Logo" />
           <% end %>
         </a>
         <div class="hidden ml-10 space-x-8 lg:block">
@@ -22,7 +22,7 @@
         <%= render("_auth_menu.html", assigns) %>
       </div>
     </div>
-    <div class="mt-4 flex justify-center space-x-6 lg:hidden">
+    <div class="flex justify-center mt-4 space-x-6 lg:hidden">
       <%= for page <- navbar(@conn) do %>
         <a href={page.path} class="text-base font-medium text-white hover:text-orange-50">
           <%= page.title %>

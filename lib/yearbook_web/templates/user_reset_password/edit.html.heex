@@ -1,8 +1,8 @@
-<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
+<div class="flex justify-center items-center py-12 px-4 min-h-full sm:px-6 lg:px-8">
+  <div class="space-y-8 w-full max-w-md">
     <div>
-      <img class="mx-auto h-20 w-auto" src={Routes.static_path(@conn, "/images/logo-ORANGE.svg")} alt="CeSIUM" />
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Reset password</h2>
+      <img class="mx-auto w-auto h-20" src={Routes.static_path(@conn, "/images/logo-ORANGE.svg")} alt="CeSIUM" />
+      <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900">Reset password</h2>
     </div>
     <%= if @changeset.action do %>
       <div class="alert alert-danger">
@@ -11,7 +11,7 @@
     <% end %>
     <.form let={f} for={@changeset} action={Routes.user_reset_password_path(@conn, :update, @token)} class="mt-8 space-y-6">
       <input type="hidden" name="remember" value="true" />
-      <div class="rounded-md shadow-sm -space-y-px">
+      <div class="-space-y-px rounded-md shadow-sm">
         <div>
           <%= label(f, :password, class: "sr-only") %>
           <%= password_input(f, :password,

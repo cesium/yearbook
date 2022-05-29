@@ -97,6 +97,7 @@ defmodule YearbookWeb do
       import Phoenix.View
 
       import YearbookWeb.ErrorHelpers
+      import YearbookWeb.ViewUtils
       import YearbookWeb.Gettext
       alias YearbookWeb.Router.Helpers, as: Routes
     end
