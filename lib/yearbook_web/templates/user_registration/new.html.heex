@@ -1,9 +1,9 @@
-<div class="min-h-full flex">
-  <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+<div class="flex min-h-full">
+  <div class="flex flex-col flex-1 justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
     <div class="mx-auto w-full max-w-sm lg:w-96">
       <div>
         <%= link to: Routes.page_path(@conn, :index) do %>
-          <img class="h-20 w-auto" src={Routes.static_path(@conn, "/images/cesium-DARK.svg")} alt="CeSIUM Logo" />
+          <img class="w-auto h-20" src={Routes.static_path(@conn, "/images/cesium-DARK.svg")} alt="CeSIUM Logo" />
         <% end %>
         <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign up for an account</h2>
         <p class="mt-2 text-sm text-gray-600">
@@ -20,6 +20,14 @@
 
         <div class="mt-6">
           <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)} class="space-y-6">
+            <div>
+              <%= label(f, :name, class: "block text-sm font-medium text-gray-700") %>
+              <div class="mt-1">
+                <%= text_input(f, :name, required: true, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm") %>
+              </div>
+              <%= error_tag(f, :name) %>
+            </div>
+
             <div>
               <%= label(f, :email, class: "block text-sm font-medium text-gray-700") %>
               <div class="mt-1">
@@ -44,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div class="hidden lg:block relative w-0 flex-1">
-    <img class="absolute inset-0 h-full w-full object-cover" src={Routes.static_path(@conn, Enum.random(["/images/di-uminho-3.jpg", "/images/di-uminho-1.jpg"]))} alt="Departamento de Informática da UMinho" />
+  <div class="hidden relative flex-1 w-0 lg:block">
+    <img class="object-cover absolute inset-0 w-full h-full" src={Routes.static_path(@conn, Enum.random(["/images/di-uminho-3.jpg", "/images/di-uminho-1.jpg"]))} alt="Departamento de Informática da UMinho" />
   </div>
 </div>

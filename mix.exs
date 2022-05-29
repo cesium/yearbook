@@ -60,6 +60,7 @@ defmodule Yearbook.MixProject do
       # utilities
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
+      {:icons, "~> 0.7.0"},
 
       # testing
       {:floki, ">= 0.30.0", only: :test},
