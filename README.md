@@ -2,9 +2,20 @@
 [code_of_conduct]: CODE_OF_CONDUCT.md
 [license]: LICENSE.txt
 
+[ci-build-status]: https://github.com/cesium/yearbook/actions/workflows/build.yml/badge.svg
+[ci-build-workflow]: https://github.com/cesium/yearbook/actions/workflows/build.yml
+[ci-test-status]: https://github.com/cesium/yearbook/actions/workflows/test.yml/badge.svg
+[ci-test-workflow]: https://github.com/cesium/yearbook/actions/workflows/test.yml
+[ci-style-status]: https://github.com/cesium/yearbook/actions/workflows/style.yml/badge.svg
+[ci-style-workflow]: https://github.com/cesium/yearbook/actions/workflows/style.yml
+
 # Yearbook
 
-> 🖼️ An online yearbook website 
+[![CI build][ci-build-status]][ci-build-workflow]
+[![CI test][ci-test-status]][ci-test-workflow]
+[![CI style][ci-style-status]][ci-style-workflow]
+
+> 🖼️ An online yearbook website
 
 ## 🤝 Contributing
 

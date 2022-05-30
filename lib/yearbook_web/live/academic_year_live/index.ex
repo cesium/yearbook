@@ -1,4 +1,5 @@
 defmodule YearbookWeb.AcademicYearLive.Index do
+  @moduledoc false
   use YearbookWeb, :live_view
 
   alias Yearbook.University

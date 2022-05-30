@@ -1,4 +1,7 @@
 defmodule Yearbook.Accounts.UserNotifier do
+  @moduledoc """
+  A module responsible to notify users on important transactions.
+  """
   import Swoosh.Email
 
   alias Yearbook.Mailer
