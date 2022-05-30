@@ -1,9 +1,9 @@
 defmodule YearbookWeb.LayoutView do
   use YearbookWeb, :view
 
-  defguard is_logged_in(conn) when not is_nil(conn.assigns.current_user)
+  defguard is_logged_in(assigns) when not is_nil(assigns.current_user)
 
-  def navbar(conn) when is_logged_in(conn) do
+  def navbar(assigns) when is_logged_in(assigns) do
     [
       %{
         title: "Anos Letivos",
@@ -12,7 +12,7 @@ defmodule YearbookWeb.LayoutView do
     ]
   end
 
-  def navbar(_conn) do
+  def navbar(_assigns) do
     []
   end
 
