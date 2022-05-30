@@ -11,15 +11,15 @@
         <p class="text-xs font-medium text-white"><%= @current_user.email %></p>
       </div>
       <div class="ml-3">
-        <%= link to: Routes.user_session_path(@conn, :delete), method: :delete, title: "Logout" do %>
+        <%= link to: Routes.user_session_path(YearbookWeb.Endpoint, :delete), method: :delete, title: "Logout" do %>
           <Icons.Heroicons.Outline.logout class="w-6 h-6 text-gray-200 hover:text-white" />
         <% end %>
       </div>
     </div>
   </div>
 <% else %>
-  <%= link("Sign in", to: Routes.user_session_path(@conn, :new), class: "inline-block bg-orange-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75") %>
-  <%= link to: Routes.user_registration_path(@conn, :new), class: "inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-orange-600 hover:bg-orange-50" do %>
+  <%= link("Sign in", to: Routes.user_session_path(YearbookWeb.Endpoint, :new), class: "inline-block bg-orange-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75") %>
+  <%= link to: Routes.user_registration_path(YearbookWeb.Endpoint, :new), class: "inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-orange-600 hover:bg-orange-50" do %>
     <span class="md:hidden">Sign up</span>
     <span class="hidden md:inline">Criar uma conta</span>
   <% end %>

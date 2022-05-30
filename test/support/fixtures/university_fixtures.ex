@@ -11,8 +11,8 @@ defmodule Yearbook.UniversityFixtures do
     {:ok, academic_year} =
       attrs
       |> Enum.into(%{
-        finish: 42,
-        start: 42
+        finish: 2020,
+        start: 2021
       })
       |> Yearbook.University.create_academic_year()
 

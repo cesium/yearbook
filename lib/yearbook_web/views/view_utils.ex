@@ -9,7 +9,6 @@ defmodule YearbookWeb.ViewUtils do
       names ->
         [hd(names)]
     end)
-    |> Enum.map(fn x -> String.first(x) end)
-    |> Enum.join()
+    |> Enum.map_join(fn x -> String.first(x) end)
   end
 end

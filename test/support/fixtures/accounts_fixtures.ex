@@ -4,11 +4,13 @@ defmodule Yearbook.AccountsFixtures do
   entities via the `Yearbook.Accounts` context.
   """
 
+  def valid_user_name, do: "José Valim"
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def valid_user_password, do: "hello world!"
+  def valid_user_password, do: "Erlang-Elixir-Gleam!"
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
+      name: valid_user_name(),
       email: unique_user_email(),
       password: valid_user_password()
     })
