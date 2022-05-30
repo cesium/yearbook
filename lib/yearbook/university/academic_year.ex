@@ -1,4 +1,7 @@
 defmodule Yearbook.University.AcademicYear do
+  @moduledoc """
+  An academic year that defines a graduation year.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

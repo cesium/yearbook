@@ -1,4 +1,11 @@
 defmodule YearbookWeb.Plugs.Auth do
+  @moduledoc """
+  A application auth pipeline.
+
+  By using a pipeline, apart from keeping your authentication logic together,
+  you're instructing downstream plugs to use a particular implementation
+  module and error handler.
+  """
   import Plug.Conn
   import Phoenix.Controller
 

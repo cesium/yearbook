@@ -1,4 +1,5 @@
 defmodule YearbookWeb.AcademicYearLive.FormComponent do
+  @moduledoc false
   use YearbookWeb, :live_component
 
   alias Yearbook.University
