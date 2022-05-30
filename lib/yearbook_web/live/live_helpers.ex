@@ -12,13 +12,13 @@ defmodule YearbookWeb.LiveHelpers do
 
   ## Examples
 
-      <.modal return_to={Routes.academic_year_index_path(@socket, :index)}>
+      <.modal return_to={Routes.admin_academic_year_index_path(@socket, :index)}>
         <.live_component
           module={YearbookWeb.AcademicYearLive.FormComponent}
           id={@academic_year.id || :new}
           title={@page_title}
           action={@live_action}
-          return_to={Routes.academic_year_index_path(@socket, :index)}
+          return_to={Routes.admin_academic_year_index_path(@socket, :index)}
           academic_year: @academic_year
         />
       </.modal>

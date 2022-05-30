@@ -1,8 +1,8 @@
 <h1>Show Academic year</h1>
 
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.academic_year_show_path(@socket, :show, @academic_year)}>
-    <.live_component module={YearbookWeb.AcademicYearLive.FormComponent} id={@academic_year.id} title={@page_title} action={@live_action} academic_year={@academic_year} return_to={Routes.academic_year_show_path(@socket, :show, @academic_year)} />
+  <.modal return_to={Routes.admin_academic_year_show_path(@socket, :show, @academic_year)}>
+    <.live_component module={YearbookWeb.AcademicYearLive.FormComponent} id={@academic_year.id} title={@page_title} action={@live_action} academic_year={@academic_year} return_to={Routes.admin_academic_year_show_path(@socket, :show, @academic_year)} />
   </.modal>
 <% end %>
 
@@ -18,4 +18,4 @@
   </li>
 </ul>
 
-<span><%= live_patch("Edit", to: Routes.academic_year_show_path(@socket, :edit, @academic_year), class: "button") %></span> | <span><%= live_redirect("Back", to: Routes.academic_year_index_path(@socket, :index)) %></span>
+<span><%= live_patch("Edit", to: Routes.admin_academic_year_show_path(@socket, :edit, @academic_year), class: "button") %></span> | <span><%= live_redirect("Back", to: Routes.admin_academic_year_index_path(@socket, :index)) %></span>

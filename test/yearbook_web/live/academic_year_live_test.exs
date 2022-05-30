@@ -17,18 +17,18 @@ defmodule YearbookWeb.AcademicYearLiveTest do
     setup [:create_academic_year]
 
     test "lists all academic_years", %{conn: conn} do
-      {:ok, _index_live, html} = live(conn, Routes.academic_year_index_path(conn, :index))
+      {:ok, _index_live, html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert html =~ "Listing Academic years"
     end
 
     test "saves new academic_year", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.academic_year_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert index_live |> element("a", "New Academic year") |> render_click() =~
                "New Academic year"
 
-      assert_patch(index_live, Routes.academic_year_index_path(conn, :new))
+      assert_patch(index_live, Routes.admin_academic_year_index_path(conn, :new))
 
       assert index_live
              |> form("#academic_year-form", academic_year: @invalid_attrs)
@@ -38,20 +38,20 @@ defmodule YearbookWeb.AcademicYearLiveTest do
         index_live
         |> form("#academic_year-form", academic_year: @create_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.academic_year_index_path(conn, :index))
+        |> follow_redirect(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert html =~ "Academic year created successfully"
     end
 
     test "updates academic_year in listing", %{conn: conn, academic_year: academic_year} do
-      {:ok, index_live, _html} = live(conn, Routes.academic_year_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert index_live
              |> element("#academic_year-#{academic_year.id} a", "Edit")
              |> render_click() =~
                "Edit Academic year"
 
-      assert_patch(index_live, Routes.academic_year_index_path(conn, :edit, academic_year))
+      assert_patch(index_live, Routes.admin_academic_year_index_path(conn, :edit, academic_year))
 
       assert index_live
              |> form("#academic_year-form", academic_year: @invalid_attrs)
@@ -61,13 +61,13 @@ defmodule YearbookWeb.AcademicYearLiveTest do
         index_live
         |> form("#academic_year-form", academic_year: @update_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.academic_year_index_path(conn, :index))
+        |> follow_redirect(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert html =~ "Academic year updated successfully"
     end
 
     test "deletes academic_year in listing", %{conn: conn, academic_year: academic_year} do
-      {:ok, index_live, _html} = live(conn, Routes.academic_year_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert index_live
              |> element("#academic_year-#{academic_year.id} a", "Delete")
@@ -82,19 +82,19 @@ defmodule YearbookWeb.AcademicYearLiveTest do
 
     test "displays academic_year", %{conn: conn, academic_year: academic_year} do
       {:ok, _show_live, html} =
-        live(conn, Routes.academic_year_show_path(conn, :show, academic_year))
+        live(conn, Routes.admin_academic_year_show_path(conn, :show, academic_year))
 
       assert html =~ "Show Academic year"
     end
 
     test "updates academic_year within modal", %{conn: conn, academic_year: academic_year} do
       {:ok, show_live, _html} =
-        live(conn, Routes.academic_year_show_path(conn, :show, academic_year))
+        live(conn, Routes.admin_academic_year_show_path(conn, :show, academic_year))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
                "Edit Academic year"
 
-      assert_patch(show_live, Routes.academic_year_show_path(conn, :edit, academic_year))
+      assert_patch(show_live, Routes.admin_academic_year_show_path(conn, :edit, academic_year))
 
       assert show_live
              |> form("#academic_year-form", academic_year: @invalid_attrs)
@@ -104,7 +104,7 @@ defmodule YearbookWeb.AcademicYearLiveTest do
         show_live
         |> form("#academic_year-form", academic_year: @update_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.academic_year_show_path(conn, :show, academic_year))
+        |> follow_redirect(conn, Routes.admin_academic_year_show_path(conn, :show, academic_year))
 
       assert html =~ "Academic year updated successfully"
     end

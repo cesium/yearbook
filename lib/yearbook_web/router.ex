@@ -24,6 +24,9 @@ defmodule YearbookWeb.Router do
   scope "/", YearbookWeb do
     pipe_through :browser
 
+    get "/", PageController, :index
+    get "/terms", PageController, :terms
+
     scope "/" do
       pipe_through :redirect_if_user_is_authenticated
 
@@ -53,14 +56,14 @@ defmodule YearbookWeb.Router do
       get "/confirm_email/:token", UserSettingsController, :confirm_email
     end
 
-    get "/", PageController, :index
+    scope "/admin", as: :admin do
+      live "/academic_years", AcademicYearLive.Index, :index
+      live "/academic_years/new", AcademicYearLive.Index, :new
+      live "/academic_years/:id/edit", AcademicYearLive.Index, :edit
 
-    live "/academic_years", AcademicYearLive.Index, :index
-    live "/academic_years/new", AcademicYearLive.Index, :new
-    live "/academic_years/:id/edit", AcademicYearLive.Index, :edit
-
-    live "/academic_years/:id", AcademicYearLive.Show, :show
-    live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
+      live "/academic_years/:id", AcademicYearLive.Show, :show
+      live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
+    end
   end
 
   # Enables LiveDashboard only for development

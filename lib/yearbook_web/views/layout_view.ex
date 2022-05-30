@@ -7,12 +7,12 @@ defmodule YearbookWeb.LayoutView do
     [
       %{
         title: "Anos Letivos",
-        path: Routes.academic_year_index_path(YearbookWeb.Endpoint, :index)
+        path: Routes.admin_academic_year_index_path(YearbookWeb.Endpoint, :index)
       }
     ]
   end
 
-  def navbar(conn) do
+  def navbar(_conn) do
     []
   end
 
