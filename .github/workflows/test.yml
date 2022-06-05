@@ -1,38 +1,33 @@
-name: Tests
+name: Build and Test
 
 on:
+  push:
+    branches: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
     types: [opened, synchronize]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-
+    env:
+      MIX_ENV: test
     strategy:
       matrix:
         otp: [25.x]
         elixir: [1.13.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: ☁️ Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Elixir
-        uses: erlef/setup-beam@v1
+      - name: 💧 Setup Elixir ${{ matrix.elixir }} (OTP ${{matrix.otp}})
+        uses: ./.github/actions/elixir-setup
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+          build-flags: --all-warnings --warnings-as-errors
 
-      - uses: actions/cache@v3
-        with:
-          path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
-          restore-keys: |
-            ${{ runner.os }}-mix-
-
-      - name: Install dependencies
-        run: mix deps.get
-
-      - name: Run the tests
-        run: mix test
+      - name: 🔬 Run the tests
+        run: mix test --warnings-as-errors

@@ -1,16 +1,26 @@
 defmodule Yearbook.MixProject do
   use Mix.Project
 
+  @app :yearbook
+  @name "Yearbook"
+  @version "0.1.0-dev"
+  @description "An online yearbook website"
+
   def project do
     [
-      app: :yearbook,
-      version: "0.1.0",
+      app: @app,
+      name: @name,
+      version: @version,
+      description: @description,
+      git_ref: git_revision_hash(),
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      releases: releases(),
+      deps: deps(),
       aliases: aliases(),
-      deps: deps()
+      preferred_cli_env: [check: :test]
     ]
   end
 
@@ -27,6 +37,16 @@ defmodule Yearbook.MixProject do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp releases() do
+    [
+      {@app,
+       [
+         include_executables_for: [:unix],
+         steps: [:assemble, :tar]
+       ]}
+    ]
+  end
 
   # Specifies your project dependencies.
   #
@@ -74,7 +94,8 @@ defmodule Yearbook.MixProject do
       # tools
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.28", only: [:dev], runtime: false}
+      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
+      {:sobelow, "~> 0.11", only: :dev, runtime: false}
     ]
   end
 
@@ -91,7 +112,31 @@ defmodule Yearbook.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      check: [
+        "clean",
+        "deps.unlock --check-unused",
+        "compile --all-warnings --warnings-as-errors",
+        "format --check-formatted",
+        "deps.unlock --check-unused",
+        "test --warnings-as-errors",
+        "credo --strict --all"
+      ],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
+  end
+
+  defp git_revision_hash do
+    case System.cmd("git", ["rev-parse", "HEAD"]) do
+      {ref, 0} ->
+        ref
+
+      {_, _code} ->
+        ["ref:", ref_path] =
+          File.read!(".git/HEAD")
+          |> String.split()
+
+        File.read!(".git/#{ref_path}")
+    end
+    |> String.replace("\n", "")
   end
 end
