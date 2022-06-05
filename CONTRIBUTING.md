@@ -55,6 +55,12 @@ Format your code.
 bin/format
 ```
 
+Evaluate the project.
+
+```
+mix check
+```
+
 ## 🔗 References
 
 You can use these resources to learn more about the technologies this project
