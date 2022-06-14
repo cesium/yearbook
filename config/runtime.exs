@@ -6,6 +6,17 @@ import Config
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
+#
+if config_env() in [:dev, :test] do
+  import Dotenvy
+  source([".env", ".env.#{config_env()}", ".env.#{config_env()}.local"])
+
+  database_path =
+    "../priv/repo/databases/yearbook_#{config_env()}.db"
+    |> Path.expand(Path.dirname(__ENV__.file))
+
+  config :yearbook, Yearbook.Repo, database: env!("DATABASE_PATH", :string, database_path)
+end
 
 # ## Using releases
 #

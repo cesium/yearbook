@@ -90,6 +90,7 @@ defmodule Yearbook.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:dotenvy, "~> 0.6.0"},
 
       # tools
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},

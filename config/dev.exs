@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :yearbook, Yearbook.Repo,
-  database: Path.expand("../yearbook_dev.db", Path.dirname(__ENV__.file)),
+  database: "yearbook_dev.db",
   pool_size: 5,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true
