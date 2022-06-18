@@ -1,0 +1,34 @@
+<h1>Listing Degrees</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.admin_degree_index_path(@socket, :index)}>
+    <.live_component module={YearbookWeb.DegreeLive.FormComponent} id={@degree.id || :new} title={@page_title} action={@live_action} degree={@degree} return_to={Routes.admin_degree_index_path(@socket, :index)} />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Cycle</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="degrees">
+    <%= for degree <- @degrees do %>
+      <tr id={"degree-#{degree.id}"}>
+        <td><%= degree.name %></td>
+        <td><%= degree.cycle %></td>
+
+        <td>
+          <span><%= live_redirect("Show", to: Routes.admin_degree_show_path(@socket, :show, degree)) %></span>
+          <span><%= live_patch("Edit", to: Routes.admin_degree_index_path(@socket, :edit, degree)) %></span>
+          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: degree.id, data: [confirm: "Are you sure?"]) %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch("New Degree", to: Routes.admin_degree_index_path(@socket, :new)) %></span>
