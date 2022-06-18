@@ -47,13 +47,33 @@ alias Yearbook.University.AcademicYear
 Repo.delete_all(AcademicYear)
 
 %AcademicYear{}
-|> AcademicYear.changeset(%{start: "2021", finish: "2022"})
+|> AcademicYear.changeset(%{start: 2021, finish: 2022})
 |> Repo.insert!()
 
 %AcademicYear{}
-|> AcademicYear.changeset(%{start: "2022", finish: "2023"})
+|> AcademicYear.changeset(%{start: 2022, finish: 2023})
 |> Repo.insert!()
 
 %AcademicYear{}
-|> AcademicYear.changeset(%{start: "2023", finish: "2024"})
+|> AcademicYear.changeset(%{start: 2023, finish: 2024})
+|> Repo.insert!()
+
+alias Yearbook.University.Degree
+
+Repo.delete_all(Degree)
+
+%Degree{}
+|> Degree.changeset(%{name: "Licenciatura em Engenharia Informática", cycle: 1})
+|> Repo.insert!()
+
+%Degree{}
+|> Degree.changeset(%{name: "Mestrado em Engenharia Informática", cycle: 2})
+|> Repo.insert!()
+
+%Degree{}
+|> Degree.changeset(%{name: "Mestrado Integrado em Engenharia Informática", cycle: 2})
+|> Repo.insert!()
+
+%Degree{}
+|> Degree.changeset(%{name: "Doutoramento em Engenharia Informática", cycle: 3})
 |> Repo.insert!()

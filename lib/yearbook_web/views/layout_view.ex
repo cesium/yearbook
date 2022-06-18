@@ -8,6 +8,10 @@ defmodule YearbookWeb.LayoutView do
       %{
         title: "Anos Letivos",
         path: Routes.admin_academic_year_index_path(YearbookWeb.Endpoint, :index)
+      },
+      %{
+        title: "Cursos",
+        path: Routes.admin_degree_index_path(YearbookWeb.Endpoint, :index)
       }
     ]
   end

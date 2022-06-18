@@ -1,0 +1,22 @@
+<h1>Show Degree</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.admin_degree_show_path(@socket, :show, @degree)}>
+    <.live_component module={YearbookWeb.DegreeLive.FormComponent} id={@degree.id} title={@page_title} action={@live_action} degree={@degree} return_to={Routes.admin_degree_show_path(@socket, :show, @degree)} />
+  </.modal>
+<% end %>
+
+<ul>
+  <li>
+    <strong>Name:</strong>
+    <%= @degree.name %>
+  </li>
+
+  <li>
+    <strong>Cycle:</strong>
+    <%= @degree.cycle %>
+  </li>
+</ul>
+
+<span><%= live_patch("Edit", to: Routes.admin_degree_show_path(@socket, :edit, @degree), class: "button") %></span> |
+<span><%= live_redirect("Back", to: Routes.admin_degree_index_path(@socket, :index)) %></span>

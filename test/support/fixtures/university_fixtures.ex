@@ -18,4 +18,19 @@ defmodule Yearbook.UniversityFixtures do
 
     academic_year
   end
+
+  @doc """
+  Generate a degree.
+  """
+  def degree_fixture(attrs \\ %{}) do
+    {:ok, degree} =
+      attrs
+      |> Enum.into(%{
+        cycle: 2,
+        name: "Software Engineering"
+      })
+      |> Yearbook.University.create_degree()
+
+    degree
+  end
 end

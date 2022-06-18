@@ -61,9 +61,14 @@ defmodule YearbookWeb.Router do
         live "/academic_years", AcademicYearLive.Index, :index
         live "/academic_years/new", AcademicYearLive.Index, :new
         live "/academic_years/:id/edit", AcademicYearLive.Index, :edit
-
         live "/academic_years/:id", AcademicYearLive.Show, :show
         live "/academic_years/:id/show/edit", AcademicYearLive.Show, :edit
+
+        live "/degrees", DegreeLive.Index, :index
+        live "/degrees/new", DegreeLive.Index, :new
+        live "/degrees/:id/edit", DegreeLive.Index, :edit
+        live "/degrees/:id", DegreeLive.Show, :show
+        live "/degrees/:id/show/edit", DegreeLive.Show, :edit
       end
     end
   end
