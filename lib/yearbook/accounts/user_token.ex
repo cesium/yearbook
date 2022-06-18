@@ -2,8 +2,8 @@ defmodule Yearbook.Accounts.UserToken do
   @moduledoc """
   User Tokens to manage web sessions with full control.
   """
-  use Ecto.Schema
-  import Ecto.Query
+  use Yearbook.Schema
+
   alias Yearbook.Accounts.UserToken
 
   @hash_algorithm :sha256
@@ -16,8 +16,6 @@ defmodule Yearbook.Accounts.UserToken do
   @change_email_validity_in_days 7
   @session_validity_in_days 60
 
-  @primary_key {:id, Ecto.UUID, autogenerate: true}
-  @foreign_key_type Ecto.UUID
   schema "users_tokens" do
     field :token, :binary
     field :context, :string

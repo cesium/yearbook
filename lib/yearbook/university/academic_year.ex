@@ -2,22 +2,21 @@ defmodule Yearbook.University.AcademicYear do
   @moduledoc """
   An academic year that defines a graduation year.
   """
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Yearbook.Schema
 
-  @primary_key {:id, Ecto.UUID, autogenerate: true}
-  @foreign_key_type Ecto.UUID
   schema "academic_years" do
-    field :finish, :integer
     field :start, :integer
+    field :finish, :integer
 
     timestamps()
   end
 
   @doc false
+  @required_fields ~w(start finish)a
+  @optional_fields []
   def changeset(academic_year, attrs) do
     academic_year
-    |> cast(attrs, [:start, :finish])
-    |> validate_required([:start, :finish])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end
