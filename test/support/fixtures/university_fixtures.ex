@@ -33,4 +33,20 @@ defmodule Yearbook.UniversityFixtures do
 
     degree
   end
+
+  @doc """
+  Generate a class.
+  """
+  def class_fixture(attrs \\ %{}) do
+    {:ok, class} =
+      attrs
+      |> Enum.into(%{
+        grade: 3,
+        degree_id: degree_fixture().id,
+        academic_year_id: academic_year_fixture().id
+      })
+      |> Yearbook.University.create_class()
+
+    class
+  end
 end

@@ -24,56 +24,85 @@ Repo.delete_all(User)
 |> User.confirm_changeset()
 |> Repo.insert!()
 
-%User{}
-|> User.registration_changeset(%{
-  name: "Alexandre Gomes",
-  email: "alex@example.com",
-  password: "Password1234!"
-})
-|> User.confirm_changeset()
-|> Repo.insert!()
+alexandre =
+  %User{}
+  |> User.registration_changeset(%{
+    name: "Alexandre Gomes",
+    email: "alex@example.com",
+    password: "Password1234!"
+  })
+  |> User.confirm_changeset()
+  |> Repo.insert!()
 
-%User{}
-|> User.registration_changeset(%{
-  name: "Nelson Estevão",
-  email: "nelson@example.com",
-  password: "Password1234!"
-})
-|> User.confirm_changeset()
-|> Repo.insert!()
+nelson =
+  %User{}
+  |> User.registration_changeset(%{
+    name: "Nelson Estevão",
+    email: "nelson@example.com",
+    password: "Password1234!"
+  })
+  |> User.confirm_changeset()
+  |> Repo.insert!()
 
 alias Yearbook.University.AcademicYear
 
 Repo.delete_all(AcademicYear)
 
-%AcademicYear{}
-|> AcademicYear.changeset(%{start: 2021, finish: 2022})
-|> Repo.insert!()
+year2020 =
+  %AcademicYear{}
+  |> AcademicYear.changeset(%{start: 2020, finish: 2021})
+  |> Repo.insert!()
 
-%AcademicYear{}
-|> AcademicYear.changeset(%{start: 2022, finish: 2023})
-|> Repo.insert!()
+year2021 =
+  %AcademicYear{}
+  |> AcademicYear.changeset(%{start: 2021, finish: 2022})
+  |> Repo.insert!()
 
-%AcademicYear{}
-|> AcademicYear.changeset(%{start: 2023, finish: 2024})
-|> Repo.insert!()
+year2022 =
+  %AcademicYear{}
+  |> AcademicYear.changeset(%{start: 2022, finish: 2023})
+  |> Repo.insert!()
 
 alias Yearbook.University.Degree
 
 Repo.delete_all(Degree)
 
-%Degree{}
-|> Degree.changeset(%{name: "Licenciatura em Engenharia Informática", cycle: 1})
+lei =
+  %Degree{}
+  |> Degree.changeset(%{name: "Licenciatura em Engenharia Informática", cycle: 1})
+  |> Repo.insert!()
+
+mei =
+  %Degree{}
+  |> Degree.changeset(%{name: "Mestrado em Engenharia Informática", cycle: 2})
+  |> Repo.insert!()
+
+miei =
+  %Degree{}
+  |> Degree.changeset(%{name: "Mestrado Integrado em Engenharia Informática", cycle: 2})
+  |> Repo.insert!()
+
+dei =
+  %Degree{}
+  |> Degree.changeset(%{name: "Doutoramento em Engenharia Informática", cycle: 3})
+  |> Repo.insert!()
+
+alias Yearbook.University.Class
+
+Repo.delete_all(Class)
+
+%Class{}
+|> Class.changeset(%{academic_year_id: year2020.id, degree_id: lei.id, grade: 3})
 |> Repo.insert!()
 
-%Degree{}
-|> Degree.changeset(%{name: "Mestrado em Engenharia Informática", cycle: 2})
+%Class{}
+|> Class.changeset(%{academic_year_id: year2021.id, degree_id: lei.id, grade: 1})
 |> Repo.insert!()
 
-%Degree{}
-|> Degree.changeset(%{name: "Mestrado Integrado em Engenharia Informática", cycle: 2})
+%Class{}
+|> Class.changeset(%{academic_year_id: year2021.id, degree_id: lei.id, grade: 2})
 |> Repo.insert!()
 
-%Degree{}
-|> Degree.changeset(%{name: "Doutoramento em Engenharia Informática", cycle: 3})
+%Class{}
+|> Class.changeset(%{academic_year_id: year2021.id, degree_id: lei.id, grade: 3})
 |> Repo.insert!()

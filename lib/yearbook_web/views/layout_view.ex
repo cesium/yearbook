@@ -12,6 +12,10 @@ defmodule YearbookWeb.LayoutView do
       %{
         title: "Cursos",
         path: Routes.admin_degree_index_path(YearbookWeb.Endpoint, :index)
+      },
+      %{
+        title: "Turmas",
+        path: Routes.admin_class_index_path(YearbookWeb.Endpoint, :index)
       }
     ]
   end

@@ -119,4 +119,62 @@ defmodule Yearbook.UniversityTest do
       assert %Ecto.Changeset{} = University.change_degree(degree)
     end
   end
+
+  describe "classes" do
+    alias Yearbook.University.Class
+
+    import Yearbook.UniversityFixtures
+
+    @invalid_attrs %{grade: nil}
+
+    test "list_classes/0 returns all classes" do
+      class = class_fixture()
+      assert University.list_classes() == [class]
+    end
+
+    test "get_class!/1 returns the class with given id" do
+      class = class_fixture()
+      assert University.get_class!(class.id) == class
+    end
+
+    test "create_class/1 with valid data creates a class" do
+      valid_attrs = %{
+        grade: 2,
+        degree_id: degree_fixture().id,
+        academic_year_id: academic_year_fixture().id
+      }
+
+      assert {:ok, %Class{} = class} = University.create_class(valid_attrs)
+      assert class.grade == 2
+    end
+
+    test "create_class/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = University.create_class(@invalid_attrs)
+    end
+
+    test "update_class/2 with valid data updates the class" do
+      class = class_fixture()
+      update_attrs = %{grade: 3}
+
+      assert {:ok, %Class{} = class} = University.update_class(class, update_attrs)
+      assert class.grade == 3
+    end
+
+    test "update_class/2 with invalid data returns error changeset" do
+      class = class_fixture()
+      assert {:error, %Ecto.Changeset{}} = University.update_class(class, @invalid_attrs)
+      assert class == University.get_class!(class.id)
+    end
+
+    test "delete_class/1 deletes the class" do
+      class = class_fixture()
+      assert {:ok, %Class{}} = University.delete_class(class)
+      assert_raise Ecto.NoResultsError, fn -> University.get_class!(class.id) end
+    end
+
+    test "change_class/1 returns a class changeset" do
+      class = class_fixture()
+      assert %Ecto.Changeset{} = University.change_class(class)
+    end
+  end
 end
