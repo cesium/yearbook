@@ -1,4 +1,4 @@
-defmodule YearbookWeb.DegreeLive.Show do
+defmodule YearbookWeb.Admin.ClassLive.Show do
   @moduledoc false
   use YearbookWeb, :live_view
 
@@ -14,9 +14,9 @@ defmodule YearbookWeb.DegreeLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:degree, University.get_degree!(id))}
+     |> assign(:class, University.get_class!(id))}
   end
 
-  defp page_title(:show), do: "Show Degree"
-  defp page_title(:edit), do: "Edit Degree"
+  defp page_title(:show), do: "Show Class"
+  defp page_title(:edit), do: "Edit Class"
 end

@@ -1,0 +1,36 @@
+<h1>Listing Classes</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.admin_class_index_path(@socket, :index)}>
+    <.live_component module={YearbookWeb.Admin.ClassLive.FormComponent} id={@class.id || :new} title={@page_title} action={@live_action} class={@class} return_to={Routes.admin_class_index_path(@socket, :index)} />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Curso</th>
+      <th>Matrícula</th>
+      <th>Ano</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="classes">
+    <%= for class <- @classes do %>
+      <tr id={"class-#{class.id}"}>
+        <td><%= class.degree.name %></td>
+        <td><%= class.academic_year.start %>/<%= class.academic_year.finish %></td>
+        <td><%= class.year %></td>
+
+        <td>
+          <span><%= live_redirect("Show", to: Routes.admin_class_show_path(@socket, :show, class)) %></span>
+          <span><%= live_patch("Edit", to: Routes.admin_class_index_path(@socket, :edit, class)) %></span>
+          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: class.id, data: [confirm: "Are you sure?"]) %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch("New Class", to: Routes.admin_class_index_path(@socket, :new)) %></span>

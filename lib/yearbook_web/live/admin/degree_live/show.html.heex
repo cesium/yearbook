@@ -2,7 +2,7 @@
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.admin_degree_show_path(@socket, :show, @degree)}>
-    <.live_component module={YearbookWeb.DegreeLive.FormComponent} id={@degree.id} title={@page_title} action={@live_action} degree={@degree} return_to={Routes.admin_degree_show_path(@socket, :show, @degree)} />
+    <.live_component module={YearbookWeb.Admin.DegreeLive.FormComponent} id={@degree.id} title={@page_title} action={@live_action} degree={@degree} return_to={Routes.admin_degree_show_path(@socket, :show, @degree)} />
   </.modal>
 <% end %>
 

@@ -2,7 +2,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.admin_academic_year_index_path(@socket, :index)}>
-    <.live_component module={YearbookWeb.AcademicYearLive.FormComponent} id={@academic_year.id || :new} title={@page_title} action={@live_action} academic_year={@academic_year} return_to={Routes.admin_academic_year_index_path(@socket, :index)} />
+    <.live_component module={YearbookWeb.Admin.AcademicYearLive.FormComponent} id={@academic_year.id || :new} title={@page_title} action={@live_action} academic_year={@academic_year} return_to={Routes.admin_academic_year_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 

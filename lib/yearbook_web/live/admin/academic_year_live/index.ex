@@ -1,4 +1,4 @@
-defmodule YearbookWeb.AcademicYearLive.Index do
+defmodule YearbookWeb.Admin.AcademicYearLive.Index do
   @moduledoc false
   use YearbookWeb, :live_view
 

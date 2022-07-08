@@ -1,0 +1,21 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form let={f} for={@changeset} id="class-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+    <%= label(f, :degree_id) %>
+    <%= select(f, :degree_id, Enum.map(@degrees, &{&1.name, &1.id})) %>
+    <%= error_tag(f, :degree_id) %>
+
+    <%= label(f, :academic_year_id) %>
+    <%= select(f, :academic_year_id, Enum.map(@academic_years, &{"#{&1.start}/#{&1.finish}", &1.id})) %>
+    <%= error_tag(f, :academic_year_id) %>
+
+    <%= label(f, :year) %>
+    <%= number_input(f, :year) %>
+    <%= error_tag(f, :year) %>
+
+    <div>
+      <%= submit("Save", phx_disable_with: "Saving...") %>
+    </div>
+  </.form>
+</div>
