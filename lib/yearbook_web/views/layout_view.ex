@@ -1,6 +1,8 @@
 defmodule YearbookWeb.LayoutView do
   use YearbookWeb, :view
 
+  alias Yearbook.Uploaders
+
   defguard is_logged_in(assigns) when not is_nil(assigns.current_user)
 
   def navbar(assigns) when is_logged_in(assigns) do
@@ -33,7 +35,7 @@ defmodule YearbookWeb.LayoutView do
       social: %{
         facebook: "https://facebook.com/cesiuminho",
         twitter: "https://twitter.com/cesiuminho",
-        instagram: "https://intagram.com/cesiuminho",
+        instagram: "https://instagram.com/cesiuminho",
         github: "https://github.com/cesium"
       }
     }

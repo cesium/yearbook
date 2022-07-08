@@ -1,5 +1,9 @@
+# Ignore environment config files
 .env.*
 !.env.*.sample
+
+# Upload files
+/priv/uploads/
 
 # The directory Mix will write compiled artifacts to.
 /_build/

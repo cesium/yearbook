@@ -3,8 +3,12 @@ defmodule Yearbook.Accounts.User do
   A user of the application capable of authenticating.
   """
   use Yearbook.Schema
+  use Waffle.Ecto.Schema
+
+  alias Yearbook.Uploaders
 
   schema "users" do
+    field :avatar, Uploaders.Avatar.Type
     field :name, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
@@ -52,6 +56,18 @@ defmodule Yearbook.Accounts.User do
       %{changes: %{email: _}} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :email, "did not change")
     end
+  end
+
+  @doc """
+  A user changeset for uploading an avatar.
+
+  It requires a file upload, otherwise an error is added.
+  """
+  def avatar_changeset(user, attrs) do
+    user
+    |> cast(attrs, [])
+    |> validate_avatar(attrs)
+    |> validate_required([:avatar])
   end
 
   @doc """
@@ -106,6 +122,11 @@ defmodule Yearbook.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  defp validate_avatar(changeset, params) do
+    changeset
+    |> cast_attachments(params, [:avatar], allow_urls: true)
   end
 
   defp validate_email(changeset) do

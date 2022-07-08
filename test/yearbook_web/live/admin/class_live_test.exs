@@ -82,35 +82,4 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
       refute has_element?(index_live, "#class-#{class.id}")
     end
   end
-
-  describe "Show" do
-    setup [:register_and_log_in_user, :create_class]
-
-    test "displays class", %{conn: conn, class: class} do
-      {:ok, _show_live, html} = live(conn, Routes.admin_class_show_path(conn, :show, class))
-
-      assert html =~ "Show Class"
-    end
-
-    test "updates class within modal", %{conn: conn, class: class} do
-      {:ok, show_live, _html} = live(conn, Routes.admin_class_show_path(conn, :show, class))
-
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Class"
-
-      assert_patch(show_live, Routes.admin_class_show_path(conn, :edit, class))
-
-      assert show_live
-             |> form("#class-form", class: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      {:ok, _, html} =
-        show_live
-        |> form("#class-form", class: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.admin_class_show_path(conn, :show, class))
-
-      assert html =~ "Class updated successfully"
-    end
-  end
 end

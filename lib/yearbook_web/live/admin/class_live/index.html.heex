@@ -1,4 +1,4 @@
-<h1>Listing Classes</h1>
+<h1>Lista de Turmas</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.admin_class_index_path(@socket, :index)}>
@@ -21,10 +21,10 @@
       <tr id={"class-#{class.id}"}>
         <td><%= class.degree.name %></td>
         <td><%= class.academic_year.start %>/<%= class.academic_year.finish %></td>
-        <td><%= class.year %></td>
+        <td><%= class.year %>.º</td>
 
         <td>
-          <span><%= live_redirect("Show", to: Routes.admin_class_show_path(@socket, :show, class)) %></span>
+          <span><%= live_redirect("Show", to: Routes.yearbook_show_path(@socket, :show, class)) %></span>
           <span><%= live_patch("Edit", to: Routes.admin_class_index_path(@socket, :edit, class)) %></span>
           <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: class.id, data: [confirm: "Are you sure?"]) %></span>
         </td>
