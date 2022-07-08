@@ -1,4 +1,4 @@
-defmodule YearbookWeb.DegreeLiveTest do
+defmodule YearbookWeb.Admin.DegreeLiveTest do
   use YearbookWeb.ConnCase
 
   import Phoenix.LiveViewTest

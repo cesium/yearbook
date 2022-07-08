@@ -1,4 +1,4 @@
-defmodule YearbookWeb.AcademicYearLive.Show do
+defmodule YearbookWeb.Admin.ClassLive.Show do
   @moduledoc false
   use YearbookWeb, :live_view
 
@@ -14,9 +14,9 @@ defmodule YearbookWeb.AcademicYearLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:academic_year, University.get_academic_year!(id))}
+     |> assign(:class, University.get_class!(id))}
   end
 
-  defp page_title(:show), do: "Show Academic year"
-  defp page_title(:edit), do: "Edit Academic year"
+  defp page_title(:show), do: "Show Class"
+  defp page_title(:edit), do: "Edit Class"
 end

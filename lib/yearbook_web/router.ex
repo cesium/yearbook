@@ -57,7 +57,7 @@ defmodule YearbookWeb.Router do
     end
 
     live_session :logged_in, on_mount: [{YearbookWeb.Hooks, :current_user}] do
-      scope "/admin", as: :admin do
+      scope "/admin", Admin, as: :admin do
         live "/academic_years", AcademicYearLive.Index, :index
         live "/academic_years/new", AcademicYearLive.Index, :new
         live "/academic_years/:id/edit", AcademicYearLive.Index, :edit

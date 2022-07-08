@@ -1,4 +1,4 @@
-defmodule YearbookWeb.DegreeLive.FormComponent do
+defmodule YearbookWeb.Admin.DegreeLive.FormComponent do
   @moduledoc false
   use YearbookWeb, :live_component
 
