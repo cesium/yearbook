@@ -1,13 +1,13 @@
 defmodule Yearbook.University.Class do
   @moduledoc """
-  A Class is a group of students that are in the same grade and degree.
+  A Class is a group of students that are in the same year and degree.
   """
   use Yearbook.Schema
 
   alias Yearbook.University
 
   schema "classes" do
-    field :grade, :integer
+    field :year, :integer
     belongs_to :academic_year, University.AcademicYear
     belongs_to :degree, University.Degree
 
@@ -17,8 +17,9 @@ defmodule Yearbook.University.Class do
   @doc false
   def changeset(class, attrs) do
     class
-    |> cast(attrs, [:grade, :academic_year_id, :degree_id])
-    |> validate_required([:grade, :academic_year_id, :degree_id])
-    |> validate_number(:grade, greater_than_or_equal_to: 1, less_than_or_equal_to: 5)
+    |> cast(attrs, [:year, :academic_year_id, :degree_id])
+    |> validate_required([:year, :academic_year_id, :degree_id])
+    |> validate_number(:year, greater_than_or_equal_to: 1, less_than_or_equal_to: 5)
+    |> unique_constraint([:academic_year_id, :degree_id, :year])
   end
 end

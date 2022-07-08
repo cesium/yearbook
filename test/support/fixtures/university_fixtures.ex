@@ -41,7 +41,7 @@ defmodule Yearbook.UniversityFixtures do
     {:ok, class} =
       attrs
       |> Enum.into(%{
-        grade: 3,
+        year: 3,
         degree_id: degree_fixture().id,
         academic_year_id: academic_year_fixture().id
       })

@@ -10,9 +10,9 @@
     <%= select(f, :academic_year_id, Enum.map(@academic_years, &{"#{&1.start}/#{&1.finish}", &1.id})) %>
     <%= error_tag(f, :academic_year_id) %>
 
-    <%= label(f, :grade) %>
-    <%= number_input(f, :grade) %>
-    <%= error_tag(f, :grade) %>
+    <%= label(f, :year) %>
+    <%= number_input(f, :year) %>
+    <%= error_tag(f, :year) %>
 
     <div>
       <%= submit("Save", phx_disable_with: "Saving...") %>

@@ -4,8 +4,8 @@ defmodule YearbookWeb.ClassLiveTest do
   import Phoenix.LiveViewTest
   import Yearbook.UniversityFixtures
 
-  @update_attrs %{grade: 3}
-  @invalid_attrs %{grade: nil}
+  @update_attrs %{year: 3}
+  @invalid_attrs %{year: nil}
 
   defp create_degree(_) do
     degree = degree_fixture()
@@ -46,7 +46,7 @@ defmodule YearbookWeb.ClassLiveTest do
       {:ok, _, html} =
         index_live
         |> form("#class-form",
-          class: %{grade: 1, degree_id: degree.id, academic_year_id: academic_year.id}
+          class: %{year: 1, degree_id: degree.id, academic_year_id: academic_year.id}
         )
         |> render_submit()
         |> follow_redirect(conn, Routes.admin_class_index_path(conn, :index))

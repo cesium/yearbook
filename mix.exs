@@ -84,6 +84,7 @@ defmodule Yearbook.MixProject do
       {:icons, "~> 0.7.0"},
 
       # testing
+      {:faker, "~> 0.17", only: [:dev, :test]},
       {:floki, ">= 0.30.0", only: :test},
 
       # development

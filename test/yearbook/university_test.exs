@@ -125,7 +125,7 @@ defmodule Yearbook.UniversityTest do
 
     import Yearbook.UniversityFixtures
 
-    @invalid_attrs %{grade: nil}
+    @invalid_attrs %{year: nil}
 
     test "list_classes/0 returns all classes" do
       class = class_fixture()
@@ -139,13 +139,13 @@ defmodule Yearbook.UniversityTest do
 
     test "create_class/1 with valid data creates a class" do
       valid_attrs = %{
-        grade: 2,
+        year: 2,
         degree_id: degree_fixture().id,
         academic_year_id: academic_year_fixture().id
       }
 
       assert {:ok, %Class{} = class} = University.create_class(valid_attrs)
-      assert class.grade == 2
+      assert class.year == 2
     end
 
     test "create_class/1 with invalid data returns error changeset" do
@@ -154,10 +154,10 @@ defmodule Yearbook.UniversityTest do
 
     test "update_class/2 with valid data updates the class" do
       class = class_fixture()
-      update_attrs = %{grade: 3}
+      update_attrs = %{year: 3}
 
       assert {:ok, %Class{} = class} = University.update_class(class, update_attrs)
-      assert class.grade == 3
+      assert class.year == 3
     end
 
     test "update_class/2 with invalid data returns error changeset" do
