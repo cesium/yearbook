@@ -60,7 +60,7 @@ defmodule YearbookWeb.Router do
       live "/yearbook/:class_id", YearbookLive.Show, :show
 
       scope "/admin", Admin, as: :admin do
-        pipe_through :require_authenticated_user
+        pipe_through :require_admin_user
 
         live "/academic_years", AcademicYearLive.Index, :index
         live "/academic_years/new", AcademicYearLive.Index, :new

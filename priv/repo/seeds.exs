@@ -29,6 +29,9 @@ alias Yearbook.Accounts.User
   password: "Password1234!"
 })
 |> User.confirm_changeset()
+|> User.permissions_changeset(%{
+  permissions: [:admin, :sysadmin]
+})
 |> Repo.insert!()
 
 alexandre =

@@ -8,6 +8,7 @@ defmodule Yearbook.Repo.Migrations.CreateUsersAuthTables do
       add :name, :string, null: false
       add :email, :string, null: false, collate: :nocase
       add :hashed_password, :string, null: false
+      add :permissions, {:array, :string}, default: []
       add :confirmed_at, :naive_datetime
       timestamps()
     end
