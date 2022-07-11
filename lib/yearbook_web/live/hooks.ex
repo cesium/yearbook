@@ -14,4 +14,8 @@ defmodule YearbookWeb.Hooks do
     current_user = Accounts.get_user_by_session_token(user_token)
     {:cont, assign(socket, current_user: current_user)}
   end
+
+  def on_mount(:current_user, _params, _session, socket) do
+    {:cont, assign(socket, current_user: nil)}
+  end
 end
