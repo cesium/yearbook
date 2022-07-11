@@ -1,11 +1,15 @@
 <%= if @current_user do %>
   <div href="#" class="block flex-shrink-0 group">
     <div class="flex items-center">
-      <div>
-        <span class="inline-flex justify-center items-center w-10 h-10 bg-gray-500 rounded-full">
-          <span class="font-medium leading-none text-white"><%= extract_initials(@current_user.name) %></span>
-        </span>
-      </div>
+      <%= if is_nil(@current_user.avatar) do %>
+        <div>
+          <span class="inline-flex justify-center items-center w-10 h-10 bg-gray-500 rounded-full">
+            <span class="font-medium leading-none text-white"><%= extract_initials(@current_user.name) %></span>
+          </span>
+        </div>
+      <% else %>
+        <img class="mx-auto h-10 w-10 rounded-full" src={Uploaders.Avatar.url({@current_user.avatar, @current_user}, :thumb)} alt="" />
+      <% end %>
       <div class="ml-3">
         <p class="text-sm font-medium text-white"><%= @current_user.name %></p>
         <p class="text-xs font-medium text-white"><%= @current_user.email %></p>

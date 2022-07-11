@@ -40,6 +40,11 @@ alexandre =
   })
   |> User.confirm_changeset()
   |> Repo.insert!()
+  |> User.avatar_changeset(%{
+    avatar:
+      "https://raw.githubusercontent.com/cesium/atomic/b3090d26195e8b30a0ec7fe6bfd302ae5c81b326/app/assets/images/team/alexandre-gomes.jpg"
+  })
+  |> Repo.update!()
 
 nelson =
   %User{}
@@ -50,6 +55,11 @@ nelson =
   })
   |> User.confirm_changeset()
   |> Repo.insert!()
+  |> User.avatar_changeset(%{
+    avatar:
+      "https://raw.githubusercontent.com/cesium/atomic/b3090d26195e8b30a0ec7fe6bfd302ae5c81b326/app/assets/images/team/nelson-estevao.jpg"
+  })
+  |> Repo.update!()
 
 alias Yearbook.University.AcademicYear
 
@@ -93,6 +103,11 @@ dei =
 alias Yearbook.University.Class
 alias Yearbook.University.ClassStudent
 
+avatars =
+  "priv/faker/avatars.txt"
+  |> File.read!()
+  |> String.split("\n")
+
 for degree <- [lei, mei, miei, dei],
     academic_year <- [year2020, year2021, year2022],
     year <- [1, 2] do
@@ -101,8 +116,10 @@ for degree <- [lei, mei, miei, dei],
     |> Class.changeset(%{academic_year_id: academic_year.id, degree_id: degree.id, year: year})
     |> Repo.insert!()
 
+  avatars = Enum.shuffle(avatars)
+
   1..10
-  |> Enum.each(fn _i ->
+  |> Enum.each(fn i ->
     student =
       %User{}
       |> User.registration_changeset(%{
@@ -112,8 +129,11 @@ for degree <- [lei, mei, miei, dei],
       })
       |> User.confirm_changeset()
       |> Repo.insert!()
+      |> User.avatar_changeset(%{avatar: Enum.at(avatars, i)})
+      |> Repo.update!()
 
     %ClassStudent{}
-    |> ClassStudent.changeset(%{student_id: student.id, class_id: class})
+    |> ClassStudent.changeset(%{student_id: student.id, class_id: class.id})
+    |> Repo.insert!()
   end)
 end

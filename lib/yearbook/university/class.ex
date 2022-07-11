@@ -4,12 +4,17 @@ defmodule Yearbook.University.Class do
   """
   use Yearbook.Schema
 
+  alias Yearbook.Accounts
   alias Yearbook.University
 
   schema "classes" do
     field :year, :integer
     belongs_to :academic_year, University.AcademicYear
     belongs_to :degree, University.Degree
+
+    many_to_many :students, Accounts.User,
+      join_through: University.ClassStudent,
+      join_keys: [class_id: :id, student_id: :id]
 
     timestamps()
   end

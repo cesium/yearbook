@@ -229,7 +229,7 @@ defmodule Yearbook.University do
       ** (Ecto.NoResultsError)
 
   """
-  def get_class!(id), do: Repo.get!(Class, id)
+  def get_class!(id, preloads \\ []), do: Repo.get!(Class, id) |> Repo.preload(preloads)
 
   @doc """
   Creates a class.

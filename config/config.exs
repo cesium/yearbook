@@ -27,6 +27,11 @@ config :yearbook, YearbookWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :yearbook, Yearbook.Mailer, adapter: Swoosh.Adapters.Local
 
+config :waffle,
+  storage: Waffle.Storage.Local,
+  storage_dir_prefix: "priv",
+  asset_host: {:system, "ASSET_HOST"}
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 

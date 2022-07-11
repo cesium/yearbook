@@ -72,6 +72,10 @@ defmodule Yearbook.MixProject do
       # mailer
       {:swoosh, "~> 1.5"},
 
+      # uploads
+      {:waffle, "~> 1.1"},
+      {:waffle_ecto, "~> 0.0"},
+
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
