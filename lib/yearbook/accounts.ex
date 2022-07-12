@@ -240,11 +240,12 @@ defmodule Yearbook.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user_permissions(user, attrs, current_user)
-      when current_user.permissions in [:admin] do
-    user
-    |> User.permissions_changeset(attrs)
-    |> Repo.update()
+  def update_user_permissions(user, attrs, current_user) do
+    if :admin in current_user.permissions do
+      user
+      |> User.permissions_changeset(attrs)
+      |> Repo.update()
+    end
   end
 
   ## Session

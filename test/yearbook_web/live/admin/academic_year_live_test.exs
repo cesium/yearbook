@@ -14,7 +14,7 @@ defmodule YearbookWeb.Admin.AcademicYearLiveTest do
   end
 
   describe "Index" do
-    setup [:register_and_log_in_user, :create_academic_year]
+    setup [:register_and_log_in_admin_user, :create_academic_year]
 
     test "lists all academic_years", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
@@ -67,7 +67,7 @@ defmodule YearbookWeb.Admin.AcademicYearLiveTest do
     end
 
     test "deletes academic_year in listing", %{conn: conn, academic_year: academic_year} do
-      %{conn: conn} = register_and_log_in_user(%{conn: conn})
+      %{conn: conn} = register_and_log_in_admin_user(%{conn: conn})
       {:ok, index_live, _html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
       assert index_live
@@ -79,7 +79,7 @@ defmodule YearbookWeb.Admin.AcademicYearLiveTest do
   end
 
   describe "Show" do
-    setup [:register_and_log_in_user, :create_academic_year]
+    setup [:register_and_log_in_admin_user, :create_academic_year]
 
     test "displays academic_year", %{conn: conn, academic_year: academic_year} do
       {:ok, _show_live, html} =

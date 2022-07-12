@@ -49,6 +49,11 @@ defmodule YearbookWeb.ConnCase do
     %{conn: log_in_user(conn, user), user: user}
   end
 
+  def register_and_log_in_admin_user(%{conn: conn}) do
+    user = Yearbook.AccountsFixtures.user_admin_fixture()
+    %{conn: log_in_user(conn, user), user: user}
+  end
+
   @doc """
   Logs the given `user` into the `conn`.
 
