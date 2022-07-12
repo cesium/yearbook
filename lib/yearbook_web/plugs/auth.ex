@@ -146,6 +146,21 @@ defmodule YearbookWeb.Plugs.Auth do
     end
   end
 
+  @doc """
+  Used for routes that require the user to have admin permissions.
+  """
+  def require_admin_user(conn, _opts) do
+    if not is_nil(conn.assigns[:current_user]) and :admin in conn.assigns.current_user.permissions do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be an admin to access this page.")
+      |> maybe_store_return_to()
+      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> halt()
+    end
+  end
+
   defp maybe_store_return_to(%{method: "GET"} = conn) do
     put_session(conn, :user_return_to, current_path(conn))
   end

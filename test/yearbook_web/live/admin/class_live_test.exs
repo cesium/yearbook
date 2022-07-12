@@ -23,7 +23,7 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
   end
 
   describe "Index" do
-    setup [:register_and_log_in_user, :create_class, :create_degree, :create_academic_year]
+    setup [:register_and_log_in_admin_user, :create_class, :create_degree, :create_academic_year]
 
     test "lists all classes", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.admin_class_index_path(conn, :index))

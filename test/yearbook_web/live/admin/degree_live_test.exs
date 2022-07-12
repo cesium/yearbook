@@ -14,7 +14,7 @@ defmodule YearbookWeb.Admin.DegreeLiveTest do
   end
 
   describe "Index" do
-    setup [:register_and_log_in_user, :create_degree]
+    setup [:register_and_log_in_admin_user, :create_degree]
 
     test "lists all degrees", %{conn: conn, degree: degree} do
       {:ok, _index_live, html} = live(conn, Routes.admin_degree_index_path(conn, :index))
@@ -76,7 +76,7 @@ defmodule YearbookWeb.Admin.DegreeLiveTest do
   end
 
   describe "Show" do
-    setup [:register_and_log_in_user, :create_degree]
+    setup [:register_and_log_in_admin_user, :create_degree]
 
     test "displays degree", %{conn: conn, degree: degree} do
       {:ok, _show_live, html} = live(conn, Routes.admin_degree_show_path(conn, :show, degree))

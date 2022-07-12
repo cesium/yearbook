@@ -4,6 +4,9 @@ defmodule Yearbook.AccountsFixtures do
   entities via the `Yearbook.Accounts` context.
   """
 
+  alias Yearbook.Accounts
+  alias Yearbook.Accounts.User
+
   def valid_user_name, do: "José Valim"
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "Erlang-Elixir-Gleam!"
@@ -21,6 +24,15 @@ defmodule Yearbook.AccountsFixtures do
       attrs
       |> valid_user_attributes()
       |> Yearbook.Accounts.register_user()
+
+    user
+  end
+
+  def user_admin_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> user_fixture()
+      |> Accounts.update_user_permissions(%{permissions: [:admin]}, %User{permissions: [:admin]})
 
     user
   end

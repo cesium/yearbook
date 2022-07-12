@@ -215,6 +215,39 @@ defmodule Yearbook.Accounts do
     end
   end
 
+  @doc """
+  Returns an `%Ecto.Changeset{}` for changing the user password.
+
+  ## Examples
+
+      iex> change_user_password(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user_permissions(user, attrs \\ %{}) do
+    User.permissions_changeset(user, attrs)
+  end
+
+  @doc """
+  Updates the user password.
+
+  ## Examples
+
+      iex> update_user_password(user, "valid password", %{password: ...})
+      {:ok, %User{}}
+
+      iex> update_user_password(user, "invalid password", %{password: ...})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user_permissions(user, attrs, current_user) do
+    if :admin in current_user.permissions do
+      user
+      |> User.permissions_changeset(attrs)
+      |> Repo.update()
+    end
+  end
+
   ## Session
 
   @doc """
