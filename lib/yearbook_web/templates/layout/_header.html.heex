@@ -11,14 +11,11 @@
           <% end %>
         </a>
         <div class="hidden ml-10 space-x-8 lg:block">
-        <% IO.inspect(@current_user) %>
-          <%=if Enum.any?(@current_user.permissions, &(&1 == :admin)) do %>
             <%= for page <- navbar(assigns) do %>
               <a href={page.path} class="text-base font-medium text-white hover:text-orange-50">
                 <%= page.title %>
               </a>
             <% end %>
-          <% end %>
         </div>
       </div>
       <div class="ml-10 space-x-4">
@@ -26,13 +23,11 @@
       </div>
     </div>
     <div class="flex justify-center mt-4 space-x-6 lg:hidden">
-      <%=if Enum.any?(@current_user.permissions, &(&1 == :admin)) do %>
         <%= for page <- navbar(assigns) do %>
           <a href={page.path} class="text-base font-medium text-white hover:text-orange-50">
             <%= page.title %>
           </a>
         <% end %>
-      <% end %>
     </div>
   </nav>
 </header>
