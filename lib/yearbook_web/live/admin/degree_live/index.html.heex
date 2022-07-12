@@ -1,34 +1,36 @@
-<h1>Listing Degrees</h1>
+<div class="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <h1>Listing Degrees</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.admin_degree_index_path(@socket, :index)}>
-    <.live_component module={YearbookWeb.Admin.DegreeLive.FormComponent} id={@degree.id || :new} title={@page_title} action={@live_action} degree={@degree} return_to={Routes.admin_degree_index_path(@socket, :index)} />
-  </.modal>
-<% end %>
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal return_to={Routes.admin_degree_index_path(@socket, :index)}>
+      <.live_component module={YearbookWeb.Admin.DegreeLive.FormComponent} id={@degree.id || :new} title={@page_title} action={@live_action} degree={@degree} return_to={Routes.admin_degree_index_path(@socket, :index)} />
+    </.modal>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Cycle</th>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Cycle</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="degrees">
-    <%= for degree <- @degrees do %>
-      <tr id={"degree-#{degree.id}"}>
-        <td><%= degree.name %></td>
-        <td><%= degree.cycle %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.admin_degree_show_path(@socket, :show, degree)) %></span>
-          <span><%= live_patch("Edit", to: Routes.admin_degree_index_path(@socket, :edit, degree)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: degree.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody id="degrees">
+      <%= for degree <- @degrees do %>
+        <tr id={"degree-#{degree.id}"}>
+          <td><%= degree.name %></td>
+          <td><%= degree.cycle %></td>
 
-<span><%= live_patch("New Degree", to: Routes.admin_degree_index_path(@socket, :new)) %></span>
+          <td>
+            <span><%= live_redirect("Show", to: Routes.admin_degree_show_path(@socket, :show, degree)) %></span>
+            <span><%= live_patch("Edit", to: Routes.admin_degree_index_path(@socket, :edit, degree)) %></span>
+            <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: degree.id, data: [confirm: "Are you sure?"]) %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <span><%= live_patch("New Degree", to: Routes.admin_degree_index_path(@socket, :new)) %></span>
+</div>
