@@ -35,7 +35,7 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.admin_class_index_path(conn, :index))
 
       assert index_live |> element("a", "Nova Turma") |> render_click() =~
-               "New Class"
+               "Nova Turma"
 
       assert_patch(index_live, Routes.admin_class_index_path(conn, :new))
 
