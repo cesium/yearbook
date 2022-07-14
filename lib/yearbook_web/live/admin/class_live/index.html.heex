@@ -32,7 +32,7 @@
           </th>
         </tr>
       </thead>
-      <tbody id="classes "class="divide-y divide-gray-200 bg-white">
+      <tbody id="classes " class="divide-y divide-gray-200 bg-white">
         <%= for class <- @classes do %>
           <tr id={"class-#{class.id}"}>
             <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
@@ -45,22 +45,21 @@
               <%= class.year %>.º
             </td>
             <td class="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                <%= live_redirect to: Routes.yearbook_show_path(@socket, :show, class), class: "text-orange-600 hover:text-orange-900" do %>
-                  Show<span class="sr-only"></span>
-                <% end %>
+              <%= live_redirect to: Routes.yearbook_show_path(@socket, :show, class), class: "text-orange-600 hover:text-orange-900" do %>
+                Show<span class="sr-only"></span>
+              <% end %>
 
-                <%= live_patch to: Routes.admin_class_index_path(@socket, :edit, class), class: "text-orange-600 hover:text-orange-900" do %>
-                  Edit<span class="sr-only"></span>
-                <% end %>
+              <%= live_patch to: Routes.admin_class_index_path(@socket, :edit, class), class: "text-orange-600 hover:text-orange-900" do %>
+                Edit<span class="sr-only"></span>
+              <% end %>
 
-                <%= link to: "#", phx_click: "delete", phx_value_id: class.id, data: [confirm: "Are you sure?"], class: "text-orange-600 hover:text-orange-900" do %>
-                  Delete<span class="sr-only">Delete</span>
-                <% end %>
+              <%= link to: "#", phx_click: "delete", phx_value_id: class.id, data: [confirm: "Are you sure?"], class: "text-orange-600 hover:text-orange-900" do %>
+                Delete<span class="sr-only">Delete</span>
+              <% end %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-
 </div>

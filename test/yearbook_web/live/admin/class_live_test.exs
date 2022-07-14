@@ -34,7 +34,7 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
     test "saves new class", %{conn: conn, degree: degree, academic_year: academic_year} do
       {:ok, index_live, _html} = live(conn, Routes.admin_class_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Class") |> render_click() =~
+      assert index_live |> element("a", "Nova Turma") |> render_click() =~
                "New Class"
 
       assert_patch(index_live, Routes.admin_class_index_path(conn, :new))
