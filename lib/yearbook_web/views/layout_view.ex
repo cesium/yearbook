@@ -31,22 +31,12 @@ defmodule YearbookWeb.LayoutView do
   end
 
   def navbar(_assigns) do
-    []
-  end
-
-  def footer do
-    %{
-      description: """
-      O CeSIUM é o centro de estudantes que tem como missão representar e
-      promover o curso de Engenharia Informática da Universidade do Minho.
-      """,
-      social: %{
-        facebook: "https://facebook.com/cesiuminho",
-        twitter: "https://twitter.com/cesiuminho",
-        instagram: "https://instagram.com/cesiuminho",
-        github: "https://github.com/cesium"
+    [
+      %{
+        title: "Contactos",
+        path: Routes.page_path(@conn, :contacts)
       }
-    }
+    ]
   end
 
   # Phoenix LiveDashboard is available only in development by default,
