@@ -25,6 +25,7 @@ defmodule YearbookWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/contacts", PageController, :contacts
     get "/terms", PageController, :terms
 
     scope "/" do
