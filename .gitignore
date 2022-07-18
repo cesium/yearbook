@@ -1,3 +1,6 @@
+# Ignore personal development files
+.iex.local.exs
+
 # Ignore environment config files
 .env.*
 !.env.*.sample
