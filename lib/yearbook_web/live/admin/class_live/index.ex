@@ -23,7 +23,7 @@ defmodule YearbookWeb.Admin.ClassLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Class")
+    |> assign(:page_title, "Nova Turma")
     |> assign(:class, %Class{})
   end
 
