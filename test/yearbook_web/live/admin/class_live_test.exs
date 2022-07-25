@@ -64,7 +64,7 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
 
       assert index_live
              |> form("#class-form", class: @invalid_attrs)
-             |> render_change() =~ "can&#39t be blank"
+             |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         index_live
