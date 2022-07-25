@@ -26,7 +26,7 @@ defmodule YearbookWeb.Admin.DegreeLiveTest do
     test "saves new degree", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.admin_degree_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Degree") |> render_click() =~
+      assert index_live |> element("a", "Novo Curso") |> render_click() =~
                "New Degree"
 
       assert_patch(index_live, Routes.admin_degree_index_path(conn, :new))
