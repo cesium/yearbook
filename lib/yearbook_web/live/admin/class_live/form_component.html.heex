@@ -1,21 +1,47 @@
 <div>
-  <h2><%= @title %></h2>
-
   <.form let={f} for={@changeset} id="class-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <%= label(f, :degree_id) %>
-    <%= select(f, :degree_id, Enum.map(@degrees, &{&1.name, &1.id})) %>
-    <%= error_tag(f, :degree_id) %>
+    <div class="px-4 py-5 bg-white sm:p-6">
+      <div class="grid grid-cols-6 gap-6">
+        <div class="col-span-6 sm:col-span-6">
+          <label for="title" class="block text-base font-medium text-gray-700">
+            <h2><%= @title %></h2>
+          </label>
+        </div>
 
-    <%= label(f, :academic_year_id) %>
-    <%= select(f, :academic_year_id, Enum.map(@academic_years, &{"#{&1.start}/#{&1.finish}", &1.id})) %>
-    <%= error_tag(f, :academic_year_id) %>
+        <div class="col-span-6 sm:col-span-4">
+          <%= label(f, "Curso", class: "block text-base font-medium text-gray-700") %>
+          <label>
+            <%= select(f, :degree_id, Enum.map(@degrees, &{&1.name, &1.id}), class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm") %>
+          </label>
+          <div class="px-4 py-3 bg-white-50 text-right sm:px-6"></div>
+          <%= error_tag(f, :degree_id) %>
+        </div>
+        <div class="px-4 py-3 bg-white-50 text-right sm:px-6"></div>
 
-    <%= label(f, :year) %>
-    <%= number_input(f, :year) %>
-    <%= error_tag(f, :year) %>
+        <div class="col-span-6 sm:col-span-2">
+          <%= label(f, "Ano Letivo", class: "block text-base font-medium text-gray-700") %>
+          <label>
+            <%= select(f, :academic_year_id, Enum.map(@academic_years, &{"#{&1.start}/#{&1.finish}", &1.id}), prompt: "Ano Letivo", class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm") %>
+          </label>
+          <div class="px-4 py-3 bg-white-50 text-right sm:px-6"></div>
+          <%= error_tag(f, :academic_year_id) %>
+        </div>
 
-    <div>
-      <%= submit("Save", phx_disable_with: "Saving...") %>
+        <div class="col-span-6 sm:col-span-2">
+          <%= label(f, "Ano", class: "block text-base font-medium text-gray-700") %>
+          <label>
+            <%= select(f, :year, 1..5, prompt: "Ano", class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm") %>
+          </label>
+          <div class="px-4 py-3 bg-white-50 text-right sm:px-6"></div>
+          <%= error_tag(f, :year) %>
+        </div>
+      </div>
+
+      <div class="px-4 py-3 bg-white-50 text-right sm:px-6">
+        <%= submit(class: "inline-flex items-center justify-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:w-auto") do %>
+          Guardar
+        <% end %>
+      </div>
     </div>
   </.form>
 </div>

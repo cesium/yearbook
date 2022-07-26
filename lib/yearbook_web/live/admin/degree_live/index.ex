@@ -23,7 +23,7 @@ defmodule YearbookWeb.Admin.DegreeLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Degree")
+    |> assign(:page_title, "Novo Curso")
     |> assign(:degree, %Degree{})
   end
 

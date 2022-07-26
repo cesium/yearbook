@@ -23,7 +23,7 @@ defmodule YearbookWeb.Admin.AcademicYearLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Academic year")
+    |> assign(:page_title, "Novo Ano")
     |> assign(:academic_year, %AcademicYear{})
   end
 

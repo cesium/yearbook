@@ -25,8 +25,8 @@ defmodule YearbookWeb.Admin.AcademicYearLiveTest do
     test "saves new academic_year", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.admin_academic_year_index_path(conn, :index))
 
-      assert index_live |> element("a", "Novo ano") |> render_click() =~
-               "New Academic year"
+      assert index_live |> element("a", "Novo Ano") |> render_click() =~
+               "Novo Ano"
 
       assert_patch(index_live, Routes.admin_academic_year_index_path(conn, :new))
 
