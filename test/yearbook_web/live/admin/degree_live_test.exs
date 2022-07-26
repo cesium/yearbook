@@ -29,7 +29,6 @@ defmodule YearbookWeb.Admin.DegreeLiveTest do
       assert index_live |> element("a", "Novo Curso") |> render_click() =~
                "Novo Curso"
 
-
       assert_patch(index_live, Routes.admin_degree_index_path(conn, :new))
 
       assert index_live
