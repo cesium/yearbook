@@ -16,6 +16,10 @@ defmodule Yearbook.Accounts.User do
     field :permissions, {:array, Ecto.Enum}, values: [:admin, :sysadmin], default: []
     field :confirmed_at, :naive_datetime
 
+    many_to_many :classes, Yearbook.University.Class,
+      join_through: Yearbook.University.ClassStudent,
+      join_keys: [class_id: :id, student_id: :id]
+
     timestamps()
   end
 

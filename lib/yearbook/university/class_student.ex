@@ -23,3 +23,4 @@ defmodule Yearbook.University.ClassStudent do
     |> unique_constraint([:class_id, :student_id])
   end
 end
+

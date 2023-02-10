@@ -25,6 +25,7 @@ defmodule YearbookWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/contacts", PageController, :contacts
     get "/terms", PageController, :terms
 
     scope "/" do
@@ -58,6 +59,9 @@ defmodule YearbookWeb.Router do
 
     live_session :logged_in, on_mount: [{YearbookWeb.Hooks, :current_user}] do
       live "/yearbook/:class_id", YearbookLive.Show, :show
+
+      live "/profile/edit", UserProfileLive.Edit, :edit
+      live "/profile/:id", UserProfileLive.Show, :show
 
       scope "/admin", Admin, as: :admin do
         pipe_through :require_admin_user
