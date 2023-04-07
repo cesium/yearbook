@@ -43,8 +43,8 @@ defmodule YearbookWeb.YearbookLive.Show do
      |> assign(:class, class)}
   end
 
-  def is_accepted?(student, class) do
-    classes = University.get_classes_students(student)
+  defp is_accepted?(student, class) do
+    classes = University.list_student_classes(student)
 
     Enum.any?(classes, fn cs -> cs.accepted == true && cs.class_id == class end)
   end

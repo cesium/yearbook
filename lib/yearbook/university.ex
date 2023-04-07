@@ -299,9 +299,9 @@ defmodule Yearbook.University do
   alias Yearbook.University.ClassStudent
 
   def create_class_student(attrs \\ %{}) do
-    aluno = get_all_classes_students(attrs["student_id"], attrs["class_id"])
+    student = list_classes_student(attrs["student_id"], attrs["class_id"])
 
-    if aluno > 0 do
+    if student > 0 do
       {:error, %Ecto.Changeset{}}
     else
       %ClassStudent{}
@@ -310,7 +310,7 @@ defmodule Yearbook.University do
     end
   end
 
-  def get_all_classes_students(student_id, class_id) do
+  def list_classes_student(student_id, class_id) do
     ClassStudent
     |> where(student_id: ^student_id)
     |> where(class_id: ^class_id)
@@ -318,7 +318,7 @@ defmodule Yearbook.University do
     |> Enum.count()
   end
 
-  def get_classes_students(student_id) do
+  def list_student_classes(student_id) do
     ClassStudent
     |> where(student_id: ^student_id)
     |> where(accepted: true)
