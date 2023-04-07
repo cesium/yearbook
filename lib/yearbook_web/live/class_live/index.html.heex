@@ -3,18 +3,20 @@
     <div class="sm:flex-auto">
       <h1 class="text-xl font-semibold text-gray-900">Lista de Turmas</h1>
     </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-      <%= live_patch to: Routes.admin_class_index_path(@socket, :new) do %>
-        <button type="button" class="inline-flex items-center justify-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:w-auto">
-          Nova Turma
-        </button>
-      <% end %>
-    </div>
+    <%= if assigns[:current_user] && (@current_user.permissions == [:admin, :sysadmin] || @current_user.permissions == [:admin] ||  @current_user.permissions == [:sysadmin]) do %>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <%= live_patch to: Routes.admin_class_index_path(@socket, :new) do %>
+          <button type="button" class="inline-flex items-center justify-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:w-auto">
+            Nova Turma
+          </button>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <%= if @live_action in [:new, :edit] do %>
-    <.modal return_to={Routes.admin_class_index_path(@socket, :index)}>
-      <.live_component module={YearbookWeb.Admin.ClassLive.FormComponent} id={@class.id || :new} title={@page_title} action={@live_action} class={@class} return_to={Routes.admin_class_index_path(@socket, :index)} />
+    <.modal return_to={Routes.class_index_path(@socket, :index)}>
+      <.live_component module={YearbookWeb.ClassLive.FormComponent} id={@class.id || :new} title={@page_title} action={@live_action} class={@class} return_to={Routes.class_index_path(@socket, :index)} />
     </.modal>
   <% end %>
 
@@ -46,15 +48,16 @@
             </td>
             <td class="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
               <%= live_redirect to: Routes.yearbook_show_path(@socket, :show, class), class: "text-orange-600 hover:text-orange-900" do %>
-                Show<span class="sr-only"></span>
+                Ver<span class="sr-only"></span>
               <% end %>
+              <%= if assigns[:current_user] && (@current_user.permissions == [:admin, :sysadmin] || @current_user.permissions == [:admin] ||  @current_user.permissions == [:sysadmin]) do %>
+                <%= live_patch to: Routes.admin_class_index_path(@socket, :edit, class), class: "text-orange-600 hover:text-orange-900" do %>
+                  Edit<span class="sr-only"></span>
+                <% end %>
 
-              <%= live_patch to: Routes.admin_class_index_path(@socket, :edit, class), class: "text-orange-600 hover:text-orange-900" do %>
-                Edit<span class="sr-only"></span>
-              <% end %>
-
-              <%= link to: "#", phx_click: "delete", phx_value_id: class.id, data: [confirm: "Are you sure?"], class: "text-orange-600 hover:text-orange-900" do %>
-                Delete<span class="sr-only">Delete</span>
+                <%= link to: "#", phx_click: "delete", phx_value_id: class.id, data: [confirm: "Are you sure?"], class: "text-orange-600 hover:text-orange-900" do %>
+                  Delete<span class="sr-only">Delete</span>
+                <% end %>
               <% end %>
             </td>
           </tr>

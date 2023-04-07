@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <a href="/">
           <span class="sr-only">CeSIUM</span>
-          <%= if @current_user do %>
+          <%= if assigns[:current_user] do %>
             <img class="w-auto h-10" src={Routes.static_path(YearbookWeb.Endpoint, "/images/logo-WHITE.svg")} alt="CeSIUM's Logo" />
           <% else %>
             <img class="w-auto h-10" src={Routes.static_path(YearbookWeb.Endpoint, "/images/cesium-WHITE.svg")} alt="CeSIUM's Logo" />

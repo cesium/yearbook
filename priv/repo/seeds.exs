@@ -136,7 +136,7 @@ for degree <- [lei, mei, miei, dei],
       |> Repo.update!()
 
     %ClassStudent{}
-    |> ClassStudent.changeset(%{student_id: student.id, class_id: class.id})
+    |> ClassStudent.changeset(%{student_id: student.id, class_id: class.id, accepted: true})
     |> Repo.insert!()
   end)
 end

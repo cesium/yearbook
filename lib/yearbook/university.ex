@@ -295,4 +295,33 @@ defmodule Yearbook.University do
   def change_class(%Class{} = class, attrs \\ %{}) do
     Class.changeset(class, attrs)
   end
+
+  alias Yearbook.University.ClassStudent
+
+  def create_class_student(attrs \\ %{}) do
+    aluno = get_all_classes_students(attrs["student_id"], attrs["class_id"])
+
+    if aluno > 0 do
+      {:error, %Ecto.Changeset{}}
+    else
+      %ClassStudent{}
+      |> ClassStudent.changeset(attrs)
+      |> Repo.insert()
+    end
+  end
+
+  def get_all_classes_students(student_id, class_id) do
+    ClassStudent
+    |> where(student_id: ^student_id)
+    |> where(class_id: ^class_id)
+    |> Repo.all()
+    |> Enum.count()
+  end
+
+  def get_classes_students(student_id) do
+    ClassStudent
+    |> where(student_id: ^student_id)
+    |> where(accepted: true)
+    |> Repo.all()
+  end
 end

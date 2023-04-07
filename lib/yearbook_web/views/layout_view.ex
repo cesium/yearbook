@@ -25,7 +25,7 @@ defmodule YearbookWeb.LayoutView do
       },
       %{
         title: "Turmas",
-        path: Routes.admin_class_index_path(@conn, :index)
+        path: Routes.class_index_path(@conn, :index)
       }
     ]
   end

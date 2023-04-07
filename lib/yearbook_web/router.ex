@@ -23,7 +23,6 @@ defmodule YearbookWeb.Router do
 
   scope "/", YearbookWeb do
     pipe_through :browser
-
     get "/", PageController, :index
     get "/contacts", PageController, :contacts
     get "/terms", PageController, :terms
@@ -59,6 +58,15 @@ defmodule YearbookWeb.Router do
 
     live_session :logged_in, on_mount: [{YearbookWeb.Hooks, :current_user}] do
       live "/yearbook/:class_id", YearbookLive.Show, :show
+      live "/classes", ClassLive.Index, :index
+
+      scope "/admin", as: :admin do
+        pipe_through :require_admin_user
+
+        live "/classes/new", ClassLive.Index, :new
+        live "/classes/:id/edit", ClassLive.Index, :edit
+        live "/classes/:id/show/edit", ClassLive.Show, :edit
+      end
 
       scope "/admin", Admin, as: :admin do
         pipe_through :require_admin_user
@@ -74,11 +82,6 @@ defmodule YearbookWeb.Router do
         live "/degrees/:id/edit", DegreeLive.Index, :edit
         live "/degrees/:id", DegreeLive.Show, :show
         live "/degrees/:id/show/edit", DegreeLive.Show, :edit
-
-        live "/classes", ClassLive.Index, :index
-        live "/classes/new", ClassLive.Index, :new
-        live "/classes/:id/edit", ClassLive.Index, :edit
-        live "/classes/:id/show/edit", ClassLive.Show, :edit
       end
     end
   end

@@ -1,4 +1,4 @@
-<%= if @current_user do %>
+<%= if assigns[:current_user] do %>
   <div href="#" class="block flex-shrink-0 group">
     <div class="flex items-center">
       <%= if is_nil(@current_user.avatar) do %>

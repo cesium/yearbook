@@ -1,0 +1,18 @@
+<div class="mt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <h1>Show Class</h1>
+
+  <%= if @live_action in [:edit] do %>
+    <.modal return_to={Routes.admin_class_show_path(@socket, :show, @class)}>
+      <.live_component module={YearbookWeb.ClassLive.FormComponent} id={@class.id} title={@page_title} action={@live_action} class={@class} return_to={Routes.admin_class_show_path(@socket, :show, @class)} />
+    </.modal>
+  <% end %>
+
+  <ul>
+    <li>
+      <strong>Grade:</strong>
+      <%= @class.year %>
+    </li>
+  </ul>
+
+  <span><%= live_patch("Edit", to: Routes.admin_class_show_path(@socket, :edit, @class), class: "button") %></span> | <span><%= live_redirect("Back", to: Routes.class_index_path(@socket, :index)) %></span>
+</div>

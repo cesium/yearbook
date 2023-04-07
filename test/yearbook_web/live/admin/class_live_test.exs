@@ -26,13 +26,13 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
     setup [:register_and_log_in_admin_user, :create_class, :create_degree, :create_academic_year]
 
     test "lists all classes", %{conn: conn} do
-      {:ok, _index_live, html} = live(conn, Routes.admin_class_index_path(conn, :index))
+      {:ok, _index_live, html} = live(conn, Routes.class_index_path(conn, :index))
 
       assert html =~ "Listing Classes"
     end
 
     test "saves new class", %{conn: conn, degree: degree, academic_year: academic_year} do
-      {:ok, index_live, _html} = live(conn, Routes.admin_class_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.class_index_path(conn, :index))
 
       assert index_live |> element("a", "Nova Turma") |> render_click() =~
                "Nova Turma"
@@ -49,13 +49,13 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
           class: %{year: 1, degree_id: degree.id, academic_year_id: academic_year.id}
         )
         |> render_submit()
-        |> follow_redirect(conn, Routes.admin_class_index_path(conn, :index))
+        |> follow_redirect(conn, Routes.class_index_path(conn, :index))
 
       assert html =~ "Class created successfully"
     end
 
     test "updates class in listing", %{conn: conn, class: class} do
-      {:ok, index_live, _html} = live(conn, Routes.admin_class_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.class_index_path(conn, :index))
 
       assert index_live |> element("#class-#{class.id} a", "Edit") |> render_click() =~
                "Edit Class"
@@ -70,13 +70,13 @@ defmodule YearbookWeb.Admin.ClassLiveTest do
         index_live
         |> form("#class-form", class: @update_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.admin_class_index_path(conn, :index))
+        |> follow_redirect(conn, Routes.class_index_path(conn, :index))
 
       assert html =~ "Class updated successfully"
     end
 
     test "deletes class in listing", %{conn: conn, class: class} do
-      {:ok, index_live, _html} = live(conn, Routes.admin_class_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.class_index_path(conn, :index))
 
       assert index_live |> element("#class-#{class.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#class-#{class.id}")
