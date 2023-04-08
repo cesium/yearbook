@@ -11,14 +11,14 @@ defmodule Yearbook.University.ClassStudent do
   schema "classes_students" do
     belongs_to :class, University.Class
     belongs_to :student, Accounts.User
-
+    field :accepted, :boolean, default: false
     timestamps()
   end
 
   @doc false
   def changeset(class_student, attrs) do
     class_student
-    |> cast(attrs, [:class_id, :student_id])
+    |> cast(attrs, [:class_id, :student_id, :accepted])
     |> validate_required([:class_id, :student_id])
     |> unique_constraint([:class_id, :student_id])
   end

@@ -6,7 +6,7 @@ defmodule Yearbook.Repo.Migrations.CreateClassesStudents do
       add :id, :binary_id, primary_key: true
       add :class_id, references(:classes, on_delete: :nothing, type: :binary_id)
       add :student_id, references(:users, on_delete: :nothing, type: :binary_id)
-
+      add :accepted, :boolean, default: false
       timestamps()
     end
 
