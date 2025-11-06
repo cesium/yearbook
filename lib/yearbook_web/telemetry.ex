@@ -1,13 +1,4 @@
 defmodule YearbookWeb.Telemetry do
-  @moduledoc """
-  Phoenix's Telemetry tooling provides you with a supervisor that uses
-  Telemetry.Metrics to define the list of Telemetry events to handle and how to
-  handle those events, i.e. how to structure them as a certain type of metric.
-
-  This supervisor works together with Telemetry reporters to respond to the
-  specified Telemetry events by aggregating them as the appropriate metric and
-  sending them to the correct reporting destination.
-  """
   use Supervisor
   import Telemetry.Metrics
 
@@ -31,11 +22,33 @@ defmodule YearbookWeb.Telemetry do
   def metrics do
     [
       # Phoenix Metrics
+      summary("phoenix.endpoint.start.system_time",
+        unit: {:native, :millisecond}
+      ),
       summary("phoenix.endpoint.stop.duration",
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.router_dispatch.start.system_time",
+        tags: [:route],
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.router_dispatch.exception.duration",
+        tags: [:route],
         unit: {:native, :millisecond}
       ),
       summary("phoenix.router_dispatch.stop.duration",
         tags: [:route],
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.socket_connected.duration",
+        unit: {:native, :millisecond}
+      ),
+      sum("phoenix.socket_drain.count"),
+      summary("phoenix.channel_joined.duration",
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.channel_handled_in.duration",
+        tags: [:event],
         unit: {:native, :millisecond}
       ),
 

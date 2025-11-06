@@ -8,16 +8,14 @@ defmodule Yearbook.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      Yearbook.Repo,
-      # Start the Telemetry supervisor
       YearbookWeb.Telemetry,
-      # Start the PubSub system
+      Yearbook.Repo,
+      {DNSCluster, query: Application.get_env(:yearbook, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Yearbook.PubSub},
-      # Start the Endpoint (http/https)
-      YearbookWeb.Endpoint
       # Start a worker by calling: Yearbook.Worker.start_link(arg)
-      # {Yearbook.Worker, arg}
+      # {Yearbook.Worker, arg},
+      # Start to serve requests, typically the last entry
+      YearbookWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

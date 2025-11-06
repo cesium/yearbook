@@ -1,5 +1,4 @@
 [contributing]: CONTRIBUTING.md
-[code_of_conduct]: CODE_OF_CONDUCT.md
 [license]: LICENSE.txt
 
 [ci-test-status]: https://github.com/cesium/yearbook/actions/workflows/test.yml/badge.svg
@@ -30,7 +29,7 @@ We have a [Contributing Guide][contributing] to help you getting started.
 <img src=".github/brand/cesium-DARK.svg#gh-light-mode-only" width="300">
 <img src=".github/brand/cesium-LIGHT.svg#gh-dark-mode-only" width="300">
 
-Copyright (c) 2022, CeSIUM.
+Copyright (c) 2025, CeSIUM.
 
 This project is licensed under the MIT License - see the [LICENSE][license]
 file for details.
