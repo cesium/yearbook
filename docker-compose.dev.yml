@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:14.1
-    container_name: safira_db
+    container_name: yearbook_db
     env_file: .env.dev
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
@@ -10,7 +10,7 @@ services:
     volumes:
       - /var/lib/postgresql/data
   web:
-    container_name: safira_web
+    container_name: yearbook_web
     env_file: .env.dev
     environment:
       MIX_ENV: ${MIX_ENV:-dev}
