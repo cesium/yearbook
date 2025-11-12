@@ -2,34 +2,36 @@ name: Code Quality
 
 on:
   pull_request:
-    branches: [main, master]
+    branches: [main]
     types: [opened, synchronize]
+    paths:
+    - '**/*.ex'
+    - '**/*.exs'
+    - '**/*.html.heex'
 
 jobs:
   style:
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Code Quality
 
     strategy:
       matrix:
-        otp: [25.x]
-        elixir: [1.13.x]
+        otp: [28.x]
+        elixir: [1.19.x]
 
     steps:
       - name: ☁️ Checkout repository
         uses: actions/checkout@v3
 
       - name: 💧 Setup Elixir ${{ matrix.elixir }} (OTP ${{matrix.otp}})
-        uses: ./.github/actions/elixir-setup
+        uses: ./.github/actions
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
           build-flags: --all-warnings --warnings-as-errors
 
-      - name: 📏 Check code formating
+      - name: 🎨 Check code formating
         run: mix format --check-formatted
-        if: always()
 
       - name: 🔍 Lint the code
-        run: mix credo --strict --all
-        if: always()
+        run: mix credo --all --strict

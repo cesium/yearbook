@@ -1,26 +1,17 @@
 defmodule Yearbook.MixProject do
   use Mix.Project
 
-  @app :yearbook
-  @name "Yearbook"
-  @version "0.1.0-dev"
-  @description "An online yearbook website"
-
   def project do
     [
-      app: @app,
-      name: @name,
-      version: @version,
-      description: @description,
-      git_ref: git_revision_hash(),
-      elixir: "~> 1.13",
+      app: :yearbook,
+      version: "0.1.0",
+      elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      releases: releases(),
-      deps: deps(),
       aliases: aliases(),
-      preferred_cli_env: [check: :test]
+      deps: deps(),
+      compilers: [:phoenix_live_view] ++ Mix.compilers(),
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 
@@ -34,74 +25,63 @@ defmodule Yearbook.MixProject do
     ]
   end
 
+  def cli do
+    [
+      preferred_envs: [precommit: :test]
+    ]
+  end
+
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
-
-  defp releases() do
-    [
-      {@app,
-       [
-         include_executables_for: [:unix],
-         steps: [:assemble, :tar]
-       ]}
-    ]
-  end
 
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      # web
-      {:phoenix, "~> 1.6.7"},
-      {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_view, "~> 0.17.5"},
+      # core
+      {:phoenix, "~> 1.8.1"},
+      {:phoenix_live_view, "~> 1.1.0"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:jason, "~> 1.2"},
 
       # database
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
-      {:ecto_sqlite3, ">= 0.0.0"},
-
-      # security
-      {:argon2_elixir, "~> 3.0"},
-
-      # i18n
-      {:gettext, "~> 0.19"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:ecto_sql, "~> 3.13"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 4.1"},
 
       # mailer
-      {:swoosh, "~> 1.5"},
-
-      # uploads
-      {:waffle, "~> 1.1"},
-      {:waffle_ecto, "~> 0.0"},
+      {:swoosh, "~> 1.16"},
 
       # monitoring
-      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
-      {:phoenix_live_dashboard, "~> 0.6"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
 
       # utilities
-      {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
-      {:earmark, "~> 1.4"},
-      {:icons, "~> 0.7.0"},
+      {:gettext, "~> 0.26"},
+      {:req, "~> 0.5"},
 
-      # testing
-      {:faker, "~> 0.17", only: [:dev, :test]},
-      {:floki, ">= 0.30.0", only: :test},
-
-      # development
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:dotenvy, "~> 0.6.0"},
+      # server
+      {:dns_cluster, "~> 0.2.0"},
+      {:bandit, "~> 1.5"},
 
       # tools
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
-      {:sobelow, "~> 0.11", only: :dev, runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+
+      # frontend
+      {:lazy_html, ">= 0.1.0", only: :test},
+      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.2.0",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1}
     ]
   end
 
@@ -113,40 +93,20 @@ defmodule Yearbook.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
-      "ecto.seed": ["run priv/repo/seeds.exs"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
+      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
+      "ecto.seeds": ["run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      lint: ["credo --strict --all"],
-      check: [
-        "clean",
-        "deps.unlock --check-unused",
-        "compile --all-warnings --warnings-as-errors",
-        "format --check-formatted",
-        "deps.unlock --check-unused",
-        "test --warnings-as-errors",
-        "lint"
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.build": ["compile", "tailwind yearbook", "esbuild yearbook"],
+      "assets.deploy": [
+        "tailwind yearbook --minify",
+        "esbuild yearbook --minify",
+        "phx.digest"
       ],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      lint: ["credo --all --strict"],
+      precommit: ["compile --warning-as-errors", "deps.unlock --unused", "format", "test"]
     ]
-  end
-
-  defp git_revision_hash do
-    case System.cmd("git", ["rev-parse", "HEAD"]) do
-      {ref, 0} ->
-        ref
-
-      {_, _code} ->
-        git_ref = File.read!(".git/HEAD")
-
-        if String.contains?(git_ref, "ref:") do
-          ["ref:", ref_path] = String.split(git_ref)
-          File.read!(".git/#{ref_path}")
-        else
-          git_ref
-        end
-    end
-    |> String.replace("\n", "")
   end
 end
