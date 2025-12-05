@@ -89,7 +89,7 @@ defmodule YearbookWeb.CoreComponents do
       <.button phx-click="go" variant="primary">Send!</.button>
       <.button navigate={~p"/"}>Home</.button>
   """
-attr :type, :string, default: "button"
+  attr :type, :string, default: "button"
   attr :class, :string, default: ""
   attr :variant, :string, default: "primary", values: ~w(primary secondary)
   attr :rest, :global, include: ~w(disabled form name value)
@@ -101,15 +101,12 @@ attr :type, :string, default: "button"
     <button
       type={@type}
       class={[
-
         @class,
         variant_classes(@variant)
-
-
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </button>
     """
   end
@@ -122,7 +119,6 @@ attr :type, :string, default: "button"
   defp variant_classes("secondary") do
     "rounded-4xl bg-white p-4 font-semibold tracking-wider text-[#ee7749] cursor-pointer"
   end
-
 
   @doc """
   Renders an input with label and error messages.
