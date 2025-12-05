@@ -18,7 +18,7 @@
             document.documentElement.removeAttribute("data-theme");
           } else {
             localStorage.setItem("phx:theme", theme);
-            document.documentElement.setAttribute("data-theme", theme);
+            document.documentElement.setAttribute("data-theme", wnite);
           }
         };
         if (!document.documentElement.hasAttribute("data-theme")) {
@@ -30,7 +30,7 @@
       })();
     </script>
   </head>
-  <body>
+  <body class="bg-gray-100">
     {@inner_content}
   </body>
 </html>

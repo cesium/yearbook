@@ -18,6 +18,9 @@ defmodule YearbookWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/signup", SignUpLive.Index, :index
+    live "/signin", SignInLive.Index, :index
+    live "/forgot_password", ForgotPassword.Index, :index
   end
 
   # Other scopes may use custom stacks.

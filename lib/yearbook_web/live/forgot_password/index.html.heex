@@ -1,0 +1,84 @@
+<div class="flex relative h-screen w-full justify-between">
+  <img
+    src="/images/background.jpg"
+    class="absolute inset-0 h-full w-full object-cover opacity-30 z-0"
+    alt="background"
+  />
+
+  <div class="relative z-10 flex flex-col justify-between h-full p-6">
+    <a href="/" class="flex items-center gap-3 cursor-pointer">
+      <img src="/images/grad.svg" class="h-10 w-10" />
+      <span class="text-2xl font-bold text-black">YEARBOOK</span>
+    </a>
+
+    <a href="https://cesium.di.uminho.pt/en" class="pt-15 cursor-default ">
+      <img
+        src="/images/cesium.svg"
+        class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform brightness-0 saturate-100 hue-rotate-[200deg]"
+      />
+    </a>
+  </div>
+  <div class="relative z-10 flex justify-end items-center">
+    <div class="border-5 bg-gray-200 border-gray-200 rounded-2xl m-10 h-112">
+      <div class="flex flex-col justify-between border-2 border-black bg-white w-130 h-110 rounded-2xl p-8">
+        <div class="flex-col">
+          <div class="flex-col">
+            <a
+              class="inline-flex items-center text-blue-600 cursor-pointer hover:text-blue-900 hover:scale-105 transition-all"
+              href="/signin"
+            >
+              <img
+                src="/images/back-arrow.svg"
+                alt="back-arrow"
+                class="w-4 h-4 hover:scale-103 mr-1 transition-transform"
+              />
+              <p class="text-[#ee7749]">Back</p>
+            </a>
+
+            <div class="flex items-center">
+              <img
+                src={~p"/images/key.svg"}
+                alt="key"
+                class="w-12 h-12 pt-4 hover:scale-103  transition-transform"
+              />
+
+              <h1 class="text-3xl font-bold tracking-normal ml-2 mt-6 mb-1 text-black">
+                Forgot Password
+              </h1>
+            </div>
+          </div>
+          <div class="flex-col">
+            <p class="pt-2 text-black">
+              Did you forget your password?
+            </p>
+            <p class="pt-2 text-black">
+              Try entering your email here to reset your password
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div class="mb-2 mt-4">
+            <label class="text-black font-semibold mb-2 mt-2">Email</label>
+            <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13">
+              <img src="/images/mail.svg" class="mr-2 w-6" />
+              <input
+                type="email"
+                class="text-black w-full outline-none"
+                placeholder="Email"
+                name="email"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <button
+            class="h-12 w-full cursor-pointer  hover:scale-101 transition-transform bg-[#ee7749] rounded "
+            variant="primary"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+<div class="flex relative h-screen w-full justify-between">
+  <img
+    src="/images/background.jpg"
+    class="absolute inset-0 h-full w-full object-cover opacity-30 z-0"
+    alt="background"
+  />
+
+  <div class="relative z-10 flex flex-col justify-between h-full p-6">
+    <a href="/" class="flex items-center gap-3 cursor-pointer">
+      <img src="/images/grad.svg" class="h-10 w-10" />
+      <span class="text-2xl font-bold text-black">YEARBOOK</span>
+    </a>
+
+    <a href="https://cesium.di.uminho.pt/en" class="pt-15 cursor-default ">
+      <img
+        src="/images/cesium.svg"
+        class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform brightness-0 saturate-100 hue-rotate-[200deg]"
+      />
+    </a>
+  </div>
+  <div class="relative z-10 flex justify-end">
+    <div class="border-5 bg-gray-200 border-gray-200 rounded-2xl m-10">
+      <div class="flex flex-col justify-between border-2 border-black bg-white w-150 h-180 rounded-2xl p-8">
+        <div class="flex flex-row">
+          <div class="flex-1">
+            <h1 class="text-3xl font-bold tracking-normal mt-6 mb-1 text-black">
+              Sign up to
+            </h1>
+            <h1 class="text-5xl font-bold tracking-normal text-black">
+              Yearbook
+            </h1>
+          </div>
+          <div class="flex-shrink-0 border-gray-100 border-3 rounded-2xl">
+            <img
+              src={~p"/images/logo2.svg"}
+              alt="Logo"
+              class="w-40 h-40 hover:scale-103 transition-transform"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div>
+            <div class="mb-2">
+              <label class="text-black font-semibold mb-2">Name</label>
+              <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13 mb-2">
+                <input
+                  type="text"
+                  class="text-black w-full outline-none"
+                  placeholder="Name"
+                  name="name"
+                />
+              </div>
+            </div>
+
+            <div class="mb-2 mt-4">
+              <label class="text-black font-semibold mb-2 mt-2">Email</label>
+              <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13">
+                <img src="/images/mail.svg" class="mr-2 w-6" />
+                <input
+                  type="email"
+                  class="text-black w-full outline-none"
+                  placeholder="Email"
+                  name="email"
+                />
+              </div>
+            </div>
+
+            <div class="mb-2 mt-4">
+              <label class="text-black font-semibold mb-2 mt-4">Password</label>
+              <div class="flex items-center border border-gray-300 rounded px-3 py-2 mt-2 mb-2 h-13">
+                <img src="/images/key.svg" class="mr-2 w-6" />
+                <input
+                  id="password-input"
+                  type="password"
+                  class="text-black w-full outline-none"
+                  placeholder="Password"
+                  name="password"
+                />
+                <img
+                  id="toggle-eye"
+                  src="/images/eye_open.svg"
+                  class="w-8 cursor-pointer hover:scale-110 transition-transform"
+                  onclick="
+                                       const inputPsw = document.getElementById('password-input');
+                                       if (inputPsw.type === 'password') {
+                                         inputPsw.type = 'text';
+                                         this.src = '/images/eye-closed.svg';
+                                       } else {
+                                         inputPsw.type = 'password';
+                                         this.src = '/images/eye_open.svg';
+                                       }
+                                     "
+                />
+              </div>
+            </div>
+
+            <div class="mb-4 mt-4">
+              <label class="text-black font-semibold mb-2 mt-4">Confirm Password</label>
+              <div class="flex items-center border border-gray-300 rounded px-3 py-2 mb-4 mt-2 h-13">
+                <img src="/images/key.svg" class="mr-2 w-6" />
+                <input
+                  id="reenterPassword-input"
+                  type="password"
+                  class="text-black w-full outline-none"
+                  placeholder="Confirm Password"
+                  name="password"
+                />
+                <img
+                  id="toggle-eye"
+                  src="/images/eye_open.svg"
+                  class="w-8 cursor-pointer hover:scale-110 transition-transform"
+                  onclick="
+                                       const reInputPsw = document.getElementById('reenterPassword-input');
+                                       if (reInputPsw.type === 'password') {
+                                         reInputPsw.type = 'text';
+                                         this.src = '/images/eye-closed.svg';
+                                       } else {
+                                         reInputPsw.type = 'password';
+                                         this.src = '/images/eye_open.svg';
+                                       }
+                                     "
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col mt-2">
+          <button
+            class="h-12 w-full cursor-pointer  hover:scale-101 transition-transform bg-[#ee7749] rounded "
+            variant="primary"
+          >
+            Sign up
+          </button>
+          <div class="mt-3 text-center">
+            <span class="text-black">Alredy have an account? </span>
+            <a
+              class="inline-block text-[#ee7749] underline cursor-pointer hover:text-[#E37044] hover:scale-110 transition-all"
+              href="/signin"
+            >
+              Log in
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

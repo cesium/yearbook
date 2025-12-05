@@ -98,8 +98,11 @@ defmodule YearbookWeb.CoreComponents do
     variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
 
     assigns =
-      assign_new(assigns, :class, fn ->
-        ["btn", Map.fetch!(variants, assigns[:variant])]
+      assigns
+      |> assign_new(:class, fn -> [] end)
+      |> assign_new(:width, fn -> nil end)
+      |> update(:class, fn class ->
+        ["btn", Map.fetch!(variants, assigns[:variant]), class, assigns[:width]]
       end)
 
     if rest[:href] || rest[:navigate] || rest[:patch] do
