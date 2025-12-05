@@ -89,33 +89,40 @@ defmodule YearbookWeb.CoreComponents do
       <.button phx-click="go" variant="primary">Send!</.button>
       <.button navigate={~p"/"}>Home</.button>
   """
-  attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
-  attr :class, :string
-  attr :variant, :string, values: ~w(primary)
+attr :type, :string, default: "button"
+  attr :class, :string, default: ""
+  attr :variant, :string, default: "primary", values: ~w(primary secondary)
+  attr :rest, :global, include: ~w(disabled form name value)
+
   slot :inner_block, required: true
 
-  def button(%{rest: rest} = assigns) do
-    variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
+  def button(assigns) do
+    ~H"""
+    <button
+      type={@type}
+      class={[
 
-    assigns =
-      assign_new(assigns, :class, fn ->
-        ["btn", Map.fetch!(variants, assigns[:variant])]
-      end)
+        @class,
+        variant_classes(@variant)
 
-    if rest[:href] || rest[:navigate] || rest[:patch] do
-      ~H"""
-      <.link class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </.link>
-      """
-    else
-      ~H"""
-      <button class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </button>
-      """
-    end
+
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </button>
+    """
   end
+
+  # Variant classes
+  defp variant_classes("primary") do
+    "rounded-xl bg-[#ee7749] p-4 font-semibold tracking-wider text-white cursor-pointer"
+  end
+
+  defp variant_classes("secondary") do
+    "rounded-4xl bg-white p-4 font-semibold tracking-wider text-[#ee7749] cursor-pointer"
+  end
+
 
   @doc """
   Renders an input with label and error messages.
