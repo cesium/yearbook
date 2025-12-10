@@ -1,47 +1,43 @@
 <div class="flex relative h-screen w-full justify-between">
   <img
-    src="/images/background.jpg"
-    class="absolute inset-0 h-full w-full object-cover opacity-30 z-0"
+    src="/images/background/0.png"
+    class="absolute inset-0 h-full w-full object-cover opacity-100 z-0"
     alt="background"
   />
 
   <div class="relative z-10 flex flex-col justify-between h-full p-6">
-    <a href="/" class="flex items-center gap-3 cursor-pointer">
-      <img src="/images/grad.svg" class="h-10 w-10" />
-      <span class="text-2xl font-bold text-black">YEARBOOK</span>
-    </a>
+    <div class="bg-white/30 backdrop-blur-md p-3 rounded-2xl hover:scale-102 transition-transform hover:bg-white/50">
+      <a href="/" class="flex items-center gap-3 cursor-pointer">
+        <span class="hero-academic-cap text-black h-8 w-8"></span>
+        <span class="text-2xl font-bold text-black">YEARBOOK</span>
+      </a>
+    </div>
 
     <a href="https://cesium.di.uminho.pt/en" class="pt-15 cursor-default ">
       <img
         src="/images/cesium.svg"
-        class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform brightness-0 saturate-100 hue-rotate-[200deg]"
+        class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform "
       />
     </a>
   </div>
-  <div class="relative z-10 flex justify-end">
-    <div class="border-5 bg-gray-200 border-gray-200 rounded-2xl m-10">
-      <div class="flex flex-col justify-between border-2 border-black bg-white w-150 h-180 rounded-2xl p-8">
+  <div class="relative z-10 flex justify-end items-center">
+    <div class="border border-black/10 backdrop-blur-md  rounded-2xl m-10">
+      <div class="flex flex-col justify-between border-2 border-black bg-white w-150 h-130 rounded-2xl p-8">
         <div class="flex flex-row">
           <div class="flex-1">
-            <h1 class="text-4xl font-bold tracking-normal mt-6 text-black">
-              Welcome! Sign in to Yearbook
+            <h1 class="text-4xl font-bold tracking-normal mt-2 text-black">
+              Sign in to Yearbook
             </h1>
             <p class="pt-2 text-black font-semibold">
               Access your account to view all the info you need
             </p>
           </div>
-          <div class="flex-shrink-0 border-gray-100 border-3 rounded-2xl">
-            <img
-              src={~p"/images/logo2.svg"}
-              alt="Logo"
-              class="w-50 h-50 hover:scale-103 transition-transform"
-            />
-          </div>
         </div>
         <div class="flex flex-col">
-          <label class="text-black font-semibold mb-2">Email</label>
-          <div class="flex border border-gray-300 rounded px-3 py-2 h-13">
-            <img src="/images/mail.svg" class="mr-2 w-6" />
+          <label class="text-black font-semibold mb-2 mt-2">Email</label>
+          <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13 ">
+            <span class="hero-at-symbol text-black content-center my-auto mr-2"></span>
+
             <input
               type="email"
               class="text-black w-full outline-none"
@@ -49,31 +45,24 @@
               name="email"
             />
           </div>
-          <label class="text-black font-semibold mb-2 mt-4">Password</label>
-          <div class="flex items-center border border-gray-300 rounded px-3 py-2 mb-2 h-13">
-            <img src="/images/key.svg" class="mr-2 w-6" />
-            <input
-              id="password-input"
-              type="password"
-              class="text-black w-full outline-none"
-              placeholder="Password"
-              name="password"
-            />
-            <img
-              id="toggle-eye"
-              src="/images/eye_open.svg"
-              class="w-8 cursor-pointer hover:scale-110 transition-transform"
-              onclick="
-                               const inputPsw = document.getElementById('password-input');
-                               if (inputPsw.type === 'password') {
-                                 inputPsw.type = 'text';
-                                 this.src = '/images/eye-closed.svg';
-                               } else {
-                                 inputPsw.type = 'password';
-                                 this.src = '/images/eye_open.svg';
-                               }
-                             "
-            />
+          <div class="mb-2 mt-4">
+            <label class="text-black font-semibold mb-2 mt-4">Password</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 py-2 mt-2 mb-2 h-13">
+              <span class="hero-key text-black content-center my-auto mr-2"></span>
+              <input
+                id="password-input"
+                type="password"
+                class="text-black w-full outline-none"
+                placeholder="Password"
+                name="password"
+              />
+              <span
+                id="toggle-eye-password"
+                phx-click={toggle_password_visibility()}
+                class="hero-eye text-black cursor-pointer my-auto hover:scale-110 transition-transform"
+              >
+              </span>
+            </div>
           </div>
           <div class="flex justify-end mt-2">
             <a
