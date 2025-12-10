@@ -91,6 +91,11 @@
   --noise: 0;
 }
 
+@theme {
+  --color-primary: #ee7749;
+}
+
+
 /* Add variants based on LiveView classes */
 @custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
 @custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);

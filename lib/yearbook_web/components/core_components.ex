@@ -113,11 +113,11 @@ defmodule YearbookWeb.CoreComponents do
 
   # Variant classes
   defp variant_classes("primary") do
-    "rounded-xl bg-[#ee7749] p-4 font-semibold tracking-wider text-white cursor-pointer"
+    "rounded-xl bg-primary p-4 font-semibold tracking-wider text-white cursor-pointer"
   end
 
   defp variant_classes("secondary") do
-    "rounded-4xl bg-white p-4 font-semibold tracking-wider text-[#ee7749] cursor-pointer"
+    "rounded-4xl bg-white p-4 font-semibold tracking-wider text-primary cursor-pointer"
   end
 
   @doc """
