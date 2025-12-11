@@ -1,77 +1,54 @@
-<div class="flex relative h-screen w-full justify-between">
-  <img
-    src="/images/background/0.png"
-    class="absolute inset-0 h-full w-full object-cover opacity-100 z-0"
-    alt="background"
-  />
-
-  <div class="relative z-10 flex flex-col justify-between h-full p-6">
-    <div class="bg-white/30 backdrop-blur-md p-3 rounded-2xl hover:scale-102 transition-transform hover:bg-white/50">
-      <a href="/" class="flex items-center gap-3 cursor-pointer">
-        <span class="hero-academic-cap text-black h-8 w-8"></span>
-        <span class="text-2xl font-bold text-black">YEARBOOK</span>
-      </a>
-    </div>
-
-    <a href="https://cesium.di.uminho.pt/en" class="pt-15 cursor-default ">
-      <img
-        src="/images/cesium.svg"
-        class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform "
-      />
-    </a>
-  </div>
-  <div class="relative z-10 flex justify-end items-center">
-    <div class="border border-black/10 backdrop-blur-md rounded-2xl m-10">
-      <div class="flex flex-col justify-between border-2 border-black bg-white w-130 h-110 rounded-2xl p-8">
+<div class="relative z-10 flex justify-end items-center">
+  <div class="border border-black/10 backdrop-blur-md rounded-2xl m-10">
+    <div class="flex flex-col justify-between bg-white w-130 h-110 rounded-2xl p-8">
+      <div class="flex-col">
         <div class="flex-col">
-          <div class="flex-col">
-            <a
-              class="inline-flex items-center text-blue-600 cursor-pointer hover:text-blue-900 hover:scale-105 transition-all"
-              href="/signin"
-            >
-              <span class="hero-arrow-left text-black h-5"></span>
-              <p class="text-[#ee7749]">Back</p>
-            </a>
-
-            <div class="flex items-center">
-              <span class="hero-key text-black mt-5 mr-2"></span>
-              <h1 class="text-3xl font-bold tracking-normal ml-2 mt-6 mb-1 text-black">
-                Forgot Password
-              </h1>
-            </div>
-          </div>
-          <div class="flex-col">
-            <p class="pt-2 text-black">
-              Did you forget your password?
-            </p>
-            <p class="pt-2 text-black">
-              Try entering your email here to reset your password
-            </p>
-          </div>
-        </div>
-        <div class="flex flex-col">
-          <div class="mb-2 mt-4">
-            <label class="text-black font-semibold mb-2 mt-2">Email</label>
-            <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13">
-              <span class="hero-at-symbol text-black content-center my-auto mr-2 "></span>
-
-              <input
-                type="email"
-                class="text-black w-full outline-none "
-                placeholder="Email"
-                name="email"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col">
-          <button
-            class="h-12 w-full cursor-pointer  hover:scale-101 transition-transform bg-[#ee7749] rounded "
-            variant="primary"
+          <a
+            class="inline-flex items-center text-blue-600 cursor-pointer hover:text-blue-900 hover:scale-105 transition-all"
+            href="/signin"
           >
-            Submit
-          </button>
+            <span class="hero-arrow-left text-black h-5"></span>
+            <p class="text-primary">Back</p>
+          </a>
+
+          <div class="flex items-center">
+            <span class="hero-key text-black mt-5 mr-2"></span>
+            <h1 class="text-3xl font-bold tracking-normal ml-2 mt-6 mb-1 text-black">
+              Forgot Password
+            </h1>
+          </div>
         </div>
+        <div class="flex-col">
+          <p class="pt-2 text-black">
+            Did you forget your password?
+          </p>
+          <p class="pt-2 text-black">
+            Try entering your email here to reset your password
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="mb-2 mt-4">
+          <label class="text-black font-semibold mb-2 mt-2">Email</label>
+          <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13">
+            <span class="hero-at-symbol text-black content-center my-auto mr-2 "></span>
+
+            <input
+              type="email"
+              class="text-black w-full outline-none "
+              placeholder="Email"
+              name="email"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <.button
+          class="h-12 w-full hover:scale-101 transition-transform bg-primary rounded "
+          variant="primary"
+        >
+          Submit
+        </.button>
       </div>
     </div>
   </div>

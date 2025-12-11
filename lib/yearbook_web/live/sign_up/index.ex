@@ -1,10 +1,11 @@
 defmodule YearbookWeb.SignUpLive.Index do
-  use YearbookWeb, :live_view
+  use YearbookWeb, :auth_view
 
   def mount(_params, _session, socket) do
     socket =
       socket
       |> assign(:password_visible, false)
+      |> assign(page_title: "Sign Up | Yearbook")
 
     {:ok, socket}
   end

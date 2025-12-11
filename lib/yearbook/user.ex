@@ -9,6 +9,7 @@ defmodule Yearbook.User do
   @foreign_key_type :binary_id
   schema "users" do
     field :name, :string
+    field :description, :string
     field :email, :string
     field :year, Ecto.Enum, values: [:"1st", :"2nd", :"3rd", :"4th", :"5th"]
     field :password, :string
