@@ -89,35 +89,35 @@ defmodule YearbookWeb.CoreComponents do
       <.button phx-click="go" variant="primary">Send!</.button>
       <.button navigate={~p"/"}>Home</.button>
   """
-  attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
-  attr :class, :string
-  attr :variant, :string, values: ~w(primary)
+  attr :type, :string, default: "button"
+  attr :class, :string, default: ""
+  attr :variant, :string, default: "primary", values: ~w(primary secondary)
+  attr :rest, :global, include: ~w(disabled form name value)
+
   slot :inner_block, required: true
 
-  def button(%{rest: rest} = assigns) do
-    variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
+  def button(assigns) do
+    ~H"""
+    <button
+      type={@type}
+      class={[
+        @class,
+        variant_classes(@variant)
+      ]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
 
-    assigns =
-      assigns
-      |> assign_new(:class, fn -> [] end)
-      |> assign_new(:width, fn -> nil end)
-      |> update(:class, fn class ->
-        ["btn", Map.fetch!(variants, assigns[:variant]), class, assigns[:width]]
-      end)
+  # Variant classes
+  defp variant_classes("primary") do
+    "rounded-xl bg-primary p-4 font-semibold tracking-wider text-white cursor-pointer"
+  end
 
-    if rest[:href] || rest[:navigate] || rest[:patch] do
-      ~H"""
-      <.link class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </.link>
-      """
-    else
-      ~H"""
-      <button class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </button>
-      """
-    end
+  defp variant_classes("secondary") do
+    "rounded-4xl bg-white p-4 font-semibold tracking-wider text-primary cursor-pointer"
   end
 
   @doc """
