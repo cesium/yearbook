@@ -9,9 +9,7 @@ defmodule YearbookWeb.PageLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="">
-      Hello World
-    </div>
+    Hello World
     """
   end
 end
