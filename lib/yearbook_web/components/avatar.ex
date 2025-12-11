@@ -16,21 +16,23 @@ defmodule YearbookWeb.Components.Avatar do
 
   def avatar(%{src: nil} = assigns) do
     assigns = assigns |> assign(:size_classes, size_classes(assigns.size))
+
     ~H"""
-      <div class={"avatar avatar--#{@size} #{@size_classes} flex items-center justify-center rounded-full bg-gray-300 text-white font-medium"}>
-        <%= get_initials(@name) %>
-      </div>
+    <div class={"avatar avatar--#{@size} #{@size_classes} flex items-center justify-center rounded-full bg-gray-300 text-white font-medium"}>
+      {get_initials(@name)}
+    </div>
     """
   end
 
   def avatar(assigns) do
     assigns = assigns |> assign(:size_classes, size_classes(assigns.size))
+
     ~H"""
-      <img
-        src={@src}
-        alt={@name}
-        class={"avatar avatar--#{@size} #{@size_classes} rounded-full object-fit"}
-      />
+    <img
+      src={@src}
+      alt={@name}
+      class={"avatar avatar--#{@size} #{@size_classes} rounded-full object-fit"}
+    />
     """
   end
 
@@ -45,15 +47,18 @@ defmodule YearbookWeb.Components.Avatar do
   end
 
   def get_initials(nil), do: "?"
+
   def get_initials(name) do
     parts = name |> String.split(" ", trim: true) |> Enum.reject(&(&1 == ""))
+
     case parts do
-      [single] -> String.first(single) |> String.upcase()
+      [single] ->
+        String.first(single) |> String.upcase()
+
       _ ->
         first = parts |> List.first() |> String.first() |> String.upcase()
         last = parts |> List.last() |> String.first() |> String.upcase()
         first <> last
     end
   end
-
 end
