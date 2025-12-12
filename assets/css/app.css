@@ -9,7 +9,7 @@
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
 @plugin "../vendor/heroicons";
-
+@plugin "../vendor/heroicons.js";
 
 @theme {
   --color-primary: #ee7749;
@@ -28,3 +28,4 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+

@@ -1,0 +1,57 @@
+<div class="flex z-10  justify-end items-center grow h-full">
+  <div class="flex flex-col justify-between bg-white w-full md:w-150 h-135 rounded-2xl py-8 px-5 sm:p-8 mr-5 ml-5">
+    <div class="flex flex-row">
+      <div class="flex-1">
+        <h1 class="text-4xl font-bold tracking-normal mt-2 text-black">
+          Sign in to Yearbook
+        </h1>
+        <p class="pt-2 text-black font-semibold">
+          Access your account to view all the info you need
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <label class="text-black font-semibold mb-2 mt-2">Email</label>
+      <div class="flex border border-gray-300 rounded mt-2  px-3 py-2 h-13 ">
+        <span class="hero-at-symbol text-black content-center my-auto mr-2"></span>
+        <input
+          type="email"
+          class="text-black w-full outline-none"
+          placeholder="Email"
+          name="email"
+        />
+      </div>
+      <.live_component
+        module={YearbookWeb.SignInLive.FormComponent}
+        id="sign-in-form-component"
+        form={@form}
+      />
+      <div class="flex justify-end mb-2">
+        <a
+          class="inline-block text-primary underline hover:text-[#E37044] hover:scale-105 transition-all mb-1"
+          href="/forgot_password"
+        >
+          Forgot password
+        </a>
+      </div>
+    </div>
+    <div class="flex flex-col mt-2">
+      <.button
+        class="h-12 w-full hover:scale-101 transition-transform bg-primary rounded  "
+        variant="primary"
+      >
+        Sign in
+      </.button>
+
+      <div class="mt-3 text-center">
+        <span class="text-black">Don't have an account? </span>
+        <a
+          class="inline-block text-primary underline cursor-pointer hover:text-[#E37044] hover:scale-105 transition-all"
+          href="/signup"
+        >
+          Sign up here
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
