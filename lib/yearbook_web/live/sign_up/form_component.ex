@@ -1,6 +1,8 @@
 defmodule YearbookWeb.SignUpLive.FormComponent do
   use YearbookWeb, :live_component
 
+  alias Phoenix.HTML.FormData
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -117,7 +119,7 @@ defmodule YearbookWeb.SignUpLive.FormComponent do
      socket
      |> assign(
        form:
-         Phoenix.HTML.FormData.to_form(
+         FormData.to_form(
            %{"password" => form["password"], "confirm_password" => form["confirm_password"]},
            as: :auth
          )
