@@ -1,25 +1,30 @@
-<div class="flex relative h-screen w-full justify-between">
+<div class="flex flex-col relative w-full justify-between min-h-screen ">
   <img
     src="/images/background/0.png"
-    class="absolute inset-0 h-full w-full object-cover opacity-100 z-0"
+    class="absolute inset-0 h-full w-full object-cover opacity-100 z-0 "
     alt="background"
   />
-
-  <div class="relative z-10 flex flex-col justify-between h-full p-6">
-    <div class="bg-white/30 backdrop-blur-md p-3 rounded-2xl hover:scale-102 transition-transform hover:bg-white/50">
-      <a href="/" class="flex items-center gap-3 cursor-pointer">
-        <span class="hero-academic-cap text-black h-8 w-8"></span>
-        <span class="text-2xl font-bold text-black">YEARBOOK</span>
-      </a>
+  <div class="flex flex-col w-full h-full z-10 place-items-between min-h-screen">
+    <div class="flex relative w-full h-auto">
+      <div class="bg-white/30 m-4 w-auto backdrop-blur-md p-3 rounded-2xl hover:scale-102 transition-transform hover:bg-white/50">
+        <a href="/" class="flex items-center gap-3 cursor-pointer">
+          <span class="hero-academic-cap text-black h-8 w-8"></span>
+          <span class="text-2xl font-bold text-black">YEARBOOK</span>
+        </a>
+      </div>
     </div>
 
-    <a href="https://cesium.di.uminho.pt/en" class="pt-15 cursor-default ">
-      <img
-        src="/images/cesium.svg"
-        class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform "
-      />
-    </a>
-  </div>
+    <div class="flex grow md:place-items-center ">
+      {@inner_content}
+    </div>
 
-  {@inner_content}
+    <div class="flex relative w-full h-auto justify-center md:justify-start align-bottom mt-2">
+      <a href="https://cesium.di.uminho.pt/en" class="m-3 cursor-default ">
+        <img
+          src="/images/cesium.svg"
+          class="h-10 w-10 cursor-pointer hover:scale-105 transition-transform "
+        />
+      </a>
+    </div>
+  </div>
 </div>

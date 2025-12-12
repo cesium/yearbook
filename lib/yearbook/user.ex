@@ -11,7 +11,7 @@ defmodule Yearbook.User do
     field :name, :string
     field :description, :string
     field :email, :string
-    field :year, Ecto.Enum, values: [:"1st", :"2nd", :"3rd", :"4th", :"5th"]
+    field :year, Ecto.Enum, values: [:"3rd", :"5th"]
     field :password, :string
 
     timestamps(type: :utc_datetime)

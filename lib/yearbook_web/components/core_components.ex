@@ -199,7 +199,7 @@ defmodule YearbookWeb.CoreComponents do
             name={@name}
             value="true"
             checked={@checked}
-            class={@class || "checkbox checkbox-sm"}
+            class={@class || "checkbox checkbox-sm "}
             {@rest}
           />{@label}
         </span>
