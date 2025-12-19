@@ -17,7 +17,9 @@ defmodule YearbookWeb.Router do
   scope "/", YearbookWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live_session :navbar do
+      live "/", LandingPage.Index, :index
+    end
 
     live_session :auth do
       live "/signup", SignUpLive.Index, :index

@@ -101,8 +101,8 @@ defmodule YearbookWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        @class,
-        variant_classes(@variant)
+        variant_classes(@variant),
+        @class
       ]}
       {@rest}
     >
