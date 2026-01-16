@@ -31,7 +31,7 @@ defmodule YearbookWeb.Components.Avatar do
     <img
       src={@src}
       alt={@name}
-      class={"avatar avatar--#{@size} #{@size_classes} rounded-full object-fit"}
+      class={"avatar avatar--#{@size} #{@size_classes} rounded-full object-cover"}
     />
     """
   end
@@ -40,9 +40,9 @@ defmodule YearbookWeb.Components.Avatar do
     case size do
       :xs -> "w-8 h-8 text-xs"
       :sm -> "w-12 h-12 text-sm"
-      :md -> "w-16 h-16 text-base"
-      :lg -> "w-24 h-24 text-xl"
-      :xl -> "w-32 h-32 text-4xl"
+      :md -> "w-32 h-32 text-2xl"
+      :lg -> "w-64 h-64 text-6xl"
+      :xl -> "w-96 h-96 text-8xl"
     end
   end
 
