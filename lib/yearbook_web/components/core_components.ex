@@ -169,7 +169,6 @@ defmodule YearbookWeb.CoreComponents do
 
   attr :container_class, :string, default: nil
 
-
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)

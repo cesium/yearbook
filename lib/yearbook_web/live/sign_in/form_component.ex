@@ -25,7 +25,8 @@ defmodule YearbookWeb.SignInLive.FormComponent do
           <div class="flex flex-col gap-3">
             <label class="text-black font-semibold">Password</label>
             <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2 w-full">
-              <span class="hero-key text-black"></span> <div class="flex justify-between flex-1 items-center">
+              <span class="hero-key text-black"></span>
+              <div class="flex justify-between flex-1 items-center">
                 <.input
                   type={if @password_visible, do: "text", else: "password"}
                   field={@form[:password]}
@@ -70,6 +71,8 @@ defmodule YearbookWeb.SignInLive.FormComponent do
   def handle_event("validate", %{"auth" => form}, socket) do
     {:noreply,
      socket
-     |> assign(form: to_form(%{"email" => form["email"], "password" => form["password"]}, as: "auth"))}
+     |> assign(
+       form: to_form(%{"email" => form["email"], "password" => form["password"]}, as: "auth")
+     )}
   end
 end

@@ -6,8 +6,8 @@ defmodule YearbookWeb.SignUpLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div >
-      <.form for={@form} phx-change="validate" phx-target={@myself} >
+    <div>
+      <.form for={@form} phx-change="validate" phx-target={@myself}>
         <div class="flex flex-col gap-4">
           <%!-- Name --%>
           <div class="flex flex-col gap-3">
