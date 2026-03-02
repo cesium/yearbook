@@ -1,92 +1,93 @@
 defmodule YearbookWeb.SignUpLive.FormComponent do
   use YearbookWeb, :live_component
 
-  alias Phoenix.HTML.FormData
+  alias Yearbook.User
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
-      <.form for={@form} phx-change="validate" phx-target={@myself}>
-        <div class="mb-2 mt-4">
-          <label class="text-black font-semibold mb-2 mt-4">Password</label>
-          <div class="flex items-center border border-gray-300 rounded px-3 py-2 mb-4 mt-2 h-13">
-            <span class="hero-key text-black content-center my-auto mr-2"></span>
-
-            <%= if @password_visible do %>
-              <div class="grid w-full h-full grid-cols-[auto_1rem] justify-stretch py-1 pr-2">
-                <.input
-                  type="text"
-                  class="text-black outline-none"
-                  placeholder="Password"
-                  field={@form["password"]}
-                />
-                <span
-                  id="toggle-eye-password"
-                  class="hero-eye text-black cursor-pointer my-auto hover:scale-110 transition-transform"
-                  phx-click="toggle_password"
-                  phx-target={@myself}
-                >
-                </span>
-              </div>
-            <% else %>
-              <div class="grid w-full h-full grid-cols-[auto_1rem] justify-stretch py-1 pr-2">
-                <.input
-                  type="password"
-                  class="text-black outline-none"
-                  placeholder="Password"
-                  field={@form["password"]}
-                />
-                <span
-                  id="toggle-eye-password"
-                  class="hero-eye text-black cursor-pointer my-auto hover:scale-110 transition-transform"
-                  phx-click="toggle_password"
-                  phx-target={@myself}
-                >
-                </span>
-              </div>
-            <% end %>
+    <div >
+      <.form for={@form} phx-change="validate" phx-target={@myself} >
+        <div class="flex flex-col gap-4">
+          <%!-- Name --%>
+          <div class="flex flex-col gap-3">
+            <label class="text-black font-semibold">Name</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2">
+              <span class="hero-user text-black"></span>
+              <.input
+                field={@form[:name]}
+                placeholder="Name"
+                container_class="flex-1"
+                class="w-full border-none focus:ring-0 bg-transparent text-black outline-none"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="mb-4 mt-4">
-          <label class="text-black font-semibold mb-2 mt-4">Confirm Password</label>
-          <div class="flex items-center border border-gray-300 rounded px-3 py-2 mb-4 mt-2 h-13">
-            <span class="hero-key text-black content-center my-auto mr-2"></span>
+          <%!-- Email --%>
+          <div class="flex flex-col gap-3">
+            <label class="text-black font-semibold">Email</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2">
+              <span class="hero-at-symbol text-black"></span>
+              <.input
+                field={@form[:email]}
+                type="email"
+                placeholder="Email"
+                container_class="flex-1"
+                class="w-full border-none focus:ring-0 bg-transparent text-black outline-none"
+              />
+            </div>
+          </div>
 
-            <%= if @confirm_password_visible do %>
-              <div class="grid w-full h-full grid-cols-[auto_1rem] justify-stretch py-1 pr-2">
+          <%!-- Password --%>
+          <div class="flex flex-col gap-3">
+            <label class="text-black font-semibold">Password</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2">
+              <span class="hero-key text-black"></span>
+              <div class="flex flex-1 items-center">
                 <.input
-                  type="text"
-                  class="text-black w-full outline-none"
-                  placeholder="Confirm Password"
-                  field={@form["confirm_password"]}
+                  field={@form[:password]}
+                  type={if @password_visible, do: "text", else: "password"}
+                  placeholder="Password"
+                  container_class="flex-1"
+                  class="w-full border-none focus:ring-0 bg-transparent text-black outline-none"
                 />
                 <span
-                  class="hero-eye text-black cursor-pointer my-auto hover:scale-110 transition-transform"
+                  class={[
+                    "cursor-pointer text-black shrink-0",
+                    if(@password_visible, do: "hero-eye-slash", else: "hero-eye")
+                  ]}
+                  phx-click="toggle_password"
+                  phx-target={@myself}
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <%!-- Confirm Password  --%>
+          <div class="flex flex-col gap-3">
+            <label class="text-black font-semibold">Confirm Password</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2">
+              <span class="hero-key text-black"></span>
+              <div class="flex flex-1 items-center">
+                <.input
+                  field={@form[:confirm_password]}
+                  type={if @confirm_password_visible, do: "text", else: "password"}
+                  placeholder="Confirm Password"
+                  container_class="flex-1"
+                  class="w-full border-none focus:ring-0 bg-transparent text-black outline-none"
+                />
+                <span
+                  class={[
+                    "cursor-pointer text-black shrink-0",
+                    if(@confirm_password_visible, do: "hero-eye-slash", else: "hero-eye")
+                  ]}
                   phx-click="toggle_confirm_password"
                   phx-target={@myself}
                 >
                 </span>
               </div>
-            <% else %>
-              <div class="grid w-full h-full grid-cols-[auto_1rem] justify-stretch py-1 pr-2">
-                <.input
-                  id="confirm-password-input"
-                  type="password"
-                  class="text-black w-full outline-none"
-                  placeholder="Confirm Password"
-                  field={@form["confirm_password"]}
-                />
-                <span
-                  id="toggle-eye-confirm"
-                  class="hero-eye text-black cursor-pointer my-auto hover:scale-110 transition-transform"
-                  phx-click="toggle_confirm_password"
-                  phx-target={@myself}
-                >
-                </span>
-              </div>
-            <% end %>
+            </div>
           </div>
         </div>
       </.form>
@@ -114,15 +115,12 @@ defmodule YearbookWeb.SignUpLive.FormComponent do
      assign(socket, :confirm_password_visible, !socket.assigns.confirm_password_visible)}
   end
 
+  @impl true
   def handle_event("validate", %{"auth" => form}, socket) do
+    changeset = %User{} |> User.changeset(form)
+
     {:noreply,
      socket
-     |> assign(
-       form:
-         FormData.to_form(
-           %{"password" => form["password"], "confirm_password" => form["confirm_password"]},
-           as: :auth
-         )
-     )}
+     |> assign(form: to_form(changeset, as: "auth"))}
   end
 end

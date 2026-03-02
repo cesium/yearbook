@@ -1,51 +1,51 @@
 defmodule YearbookWeb.SignInLive.FormComponent do
   use YearbookWeb, :live_component
 
-  alias Phoenix.HTML.FormData
-
   @impl true
-  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div>
       <.form for={@form} phx-change="validate" phx-target={@myself}>
-        <div class="mb-2 mt-4">
-          <label class="text-black font-semibold mb-2 mt-4">Password</label>
-          <div class="flex items-center border border-gray-300 rounded px-3 py-2 mb-4 mt-2 h-13">
-            <span class="hero-key text-black content-center my-auto mr-2"></span>
-            <%= if @password_visible do %>
-              <div class="grid w-full h-full grid-cols-[auto_1rem] justify-stretch py-1 pr-2">
+        <div class="flex flex-col gap-3">
+          <%!-- Email --%>
+          <div class="flex flex-col gap-3">
+            <label class="text-black font-semibold">Email</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2">
+              <span class="hero-at-symbol text-black"></span>
+              <.input
+                field={@form[:email]}
+                type="email"
+                placeholder="Email"
+                class="w-full border-none focus:ring-0 bg-transparent text-black"
+                container_class="flex-1"
+              />
+            </div>
+          </div>
+          <%!-- Password --%>
+          <div class="flex flex-col gap-3">
+            <label class="text-black font-semibold">Password</label>
+            <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2 w-full">
+              <span class="hero-key text-black"></span> <div class="flex justify-between flex-1 items-center">
                 <.input
-                  type="text"
-                  class="text-black w-full outline-none"
+                  type={if @password_visible, do: "text", else: "password"}
+                  field={@form[:password]}
                   placeholder="Password"
-                  field={@form["password"]}
+                  container_class="flex-1"
+                  class="w-full border-none focus:ring-0 bg-transparent text-black outline-none h-full"
                 />
+
                 <span
                   id="toggle-eye-password"
-                  class="hero-eye-slash text-black cursor-pointer my-auto hover:scale-110 transition-transform self-end"
+                  class={[
+                    "cursor-pointer hover:scale-110 transition-transform text-black shrink-0",
+                    if(@password_visible, do: "hero-eye-slash", else: "hero-eye")
+                  ]}
                   phx-click="toggle_password"
                   phx-target={@myself}
                 >
                 </span>
               </div>
-            <% else %>
-              <div class="grid w-full h-full grid-cols-[auto_1rem] justify-stretch py-1 pr-2">
-                <.input
-                  type="password"
-                  class="text-black w-full outline-none"
-                  placeholder="Password"
-                  field={@form["password"]}
-                />
-                <span
-                  id="toggle-eye-password"
-                  class="hero-eye text-black cursor-pointer my-auto hover:scale-110 transition-transform"
-                  phx-click="toggle_password"
-                  phx-target={@myself}
-                >
-                </span>
-              </div>
-            <% end %>
+            </div>
           </div>
         </div>
       </.form>
@@ -66,9 +66,10 @@ defmodule YearbookWeb.SignInLive.FormComponent do
     {:noreply, assign(socket, :password_visible, !socket.assigns.password_visible)}
   end
 
+  @impl true
   def handle_event("validate", %{"auth" => form}, socket) do
     {:noreply,
      socket
-     |> assign(form: FormData.to_form(%{"password" => form["password"]}, as: :auth))}
+     |> assign(form: to_form(%{"email" => form["email"], "password" => form["password"]}, as: "auth"))}
   end
 end

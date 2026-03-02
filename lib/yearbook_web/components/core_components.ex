@@ -167,6 +167,9 @@ defmodule YearbookWeb.CoreComponents do
   attr :class, :string, default: nil, doc: "the input class to use over defaults"
   attr :error_class, :string, default: nil, doc: "the input error class to use over defaults"
 
+  attr :container_class, :string, default: nil
+
+
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
@@ -253,14 +256,12 @@ defmodule YearbookWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class="fieldset mb-2">
+    <div class={["fieldset", @container_class]}>
       <label>
         <span :if={@label} class="label mb-1">{@label}</span>
         <input
           type={@type}
-          name={@name}
-          id={@id}
-          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+          ...
           class={[
             @class || "w-full input",
             @errors != [] && (@error_class || "input-error")
