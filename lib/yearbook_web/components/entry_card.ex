@@ -10,7 +10,7 @@ defmodule YearbookWeb.Components.EntryCard do
   attr :text, :string, default: nil, doc: "Text."
   attr :size, :string, default: "md", values: ["sm", "md", "lg"], doc: "Card size."
 
-  def entryCard(assigns) do
+  def entry_card(assigns) do
     ~H"""
     <div class={"flex flex-col items-center gap-2 overflow-auto bg-white rounded-xl shadow-md #{size_class(@size)}"}>
       <div class="w-full shrink-0 h-3/5 p-2 overflow-hidden">
