@@ -7,7 +7,13 @@ defmodule YearbookWeb.SignUpLive.Index do
     {:ok,
      socket
      |> assign(page_title: "Sign Up | Yearbook")
-     |> assign(form: FormData.to_form(%{"password" => "", "confirm_password" => ""}, as: :auth))}
+     |> assign(
+       form:
+         FormData.to_form(
+           %{"name" => "", "email" => "", "password" => "", "confirm_password" => ""},
+           as: :auth
+         )
+     )}
   end
 
   def input(assigns) do
@@ -22,7 +28,7 @@ defmodule YearbookWeb.SignUpLive.Index do
           value={Phoenix.HTML.Form.normalize_value(@type, @value)}
           class={[
             @class || "w-full input",
-            @errors != [] && (@error_class || "input-error")
+            @errors != [] && (@error_class ||  "input-error")
           ]}
           {@rest}
         />

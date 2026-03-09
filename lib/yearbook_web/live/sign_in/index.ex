@@ -7,6 +7,13 @@ defmodule YearbookWeb.SignInLive.Index do
     {:ok,
      socket
      |> assign(page_title: "Sign In | Yearbook")
-     |> assign(form: FormData.to_form(%{"password" => ""}, as: :auth))}
+     |> assign(form: FormData.to_form(%{"email" => "", "password" => ""}, as: :auth))}
+  end
+
+  def handle_info({:log_in_user, user}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "Welcome back!")
+     |> redirect(to: "/home?user_id=#{user.id}")}
   end
 end

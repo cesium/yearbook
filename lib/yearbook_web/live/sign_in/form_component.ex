@@ -5,36 +5,42 @@ defmodule YearbookWeb.SignInLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-change="validate" phx-target={@myself}>
+      <.form for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
         <div class="flex flex-col gap-3">
           <%!-- Email --%>
           <div class="flex flex-col gap-3">
-            <label class="text-black font-semibold">Email</label>
+            <label class="text-black font-semibold" for={@form[:email].id}>Email</label>
             <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2">
               <span class="hero-at-symbol text-black"></span>
-              <.input
-                field={@form[:email]}
-                type="email"
-                placeholder="Email"
-                class="w-full border-none focus:ring-0 bg-transparent text-black"
-                container_class="flex-1"
-              />
+              <div class="flex-1">
+                <input
+                  type="email"
+                  name={@form[:email].name}
+                  id={@form[:email].id}
+                  value={@form[:email].value}
+                  placeholder="Email"
+                  class="w-full border-none focus:ring-0 bg-transparent text-black outline-none h-full"
+                />
+              </div>
+            </div>
+            <div :for={error <- @form[:email].errors} class="text-sm text-red-600 mt-1">
+              {elem(error, 0)}
             </div>
           </div>
           <%!-- Password --%>
           <div class="flex flex-col gap-3">
-            <label class="text-black font-semibold">Password</label>
+            <label class="text-black font-semibold" for={@form[:password].id}>Password</label>
             <div class="flex items-center border border-gray-300 rounded px-3 h-13 gap-2 w-full">
               <span class="hero-key text-black"></span>
               <div class="flex justify-between flex-1 items-center">
-                <.input
+                <input
                   type={if @password_visible, do: "text", else: "password"}
-                  field={@form[:password]}
+                  name={@form[:password].name}
+                  id={@form[:password].id}
+                  value={@form[:password].value}
                   placeholder="Password"
-                  container_class="flex-1"
                   class="w-full border-none focus:ring-0 bg-transparent text-black outline-none h-full"
                 />
-
                 <span
                   id="toggle-eye-password"
                   class={[
@@ -47,7 +53,21 @@ defmodule YearbookWeb.SignInLive.FormComponent do
                 </span>
               </div>
             </div>
+            <div :for={error <- @form[:password].errors} class="text-sm text-red-600 mt-1">
+              {elem(error, 0)}
+            </div>
           </div>
+        </div>
+
+        <%!-- Submit Button --%>
+        <div class="flex flex-col gap-2 mt-4">
+          <.button
+            type="submit"
+            class="h-12 w-full hover:scale-101 transition-transform bg-primary rounded"
+            variant="primary"
+          >
+            Sign in
+          </.button>
         </div>
       </.form>
     </div>
@@ -74,5 +94,30 @@ defmodule YearbookWeb.SignInLive.FormComponent do
      |> assign(
        form: to_form(%{"email" => form["email"], "password" => form["password"]}, as: "auth")
      )}
+  end
+
+  @impl true
+  def handle_event("validate", _params, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("save", %{"auth" => %{"email" => email, "password" => password}}, socket) do
+    case Yearbook.Users.get_user_by_email_and_password(email, password) do
+      %Yearbook.User{} = user ->
+        send(self(), {:log_in_user, user})
+        {:noreply, socket}
+
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Invalid email or password")
+         |> assign(form: to_form(%{"email" => email, "password" => ""}, as: "auth"))}
+    end
+  end
+
+  @impl true
+  def handle_event("save", _params, socket) do
+    {:noreply, put_flash(socket, :error, "Please fill in all fields")}
   end
 end
