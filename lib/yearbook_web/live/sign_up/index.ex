@@ -28,7 +28,7 @@ defmodule YearbookWeb.SignUpLive.Index do
           value={Phoenix.HTML.Form.normalize_value(@type, @value)}
           class={[
             @class || "w-full input",
-            @errors != [] && (@error_class ||  "input-error")
+            @errors != [] && (@error_class || "input-error")
           ]}
           {@rest}
         />
