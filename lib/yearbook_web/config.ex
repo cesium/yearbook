@@ -1,7 +1,7 @@
 defmodule YearbookWeb.Config do
-
-
-
+  @moduledoc """
+  Web configuration for the app.
+  """
   def backoffice_pages do
     [
       %{

@@ -9,7 +9,7 @@ defmodule YearbookWeb.ApprovalLive do
     ~H"""
     <div class="bg-white p-6 rounded-2xl shadow">
       <h1 class="text-2xl font-bold mb-4 text-gray-800">Approvals</h1>
-      <p class="text-gray-600">Mock page </p>
+      <p class="text-gray-600">Mock page</p>
     </div>
     """
   end
