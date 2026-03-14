@@ -33,8 +33,6 @@ defmodule YearbookWeb.Router do
     end
   end
 
-
-
   # Other scopes may use custom stacks.
   # scope "/api", YearbookWeb do
   #   pipe_through :api
