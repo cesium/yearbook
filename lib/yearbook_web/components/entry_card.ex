@@ -8,12 +8,11 @@ defmodule YearbookWeb.Components.EntryCard do
   attr :src, :string, default: nil, doc: "The URL of the image to display."
   attr :name, :string, doc: "The name of the user."
   attr :text, :string, default: nil, doc: "Text."
-  attr :size, :string, default: "md", values: ["sm", "md", "lg"], doc: "Card size."
 
   def entry_card(assigns) do
     ~H"""
-    <div class={"flex flex-col items-center gap-2 overflow-auto bg-white rounded-xl shadow-md #{size_class(@size)}"}>
-      <div class="w-full shrink-0 h-3/5 p-2 overflow-hidden">
+    <div class="flex flex-col items-center gap-2 p-2 overflow-auto bg-white rounded-xl shadow-md w-36 sm:w-48 lg:w-64 min-h-56 sm:min-h-72 lg:min-h-96">
+      <div class="w-full shrink-0 overflow-hidden h-32 sm:h-44 lg:h-56">
         <%= if @src do %>
           <img
             src={@src}
@@ -26,14 +25,11 @@ defmodule YearbookWeb.Components.EntryCard do
           </div>
         <% end %>
       </div>
-      <h1 class="text-center mx-auto max-w-[90%] font-bold text-xl">{@name}</h1>
-      <p class="flex-1 text-justify mx-auto px-2 pb-2">{@text}</p>
+      <h1 class="text-center w-full wrap-break-word font-bold px-2 text-md sm:text-lg lg:text-xl">
+        {@name}
+      </h1>
+      <p class="flex-1 place-items-center p-2 text-sm sm:text-md lg:text-lg">{@text}</p>
     </div>
     """
   end
-
-  defp size_class("sm"), do: "w-36 h-64"
-  defp size_class("md"), do: "w-48 h-84"
-  defp size_class("lg"), do: "w-64 h-108"
-  defp size_class(_), do: size_class("md")
 end
