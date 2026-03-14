@@ -20,6 +20,15 @@ defmodule YearbookWeb.Router do
     live "/", PageLive, :index
   end
 
+  scope "/backoffice", YearbookWeb do
+    pipe_through :browser
+
+    live_session :backoffice, layout: {YearbookWeb.Layouts, :backoffice} do
+      live "/approvals", ApprovalLive, :index
+      live "/year", YearLive, :index
+    end
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", YearbookWeb do
   #   pipe_through :api

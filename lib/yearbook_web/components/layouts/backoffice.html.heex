@@ -1,0 +1,12 @@
+<div class="flex min-h-screen">
+  <%!-- Chamamos o nosso componente --%>
+  <YearbookWeb.BackofficeComponents.sidebar 
+    pages={YearbookWeb.Config.backoffice_pages()} 
+    current_page={Map.get(assigns, :current_page)} 
+  />
+
+  <main class="flex-1 bg-gray-50 p-10">
+    <.flash_group flash={@flash} />
+    { @inner_content }
+  </main>
+</div>
