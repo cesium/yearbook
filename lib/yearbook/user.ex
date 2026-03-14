@@ -42,7 +42,7 @@ defmodule Yearbook.User do
   defp validate_name(changeset) do
     changeset
     |> validate_required([:name])
-    |> validate_length(:name, min: 2, max: 160)
+    |> validate_length(:name, min: 2, max: 160, message: "must be at least 2 characters")
   end
 
   defp validate_email(changeset, opts \\ []) do
@@ -56,7 +56,7 @@ defmodule Yearbook.User do
   defp validate_password(changeset) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 8, max: 72)
+    |> validate_length(:password, min: 8, max: 72, message: "must be between 8 and 72 characters")
   end
 
   defp validate_password_confirmation(changeset) do
