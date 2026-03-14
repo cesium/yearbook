@@ -26,7 +26,14 @@ defmodule YearbookWeb.Router do
       live "/signin", SignInLive.Index, :index
       live "/forgot_password", ForgotPassword.Index, :index
     end
+
+    live_session :authenticated,
+      on_mount: [{YearbookWeb.UserAuth, :ensure_authenticated}] do
+      live "/home", HomeLive.Index, :index
+    end
   end
+
+
 
   # Other scopes may use custom stacks.
   # scope "/api", YearbookWeb do
