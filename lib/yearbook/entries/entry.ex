@@ -1,4 +1,8 @@
 defmodule Yearbook.Entries.Entry do
+  @moduledoc """
+  Schema for a yearbook entry.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
