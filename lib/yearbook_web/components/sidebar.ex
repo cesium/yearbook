@@ -24,7 +24,7 @@ defmodule YearbookWeb.Sidebar do
               @current_page != page.key && "hover:bg-gray-100"
             ]}
           >
-            <.icon name={page.icon} class="size-4.5"/>
+            <.icon name={page.icon} class="size-4.5" />
             <span class="text-md">{page.title}</span>
           </.link>
         <% end %>

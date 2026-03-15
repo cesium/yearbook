@@ -7,7 +7,7 @@ defmodule YearbookWeb.MockLive do
 
   def render(assigns) do
     ~H"""
-      <div>Mock page</div>
+    <div>Mock page</div>
     """
   end
 end
