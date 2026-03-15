@@ -24,8 +24,7 @@ defmodule YearbookWeb.Router do
     pipe_through :browser
 
     live_session :backoffice, layout: {YearbookWeb.Layouts, :backoffice} do
-      live "/approvals", ApprovalLive, :index
-      live "/year", YearLive, :index
+      live "/mock", MockLive, :index
     end
   end
 

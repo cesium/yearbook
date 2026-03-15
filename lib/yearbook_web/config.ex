@@ -5,16 +5,10 @@ defmodule YearbookWeb.Config do
   def backoffice_pages do
     [
       %{
-        key: :approvals,
-        title: "Approvals",
+        key: :mock,
+        title: "Mock",
         icon: "hero-pencil",
-        url: "/backoffice/approvals"
-      },
-      %{
-        key: :page,
-        title: "Year",
-        icon: "hero-pencil",
-        url: "/backoffice/year"
+        url: "/backoffice/mock"
       }
     ]
   end
