@@ -29,7 +29,6 @@ defmodule YearbookWeb.CoreComponents do
   use Phoenix.Component
   use Gettext, backend: YearbookWeb.Gettext
 
-  alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -89,35 +88,32 @@ defmodule YearbookWeb.CoreComponents do
       <.button phx-click="go" variant="primary">Send!</.button>
       <.button navigate={~p"/"}>Home</.button>
   """
-  attr :type, :string, default: "button"
-  attr :class, :string, default: ""
-  attr :variant, :string, default: "primary", values: ~w(primary secondary)
-  attr :rest, :global, include: ~w(disabled form name value)
-
+  attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
+  attr :class, :any
+  attr :variant, :string, values: ~w(primary)
   slot :inner_block, required: true
 
-  def button(assigns) do
-    ~H"""
-    <button
-      type={@type}
-      class={[
-        variant_classes(@variant),
-        @class
-      ]}
-      {@rest}
-    >
-      {render_slot(@inner_block)}
-    </button>
-    """
-  end
+  def button(%{rest: rest} = assigns) do
+    variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
 
-  # Variant classes
-  defp variant_classes("primary") do
-    "rounded-xl bg-primary font-semibold py-auto tracking-wider text-white cursor-pointer"
-  end
+    assigns =
+      assign_new(assigns, :class, fn ->
+        ["btn", Map.fetch!(variants, assigns[:variant])]
+      end)
 
-  defp variant_classes("secondary") do
-    "rounded-4xl bg-white font-semibold py-auto tracking-wider text-primary cursor-pointer"
+    if rest[:href] || rest[:navigate] || rest[:patch] do
+      ~H"""
+      <.link class={@class} {@rest}>
+        {render_slot(@inner_block)}
+      </.link>
+      """
+    else
+      ~H"""
+      <button class={@class} {@rest}>
+        {render_slot(@inner_block)}
+      </button>
+      """
+    end
   end
 
   @doc """
@@ -138,13 +134,27 @@ defmodule YearbookWeb.CoreComponents do
     * For live file uploads, see `Phoenix.Component.live_file_input/1`
 
   See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
-  for more information. Unsupported types, such as hidden and radio,
-  are best written directly in your templates.
+  for more information. Unsupported types, such as radio, are best
+  written directly in your templates.
 
   ## Examples
 
-      <.input field={@form[:email]} type="email" />
-      <.input name="my-input" errors={["oh no!"]} />
+  ```heex
+  <.input field={@form[:email]} type="email" />
+  <.input name="my-input" errors={["oh no!"]} />
+  ```
+
+  ## Select type
+
+  When using `type="select"`, you must pass the `options` and optionally
+  a `value` to mark which option should be preselected.
+
+  ```heex
+  <.input field={@form[:user_type]} type="select" options={["Admin": "admin", "User": "user"]} />
+  ```
+
+  For more information on what kind of data can be passed to `options` see
+  [`options_for_select`](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html#options_for_select/2).
   """
   attr :id, :any, default: nil
   attr :name, :any
@@ -154,7 +164,7 @@ defmodule YearbookWeb.CoreComponents do
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
-               search select tel text textarea time url week)
+               search select tel text textarea time url week hidden)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -164,10 +174,8 @@ defmodule YearbookWeb.CoreComponents do
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
-  attr :class, :string, default: nil, doc: "the input class to use over defaults"
-  attr :error_class, :string, default: nil, doc: "the input error class to use over defaults"
-
-  attr :container_class, :string, default: nil
+  attr :class, :any, default: nil, doc: "the input class to use over defaults"
+  attr :error_class, :any, default: nil, doc: "the input error class to use over defaults"
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
@@ -184,16 +192,28 @@ defmodule YearbookWeb.CoreComponents do
     |> input()
   end
 
+  def input(%{type: "hidden"} = assigns) do
+    ~H"""
+    <input type="hidden" id={@id} name={@name} value={@value} {@rest} />
+    """
+  end
+
   def input(%{type: "checkbox"} = assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
-        Form.normalize_value("checkbox", assigns[:value])
+        Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
       end)
 
     ~H"""
     <div class="fieldset mb-2">
       <label>
-        <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
+        <input
+          type="hidden"
+          name={@name}
+          value="false"
+          disabled={@rest[:disabled]}
+          form={@rest[:form]}
+        />
         <span class="label">
           <input
             type="checkbox"
@@ -201,7 +221,7 @@ defmodule YearbookWeb.CoreComponents do
             name={@name}
             value="true"
             checked={@checked}
-            class={@class || "checkbox checkbox-sm "}
+            class={@class || "checkbox checkbox-sm"}
             {@rest}
           />{@label}
         </span>
@@ -255,15 +275,18 @@ defmodule YearbookWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class={["fieldset", @container_class]}>
+    <div class="mb-3">
       <label>
-        <span :if={@label} class="label mb-1">{@label}</span>
+        <span :if={@label} class="block mb-1 text-sm font-medium text-gray-800">{@label}</span>
         <input
           type={@type}
-          ...
+          name={@name}
+          id={@id}
+          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
           class={[
-            @class || "w-full input",
-            @errors != [] && (@error_class || "input-error")
+            "w-full rounded-lg border bg-white border-black/40 px-3.5 py-2.5 text-sm placeholder:text-gray-400",
+            "focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none",
+            @errors != [] && (@error_class || "border-red-400 focus:border-red-500 focus:ring-red-200")
           ]}
           {@rest}
         />
@@ -415,7 +438,7 @@ defmodule YearbookWeb.CoreComponents do
       <.icon name="hero-arrow-path" class="ml-1 size-3 motion-safe:animate-spin" />
   """
   attr :name, :string, required: true
-  attr :class, :string, default: "size-4"
+  attr :class, :any, default: "size-4"
 
   def icon(%{name: "hero-" <> _} = assigns) do
     ~H"""

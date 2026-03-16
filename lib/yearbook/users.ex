@@ -5,7 +5,7 @@ defmodule Yearbook.Users do
 
   import Ecto.Query, warn: false
   alias Yearbook.Repo
-  alias Yearbook.User
+  alias Yearbook.Accounts.User
 
   def get_user!(id), do: Repo.get!(User, id)
 
