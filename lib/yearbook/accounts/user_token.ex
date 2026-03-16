@@ -1,4 +1,8 @@
 defmodule Yearbook.Accounts.UserToken do
+  @moduledoc """
+  User token schema.
+  """
+
   use Ecto.Schema
   import Ecto.Query
   alias Yearbook.Accounts.UserToken

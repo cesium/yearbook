@@ -1,4 +1,8 @@
 defmodule YearbookWeb.UserAuth do
+  @moduledoc """
+  User authentication.
+  """
+
   use YearbookWeb, :verified_routes
 
   import Plug.Conn

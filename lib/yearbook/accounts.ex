@@ -6,7 +6,7 @@ defmodule Yearbook.Accounts do
   import Ecto.Query, warn: false
   alias Yearbook.Repo
 
-  alias Yearbook.Accounts.{User, UserToken, UserNotifier}
+  alias Yearbook.Accounts.{User, UserNotifier, UserToken}
 
   ## Database getters
 

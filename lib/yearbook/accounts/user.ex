@@ -1,4 +1,8 @@
 defmodule Yearbook.Accounts.User do
+  @moduledoc """
+  User schema.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -25,6 +29,20 @@ defmodule Yearbook.Accounts.User do
       uniqueness of the email, useful when displaying live validations.
       Defaults to `true`.
   """
+  def registration_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:email, :password])
+    |> validate_email(opts)
+    |> validate_password(opts)
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :password])
+    |> validate_email([])
+    |> validate_password([])
+  end
+
   def email_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email])

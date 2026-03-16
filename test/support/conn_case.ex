@@ -27,6 +27,9 @@ defmodule YearbookWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
+      alias Yearbook.Accounts
+      alias Yearbook.AccountsFixtures
+
       import YearbookWeb.ConnCase
     end
   end
@@ -45,8 +48,8 @@ defmodule YearbookWeb.ConnCase do
   test context.
   """
   def register_and_log_in_user(%{conn: conn} = context) do
-    user = Yearbook.AccountsFixtures.user_fixture()
-    scope = Yearbook.Accounts.Scope.for_user(user)
+    user = AccountsFixtures.user_fixture()
+    scope = Accounts.Scope.for_user(user)
 
     opts =
       context

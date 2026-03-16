@@ -1,4 +1,8 @@
 defmodule YearbookWeb.Navbar do
+  @moduledoc """
+  Navbar component.
+  """
+
   use YearbookWeb, :html
 
   attr :current_scope, :any, default: nil

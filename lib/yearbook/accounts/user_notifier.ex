@@ -1,8 +1,11 @@
 defmodule Yearbook.Accounts.UserNotifier do
-  import Swoosh.Email
+  @moduledoc """
+  User notifier.
+  """
 
-  alias Yearbook.Mailer
+  import Swoosh.Email
   alias Yearbook.Accounts.User
+  alias Yearbook.Mailer
 
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
