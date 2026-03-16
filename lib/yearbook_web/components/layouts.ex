@@ -47,23 +47,36 @@ defmodule YearbookWeb.Layouts do
             </.link>
           </div>
         </div>
-      <div class="flex items-center gap-3">
-        <%= if @current_scope && @current_scope.user do %>
-          <.link navigate={~p"/users/settings"} class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition">
-            Settings
-          </.link>
-          <.link href={~p"/users/log-out"} method="delete" class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition">
-            Logout
-          </.link>
-        <% else %>
-          <.link navigate={~p"/users/register"} class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition">
-            Sign Up
-          </.link>
-          <.link navigate={~p"/users/log-in"} class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition">
-            Sign In
-          </.link>
-        <% end %>
-      </div>
+        <div class="flex items-center gap-3">
+          <%= if @current_scope && @current_scope.user do %>
+            <.link
+              navigate={~p"/users/settings"}
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Settings
+            </.link>
+            <.link
+              href={~p"/users/log-out"}
+              method="delete"
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Logout
+            </.link>
+          <% else %>
+            <.link
+              navigate={~p"/users/register"}
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Sign Up
+            </.link>
+            <.link
+              navigate={~p"/users/log-in"}
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Sign In
+            </.link>
+          <% end %>
+        </div>
       </div>
 
       <div class="flex grow md:place-items-center">

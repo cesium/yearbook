@@ -7,42 +7,48 @@ defmodule YearbookWeb.UserLive.Registration do
   @impl true
   def render(assigns) do
     ~H"""
-      <div class="z-10 flex justify-end items-center grow h-full">
-        <div class="flex flex-col gap-9 bg-white w-full md:w-150 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
-          <div class="flex flex-col gap-2">
-            <h1 class="text-3xl font-bold tracking-normal text-black">Sign up to</h1>
-            <h1 class="text-5xl font-bold tracking-normal text-black">Yearbook</h1>
-          </div>
+    <div class="z-10 flex justify-end items-center grow h-full">
+      <div class="flex flex-col gap-9 bg-white w-full md:w-150 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-3xl font-bold tracking-normal text-black">Sign up to</h1>
+          <h1 class="text-5xl font-bold tracking-normal text-black">Yearbook</h1>
+        </div>
 
-          <.form for={@form} id="registration_form" phx-submit="save" phx-change="validate_registration" class="flex flex-col gap-4">
-            <.input
-              field={@form[:email]}
-              type="email"
-              label="Email"
-              autocomplete="username"
-              required
-              phx-mounted={JS.focus()}
-            />
+        <.form
+          for={@form}
+          id="registration_form"
+          phx-submit="save"
+          phx-change="validate_registration"
+          class="flex flex-col gap-4"
+        >
+          <.input
+            field={@form[:email]}
+            type="email"
+            label="Email"
+            autocomplete="username"
+            required
+            phx-mounted={JS.focus()}
+          />
 
-            <.button
-              phx-disable-with="Creating account..."
-              class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Create an account
-            </.button>
-          </.form>
+          <.button
+            phx-disable-with="Creating account..."
+            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Create an account
+          </.button>
+        </.form>
 
-          <div class="text-center">
-            <span class="text-black">Already have an account? </span>
-            <.link
-              class="inline-block text-primary underline cursor-pointer hover:text-[#E37044] hover:scale-110 transition-all"
-              navigate={~p"/users/log-in"}
-            >
-              Log in
-            </.link>
-          </div>
+        <div class="text-center">
+          <span class="text-black">Already have an account? </span>
+          <.link
+            class="inline-block text-primary underline cursor-pointer hover:text-[#E37044] hover:scale-110 transition-all"
+            navigate={~p"/users/log-in"}
+          >
+            Log in
+          </.link>
         </div>
       </div>
+    </div>
     """
   end
 

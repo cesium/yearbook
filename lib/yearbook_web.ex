@@ -82,7 +82,6 @@ defmodule YearbookWeb do
     end
   end
 
-
   def navbar do
     quote do
       use Phoenix.LiveView,

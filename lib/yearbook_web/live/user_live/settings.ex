@@ -8,73 +8,81 @@ defmodule YearbookWeb.UserLive.Settings do
   @impl true
   def render(assigns) do
     ~H"""
-      <div class="z-10 flex justify-end items-center grow h-full">
-        <div class="flex flex-col gap-8 bg-white w-full md:w-150 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
-          <div class="flex flex-col gap-2 text-start">
-            <h1 class="text-3xl font-bold tracking-normal text-black">Account Settings</h1>
-            <p class="text-base text-neutral-600">Manage your account email address and password settings.</p>
-          </div>
-
-          <.form for={@email_form} id="email_form" phx-submit="update_email" phx-change="validate_email" class="flex flex-col gap-4">
-            <.input
-              field={@email_form[:email]}
-              type="email"
-              label="Email"
-              autocomplete="username"
-              required
-              class="input input-bordered w-full"
-            />
-            <.button
-              phx-disable-with="Changing..."
-              class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Change Email
-            </.button>
-          </.form>
-
-          <div class="divider" />
-
-          <.form
-            for={@password_form}
-            id="password_form"
-            action={~p"/users/update-password"}
-            method="post"
-            phx-change="validate_password"
-            phx-submit="update_password"
-            phx-trigger-action={@trigger_submit}
-            class="flex flex-col gap-4"
-          >
-            <input
-              name={@password_form[:email].name}
-              type="hidden"
-              id="hidden_user_email"
-              autocomplete="username"
-              value={@current_email}
-            />
-            <.input
-              field={@password_form[:password]}
-              type="password"
-              label="New password"
-              autocomplete="new-password"
-              required
-              class="input input-bordered w-full"
-            />
-            <.input
-              field={@password_form[:password_confirmation]}
-              type="password"
-              label="Confirm new password"
-              autocomplete="new-password"
-              class="input input-bordered w-full"
-            />
-            <.button
-              phx-disable-with="Saving..."
-              class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Save Password
-            </.button>
-          </.form>
+    <div class="z-10 flex justify-end items-center grow h-full">
+      <div class="flex flex-col gap-8 bg-white w-full md:w-150 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
+        <div class="flex flex-col gap-2 text-start">
+          <h1 class="text-3xl font-bold tracking-normal text-black">Account Settings</h1>
+          <p class="text-base text-neutral-600">
+            Manage your account email address and password settings.
+          </p>
         </div>
+
+        <.form
+          for={@email_form}
+          id="email_form"
+          phx-submit="update_email"
+          phx-change="validate_email"
+          class="flex flex-col gap-4"
+        >
+          <.input
+            field={@email_form[:email]}
+            type="email"
+            label="Email"
+            autocomplete="username"
+            required
+            class="input input-bordered w-full"
+          />
+          <.button
+            phx-disable-with="Changing..."
+            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Change Email
+          </.button>
+        </.form>
+
+        <div class="divider" />
+
+        <.form
+          for={@password_form}
+          id="password_form"
+          action={~p"/users/update-password"}
+          method="post"
+          phx-change="validate_password"
+          phx-submit="update_password"
+          phx-trigger-action={@trigger_submit}
+          class="flex flex-col gap-4"
+        >
+          <input
+            name={@password_form[:email].name}
+            type="hidden"
+            id="hidden_user_email"
+            autocomplete="username"
+            value={@current_email}
+          />
+          <.input
+            field={@password_form[:password]}
+            type="password"
+            label="New password"
+            autocomplete="new-password"
+            required
+            class="input input-bordered w-full"
+          />
+          <.input
+            field={@password_form[:password_confirmation]}
+            type="password"
+            label="Confirm new password"
+            autocomplete="new-password"
+            class="input input-bordered w-full"
+          />
+          <.button
+            phx-disable-with="Saving..."
+            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Save Password
+          </.button>
+        </.form>
       </div>
+    </div>
     """
   end
 

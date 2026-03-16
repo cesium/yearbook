@@ -22,8 +22,8 @@ defmodule YearbookWeb.Router do
 
     live_session :navbar,
       on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}] do
-        live "/", HomeLive.Index, :index
-      end
+      live "/", HomeLive.Index, :index
+    end
   end
 
   # Other scopes may use custom stacks.

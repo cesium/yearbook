@@ -286,7 +286,8 @@ defmodule YearbookWeb.CoreComponents do
           class={[
             "w-full rounded-lg border bg-white border-black/40 px-3.5 py-2.5 text-sm placeholder:text-gray-400",
             "focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none",
-            @errors != [] && (@error_class || "border-red-400 focus:border-red-500 focus:ring-red-200")
+            @errors != [] &&
+              (@error_class || "border-red-400 focus:border-red-500 focus:ring-red-200")
           ]}
           {@rest}
         />

@@ -6,10 +6,7 @@ defmodule YearbookWeb.HomeLive.Index do
   """
   def mount(_params, _session, socket) do
     {:ok,
-   ﻿
-﻿
-Welcome back!
-﻿  socket
+     socket
      |> assign(page_title: "Home | Yearbook")}
   end
 end
