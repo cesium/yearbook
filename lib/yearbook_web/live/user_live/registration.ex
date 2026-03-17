@@ -32,7 +32,7 @@ defmodule YearbookWeb.UserLive.Registration do
 
           <.button
             phx-disable-with="Creating account..."
-            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full h-12 rounded-lg cursor-pointer bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Create an account
           </.button>

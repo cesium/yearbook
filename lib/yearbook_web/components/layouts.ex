@@ -6,6 +6,7 @@ defmodule YearbookWeb.Layouts do
   use YearbookWeb, :html
 
   import YearbookWeb.Navbar
+  import YearbookWeb.Footer
 
   # Embed all files in layouts/* within this module.
   # The default root.html.heex file contains the HTML
