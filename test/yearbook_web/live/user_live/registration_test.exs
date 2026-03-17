@@ -8,7 +8,7 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
-      assert html =~ "Register"
+      assert html =~ "Create an account"
       assert html =~ "Log in"
     end
 
@@ -30,7 +30,7 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
         |> element("#registration_form")
         |> render_change(user: %{"email" => "with spaces"})
 
-      assert result =~ "Register"
+      assert result =~ "Create an account"
       assert result =~ "must have the @ sign and no spaces"
     end
   end
@@ -72,7 +72,7 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("main a", "Log in")
+        |> element("a", "Log in")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log-in")
 

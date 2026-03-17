@@ -57,6 +57,7 @@ defmodule Yearbook.Accounts.User do
         message: "must have the @ sign and no spaces"
       )
       |> validate_length(:email, max: 160)
+      |> update_change(:email, &String.downcase/1)
 
     if Keyword.get(opts, :validate_unique, true) do
       changeset
