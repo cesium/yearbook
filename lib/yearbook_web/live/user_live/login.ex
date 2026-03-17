@@ -3,8 +3,6 @@ defmodule YearbookWeb.UserLive.Login do
 
   alias Yearbook.Accounts
 
-  import YearbookWeb.Footer
-
   @impl true
   def render(assigns) do
     ~H"""
