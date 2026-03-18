@@ -1,4 +1,8 @@
 defmodule YearbookWeb.Footer do
+  @moduledoc """
+  Footer component.
+  """
+
   use Phoenix.Component
 
   def footer(assigns) do

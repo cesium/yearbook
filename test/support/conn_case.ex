@@ -16,6 +16,8 @@ defmodule YearbookWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Yearbook.Accounts
+  alias Yearbook.AccountsFixtures
 
   using do
     quote do
@@ -65,7 +67,7 @@ defmodule YearbookWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user, opts \\ []) do
-    token = Yearbook.Accounts.generate_user_session_token(user)
+    token = Accounts.generate_user_session_token(user)
 
     maybe_set_token_authenticated_at(token, opts[:token_authenticated_at])
 
@@ -77,6 +79,6 @@ defmodule YearbookWeb.ConnCase do
   defp maybe_set_token_authenticated_at(_token, nil), do: nil
 
   defp maybe_set_token_authenticated_at(token, authenticated_at) do
-    Yearbook.AccountsFixtures.override_token_authenticated_at(token, authenticated_at)
+    AccountsFixtures.override_token_authenticated_at(token, authenticated_at)
   end
 end
