@@ -8,7 +8,7 @@ defmodule YearbookWeb.UserLive.Registration do
   def render(assigns) do
     ~H"""
     <div class="z-10 flex justify-end items-center grow h-full">
-      <div class="flex flex-col gap-9 bg-white w-full md:w-150 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
+      <div class="flex flex-col gap-9 bg-white w-full md:w-125 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
         <div class="flex flex-col gap-2">
           <h1 class="text-3xl font-bold tracking-normal text-black">Sign up to</h1>
           <h1 class="text-5xl font-bold tracking-normal text-black">Yearbook</h1>
