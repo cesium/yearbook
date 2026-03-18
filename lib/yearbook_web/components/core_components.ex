@@ -56,9 +56,10 @@ defmodule YearbookWeb.CoreComponents do
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
+      r-4
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
-      class="fixed top-4 left-4 z-50"
+      class="fixed top-4 right-4 z-50 justify-end"
       {@rest}
     >
       <div class={[
@@ -66,17 +67,19 @@ defmodule YearbookWeb.CoreComponents do
         @kind == :info && "alert-info",
         @kind == :error && "alert-error"
       ]}>
-        <div class="flex flex-col gap-1 shadow-2xl bg-white animate-in slide-in-from-top-5 duration-300 rounded-2xl p-4 w-auto">
-          <div class="flex gap-2">
-            <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
-            <p>Alert</p>
+        <div class="flex flex-col gap-1 shadow- w-full  bg-white border border-black/10 animate-in slide-in-from-top-5 duration-300 rounded-2xl p-4 md:w-auto">
+          <div class="flex gap-2 justify-between">
+            <div class="flex gap-2 items-center">
+              <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
+              <p>Alert</p>
+            </div>
+            <button type="button" class="cursor-pointer ml-2" aria-label="close">
+              <.icon name="hero-x-mark" class="size-5 opacity-50 hover:opacity-80" />
+            </button>
           </div>
           <.icon :if={@kind == :error} name="hero-exclamation-circle" class="size-5 shrink-0" />
           <p :if={@title} class="font-semibold">{@title}</p>
           <p>{msg}</p>
-          <button type="button" class="cursor-pointer ml-2" aria-label="close">
-            <.icon name="hero-x-mark" class="size-5 opacity-50 hover:opacity-80" />
-          </button>
         </div>
       </div>
     </div>

@@ -4,11 +4,15 @@ defmodule YearbookWeb.UserLive.Login do
   alias Yearbook.Accounts
 
   @impl true
+  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div class="flex flex-col gap-4 md:gap-0 md:flex-row h-full w-full p-4">
       <div class="flex flex-col h-full justify-between">
-        <div :if={local_mail_adapter?()} class="alert alert-info bg-white rounded-2xl p-3">
+        <div
+          :if={local_mail_adapter?()}
+          class="alert alert-info border-2 border-black bg-white rounded-2xl p-3"
+        >
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
             <p>You are running the local mail adapter.</p>
@@ -19,10 +23,10 @@ defmodule YearbookWeb.UserLive.Login do
         </div>
       </div>
       <div class="z-10 flex justify-end items-center grow h-full w-full sm:bg-transparent">
-        <div class="flex flex-col gap-8 bg-white w-full md:w-125 h-fit rounded-2xl py-8 px-5 md:p-8 my-auto mx-0 md:mx-5 sm:shadow-xl">
-          <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-6 bg-white w-full md:w-125 h-fit rounded-2xl py-8 px-5 md:p-8 my-auto mx-0 md:mx-5 sm:shadow-xl">
+          <div class="flex flex-col gap-2">
             <h1 class="text-3xl font-bold tracking-normal text-black">Welcome back</h1>
-            <h1 class="text-5xl font-bold tracking-normal text-black">Log in</h1>
+            <h1 class="text-4xl font-bold tracking-normal text-black">Log in</h1>
             <p class="text-base text-neutral-600 pt-2">
               <%= if @current_scope do %>
                 You need to reauthenticate to perform sensitive actions on your account.
