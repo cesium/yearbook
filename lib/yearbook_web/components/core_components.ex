@@ -56,32 +56,28 @@ defmodule YearbookWeb.CoreComponents do
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
-      r-4
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
-      class="fixed top-4 right-4 z-50 justify-end"
+      class={[
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 rounded-lg p-3 ring-1",
+        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
+        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+      ]}
       {@rest}
     >
-      <div class={[
-        "alert w-80 text-wrap",
-        @kind == :info && "alert-info",
-        @kind == :error && "alert-error"
-      ]}>
-        <div class="flex flex-col gap-1 shadow- w-full  bg-white border border-black/10 animate-in slide-in-from-top-5 duration-300 rounded-2xl p-4 md:w-auto">
-          <div class="flex gap-2 justify-between">
-            <div class="flex gap-2 items-center">
-              <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
-              <p>Alert</p>
-            </div>
-            <button type="button" class="cursor-pointer ml-2" aria-label="close">
-              <.icon name="hero-x-mark" class="size-5 opacity-50 hover:opacity-80" />
-            </button>
-          </div>
-          <.icon :if={@kind == :error} name="hero-exclamation-circle" class="size-5 shrink-0" />
-          <p :if={@title} class="font-semibold">{@title}</p>
-          <p>{msg}</p>
-        </div>
-      </div>
+      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
+        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
+        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
+        {@title}
+      </p>
+      <p class="mt-2 text-sm leading-5">{msg}</p>
+      <button
+        type="button"
+        class="group cursor-pointer absolute top-1 right-1 p-2"
+        aria-label={gettext("close")}
+      >
+        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
+      </button>
     </div>
     """
   end

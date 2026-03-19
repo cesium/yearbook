@@ -102,8 +102,8 @@ defmodule YearbookWeb.Layouts do
   def flash_group(assigns) do
     ~H"""
     <div id={@id} aria-live="polite">
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:error} flash={@flash} />
+      <.flash kind={:info} flash={@flash} title="Info" />
+      <.flash kind={:error} flash={@flash} title="Error" />
 
       <.flash
         id="client-error"
