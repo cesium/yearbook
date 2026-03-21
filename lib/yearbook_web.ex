@@ -64,6 +64,33 @@ defmodule YearbookWeb do
     end
   end
 
+  def auth_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {YearbookWeb.Layouts, :auth}
+
+      unquote(html_helpers())
+    end
+  end
+
+  def landing_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {YearbookWeb.Layouts, :landing}
+
+      unquote(html_helpers())
+    end
+  end
+
+  def navbar do
+    quote do
+      use Phoenix.LiveView,
+        layout: {YearbookWeb.Layouts, :navbar}
+
+      unquote(html_helpers())
+    end
+  end
+
   def html do
     quote do
       use Phoenix.Component
