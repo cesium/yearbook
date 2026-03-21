@@ -5,6 +5,9 @@ defmodule YearbookWeb.Layouts do
   """
   use YearbookWeb, :html
 
+  import YearbookWeb.Navbar
+  import YearbookWeb.Footer
+
   # Embed all files in layouts/* within this module.
   # The default root.html.heex file contains the HTML
   # skeleton of your application, namely HTML headers
@@ -35,38 +38,52 @@ defmodule YearbookWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="navbar px-4 sm:px-6 lg:px-8">
-      <div class="flex-1">
-        <a href="/" class="flex-1 flex w-fit items-center gap-2">
-          <img src={~p"/images/logo.svg"} width="36" />
-          <span class="text-sm font-semibold">v{Application.spec(:phoenix, :vsn)}</span>
-        </a>
+    <div class="h-screen w-full">
+      <div class="bg-white flex items-center justify-between w-full h-20 px-4 border-b-3 border-primary">
+        <div class="flex z-10 justify-between h-full items-center">
+          <div class="p-3 rounded-2xl">
+            <.link navigate={~p"/"} class="flex items-center gap-3 cursor-pointer">
+              <span class="hero-academic-cap text-black h-8 w-8"></span>
+              <span class="text-2xl font-bold text-black">YEARBOOK</span>
+            </.link>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <%= if @current_scope && @current_scope.user do %>
+            <.link
+              navigate={~p"/users/settings"}
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Settings
+            </.link>
+            <.link
+              href={~p"/users/log-out"}
+              method="delete"
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Logout
+            </.link>
+          <% else %>
+            <.link
+              navigate={~p"/users/register"}
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Sign Up
+            </.link>
+            <.link
+              navigate={~p"/users/log-in"}
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+            >
+              Sign In
+            </.link>
+          <% end %>
+        </div>
       </div>
-      <div class="flex-none">
-        <ul class="flex flex-column px-1 space-x-4 items-center">
-          <li>
-            <a href="https://phoenixframework.org/" class="btn btn-ghost">Website</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix" class="btn btn-ghost">GitHub</a>
-          </li>
-          <li>
-            <.theme_toggle />
-          </li>
-          <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
-              Get Started <span aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </header>
 
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
+      <div class="flex grow md:place-items-center">
         {render_slot(@inner_block)}
       </div>
-    </main>
+    </div>
 
     <.flash_group flash={@flash} />
     """
@@ -85,8 +102,8 @@ defmodule YearbookWeb.Layouts do
   def flash_group(assigns) do
     ~H"""
     <div id={@id} aria-live="polite">
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:error} flash={@flash} />
+      <.flash kind={:info} flash={@flash} title="Info" />
+      <.flash kind={:error} flash={@flash} title="Error" />
 
       <.flash
         id="client-error"
@@ -123,7 +140,7 @@ defmodule YearbookWeb.Layouts do
   def theme_toggle(assigns) do
     ~H"""
     <div class="card relative flex flex-row items-center border-2 border-base-300 bg-base-300 rounded-full">
-      <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
+      <div class="absolute w-1/3 h-full rounded-full border border-base-200 bg-base-100 brightness-200 left-0 in-data-[theme=light]:left-1/3 in-data-[theme=dark]:left-2/3 transition-[left]" />
 
       <button
         class="flex p-2 cursor-pointer w-1/3"

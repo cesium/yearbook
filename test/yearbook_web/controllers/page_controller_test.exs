@@ -3,6 +3,6 @@ defmodule YearbookWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Hello World"
+    assert html_response(conn, 200) =~ "YEARBOOK"
   end
 end
