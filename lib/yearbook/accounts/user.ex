@@ -14,6 +14,7 @@ defmodule Yearbook.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
+    field :role, Ecto.Enum, values: [:student, :admin], default: :student
 
     timestamps(type: :utc_datetime)
   end
@@ -31,7 +32,7 @@ defmodule Yearbook.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :role])
     |> validate_email(opts)
     |> validate_password(opts)
   end

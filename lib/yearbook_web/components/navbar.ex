@@ -20,6 +20,14 @@ defmodule YearbookWeb.Navbar do
       </div>
       <div class="flex items-center gap-1 sm:gap-3">
         <%= if assigns[:current_scope] && assigns.current_scope.user do %>
+          <%= if @current_scope.user.role == :admin do %>
+            <.link
+              navigate={~p"/backoffice/mock"}
+              class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-bold text-primary hover:opacity-80 transition cursor-pointer"
+            >
+              Backoffice
+            </.link>
+          <% end %>
           <.link
             navigate={~p"/users/settings"}
             class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-primary transition cursor-pointer"

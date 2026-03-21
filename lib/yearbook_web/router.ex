@@ -2,6 +2,7 @@ defmodule YearbookWeb.Router do
   use YearbookWeb, :router
 
   import YearbookWeb.UserAuth
+  import YearbookWeb.Plugs.UserRoles
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,6 +12,11 @@ defmodule YearbookWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_scope_for_user
+  end
+
+  pipeline :admin_required do
+    plug :require_authenticated_user
+    plug :require_admin_user
   end
 
   pipeline :api do
@@ -27,9 +33,13 @@ defmodule YearbookWeb.Router do
   end
 
   scope "/backoffice", YearbookWeb do
-    pipe_through :browser
+    pipe_through [:browser, :admin_required]
 
-    live_session :backoffice, layout: {YearbookWeb.Layouts, :backoffice} do
+    live_session :backoffice,
+      layout: {YearbookWeb.Layouts, :backoffice},
+      on_mount: [
+        {YearbookWeb.UserAuth, :require_authenticated}
+      ] do
       live "/mock", MockLive, :index
     end
   end
