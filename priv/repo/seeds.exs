@@ -1,4 +1,4 @@
-defmodule Yearbook.Repo.Seeds do
+defmodule Pearl.Repo.Seeds do
   @moduledoc """
   Script for populating the database.
   You can run it as:
@@ -7,11 +7,13 @@ defmodule Yearbook.Repo.Seeds do
   @seeds_dir "priv/repo/seeds"
 
   def run do
-    []
+    [
+      "accounts.exs"
+    ]
     |> Enum.each(fn file ->
       Code.require_file("#{@seeds_dir}/#{file}")
     end)
   end
 end
 
-Yearbook.Repo.Seeds.run()
+Pearl.Repo.Seeds.run()

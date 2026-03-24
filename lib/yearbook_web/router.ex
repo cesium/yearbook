@@ -38,7 +38,8 @@ defmodule YearbookWeb.Router do
     live_session :backoffice,
       layout: {YearbookWeb.Layouts, :backoffice},
       on_mount: [
-        {YearbookWeb.UserAuth, :require_authenticated}
+        {YearbookWeb.UserAuth, :require_authenticated},
+        {YearbookWeb.UserAuth, :require_admin}
       ] do
       live "/mock", MockLive, :index
     end
