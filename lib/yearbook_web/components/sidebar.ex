@@ -74,13 +74,36 @@ defmodule YearbookWeb.Sidebar do
 
   def show_mobile_sidebar(js \\ %JS{}) do
     js
-    |> JS.show(to: "#mobile-sidebar-container")
     |> JS.add_class("overflow-hidden", to: "body")
+    |> JS.show(
+      to: "#mobile-sidebar-container",
+      transition: {"transition fade-in duration-200", "opacity-0", "opacity-100"}
+    )
+    |> JS.show(
+      to: "#mobile-sidebar",
+      display: "flex",
+      time: 300,
+      transition:
+        {"transition ease-in-out duration-300 transform", "-translate-x-full", "translate-x-0"}
+    )
+    |> JS.hide(to: "#show-mobile-sidebar", transition: "fade-out")
+    |> JS.dispatch("js:call", to: "#hide-mobile-sidebar", detail: %{call: "focus", args: []})
   end
 
   def hide_mobile_sidebar(js \\ %JS{}) do
     js
-    |> JS.hide(to: "#mobile-sidebar-container")
     |> JS.remove_class("overflow-hidden", to: "body")
+    |> JS.hide(
+      to: "#mobile-sidebar-container",
+      transition: {"transition fade-out duration-200", "opacity-100", "opacity-0"}
+    )
+    |> JS.hide(
+      to: "#mobile-sidebar",
+      time: 300,
+      transition:
+        {"transition ease-in-out duration-300 transform", "translate-x-0", "-translate-x-full"}
+    )
+    |> JS.show(to: "#show-mobile-sidebar", transition: "fade-in")
+    |> JS.dispatch("js:call", to: "#show-mobile-sidebar", detail: %{call: "focus", args: []})
   end
 end
