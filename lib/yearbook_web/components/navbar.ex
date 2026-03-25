@@ -57,6 +57,7 @@ defmodule YearbookWeb.Navbar do
 
   defp nav_content(assigns) do
     assigns = assign_new(assigns, :is_mobile, fn -> false end)
+
     ~H"""
     <%= if @current_scope && @current_scope.user do %>
       <%= if @current_scope.user.role == :admin do %>
@@ -109,7 +110,8 @@ defmodule YearbookWeb.Navbar do
       to: "#mobile-navbar",
       display: "flex",
       time: 300,
-      transition: {"transition ease-in-out duration-300 transform", "-translate-y-full", "translate-y-0"}
+      transition:
+        {"transition ease-in-out duration-300 transform", "-translate-y-full", "translate-y-0"}
     )
   end
 
@@ -120,7 +122,8 @@ defmodule YearbookWeb.Navbar do
     |> JS.hide(
       to: "#mobile-navbar",
       time: 300,
-      transition: {"transition ease-in-out duration-300 transform", "translate-y-0", "-translate-y-full"}
+      transition:
+        {"transition ease-in-out duration-300 transform", "translate-y-0", "-translate-y-full"}
     )
   end
 end
