@@ -23,7 +23,7 @@ defmodule Yearbook.Repo.Seeds.Accounts do
 
       attrs = %{
         email: email,
-        password: "password12345"
+        password: "password1234"
       }
 
       case %User{} |> User.registration_changeset(attrs) |> Repo.insert() do
@@ -44,7 +44,7 @@ defmodule Yearbook.Repo.Seeds.Accounts do
 
       attrs = %{
         email: email,
-        password: "password_admin_123",
+        password: "password1234",
         role: :admin
       }
 
