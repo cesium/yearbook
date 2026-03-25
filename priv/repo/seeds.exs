@@ -1,4 +1,4 @@
-defmodule Pearl.Repo.Seeds do
+defmodule Yearbook.Repo.Seeds do
   @moduledoc """
   Script for populating the database.
   You can run it as:
@@ -16,4 +16,4 @@ defmodule Pearl.Repo.Seeds do
   end
 end
 
-Pearl.Repo.Seeds.run()
+Yearbook.Repo.Seeds.run()
