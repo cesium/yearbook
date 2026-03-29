@@ -11,11 +11,21 @@ defmodule YearbookWeb.Sidebar do
 
   def sidebar(assigns) do
     ~H"""
-    <div class="lg:hidden p-4 border-b border-black/10 bg-white flex justify-between items-center">
-      <span class="font-bold text-xl uppercase tracking-tight">Yearbook</span>
-      <button type="button" phx-click={show_mobile_sidebar()}>
-        <.icon name="hero-bars-3" class="size-6" />
-      </button>
+    <div class="lg:hidden bg-white flex items-center justify-between w-full h-16 sm:h-20 px-3 sm:px-4 border-b-2 border-primary sticky top-0 z-40">
+      <div class="flex z-10 justify-between h-full items-center">
+        <div class="p-2 sm:p-3 rounded-2xl">
+          <.link navigate={~p"/"} class="flex items-center gap-2 sm:gap-3 cursor-pointer">
+            <span class="hero-academic-cap text-black h-7 w-7 sm:h-8 sm:w-8"></span>
+            <span class="text-xl sm:text-2xl font-bold text-black uppercase">YEARBOOK</span>
+          </.link>
+        </div>
+      </div>
+
+      <div class="flex items-center">
+        <button type="button" phx-click={show_mobile_sidebar()}>
+          <.icon name="hero-bars-3" class="size-8 text-black" />
+        </button>
+      </div>
     </div>
 
     <div
@@ -51,7 +61,9 @@ defmodule YearbookWeb.Sidebar do
 
   defp sidebar_content(assigns) do
     ~H"""
-    <div class="font-bold text-3xl p-10 flex justify-center">YEARBOOK</div>
+    <div class="font-bold text-3xl p-10 flex justify-center">
+      <.link navigate={~p"/"} class="uppercase">YEARBOOK</.link>
+    </div>
 
     <nav class="flex flex-col px-5 gap-2">
       <%= for page <- @pages do %>
