@@ -62,7 +62,7 @@ defmodule YearbookWeb.Navbar do
     <%= if @current_scope && @current_scope.user do %>
       <%= if @current_scope.user.role == :admin do %>
         <.link
-          navigate={~p"/backoffice/mock"}
+          navigate={~p"/backoffice/approvals"}
           phx-click={@is_mobile && hide_mobile_navbar()}
           class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-bold text-primary hover:opacity-80 transition cursor-pointer"
         >

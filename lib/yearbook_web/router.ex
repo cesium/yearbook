@@ -41,7 +41,7 @@ defmodule YearbookWeb.Router do
         {YearbookWeb.UserAuth, :require_authenticated},
         {YearbookWeb.UserAuth, :require_admin}
       ] do
-      live "/mock", MockLive, :index
+      live "/approvals", Approvals, :index
     end
   end
 
