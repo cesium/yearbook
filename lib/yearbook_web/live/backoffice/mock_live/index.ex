@@ -31,7 +31,7 @@ defmodule YearbookWeb.Approvals do
 
     case Yearbook.Entries.update_entry(entry, %{status: :denied}) do
       {:ok, _updated_entry} ->
-        new_entries = Yearbook.Entries.list_entries()
+        new_entries = Yearbook.Entries.list_pending_entries()
         {:noreply, assign(socket, entries: new_entries)}
 
       {:error, _changeset} ->
