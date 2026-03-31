@@ -6,6 +6,9 @@ defmodule Yearbook.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @required_fields ~w(email password)a
+  @optional_fields ~w(role confirmed_at)a
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -14,6 +17,7 @@ defmodule Yearbook.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
+    field :role, Ecto.Enum, values: [:student, :admin], default: :student
 
     timestamps(type: :utc_datetime)
   end
@@ -31,14 +35,14 @@ defmodule Yearbook.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, @required_fields)
     |> validate_email(opts)
     |> validate_password(opts)
   end
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email([])
     |> validate_password([])
   end
