@@ -22,7 +22,7 @@ defmodule YearbookWeb.Approvals do
         {:noreply, assign(socket, entries: new_entries)}
 
       {:error, _changeset} ->
-        {:noreply, put_flash(socket, :error, "Erro ao aprovar.")}
+        {:noreply, put_flash(socket, :error, "Error approving entry.")}
     end
   end
 
@@ -35,7 +35,7 @@ defmodule YearbookWeb.Approvals do
         {:noreply, assign(socket, entries: new_entries)}
 
       {:error, _changeset} ->
-        {:noreply, put_flash(socket, :error, "Erro ao rejeitar.")}
+        {:noreply, put_flash(socket, :error, "Error denying entry.")}
     end
   end
 
@@ -53,9 +53,9 @@ defmodule YearbookWeb.Approvals do
     <div class="flex-1 p-8 bg-white rounded-2xl">
       <h2 class="text-xl font-semibold mb-6 text-gray-700">Request Approvals</h2>
 
-      <div class="space-y-2">
+      <div class="space-y-1">
         <%= for entry <- @entries do %>
-          <div class="flex items-center border-2 border-gray-600 rounded-xl p-4 ">
+          <div class="flex items-center border-2 border-gray-500 rounded-md p-4 ">
             <div class="flex items-center gap-12 flex-1 min-w-0">
               <span class=" text-gray-900 w-64 shrink-0">{entry.name}</span>
               <span class="text-gray-900 truncate pr-4 max-w-4xl">{entry.text}</span>
@@ -65,7 +65,7 @@ defmodule YearbookWeb.Approvals do
               <button
                 phx-click="show_details"
                 phx-value-id={entry.id}
-                class="border-2 border-gray-700 px-2 py-1 rounded text-sm bg-gray-100"
+                class="border-2 border-gray-500 px-2 py-1 rounded text-sm bg-gray-100"
               >
                 Ver Detalhes
               </button>
