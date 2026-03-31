@@ -22,6 +22,19 @@ defmodule Yearbook.Entries do
   end
 
   @doc """
+  Returns the list of pending entries.
+  """
+
+  def list_pending_entries do
+    query =
+      from e in Entry,
+        where: e.status == :pending,
+        order_by: [desc: e.inserted_at]
+
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a single entry.
 
   Raises `Ecto.NoResultsError` if the Entry does not exist.
