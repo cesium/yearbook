@@ -1,4 +1,7 @@
 defmodule YearbookWeb.Approvals do
+  @moduledoc """
+  Approvals page
+  """
   use YearbookWeb, :live_view
   alias Yearbook.Entries
 
@@ -93,9 +96,7 @@ defmodule YearbookWeb.Approvals do
     </div>
 
     <%= if @selected_entry do %>
-      <div
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      >
+      <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl max-w-md w-full shadow-2xl overflow-hidden">
           <div style="background-color: black" class="p-6 flex justify-between items-center">
             <h3 class="text-white text-xl font-bold items-center">Detalhes do Pedido</h3>
