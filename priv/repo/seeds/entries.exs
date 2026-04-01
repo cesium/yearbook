@@ -13,7 +13,7 @@ defmodule Yearbook.Repo.Seeds.Entries do
   end
 
   def seed_all_entries do
-    for {name, i} <- Enum.with_index(Enum.take(@names, 17)) do
+    for {name, i} <- Enum.with_index(Enum.take(@names, 87)) do
       attrs = %{
         name: name,
         text: Enum.random(@quotes),

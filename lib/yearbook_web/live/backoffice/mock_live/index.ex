@@ -72,6 +72,28 @@ defmodule YearbookWeb.Approvals do
     )
   end
 
+  defp page_range(current, total) do
+    if total <= 7 do
+      Enum.to_list(1..total)
+    else
+      ([1, total] ++ Enum.to_list((current - 2)..(current + 2)))
+      |> Enum.filter(&(&1 >= 1 and &1 <= total))
+      |> Enum.uniq()
+      |> Enum.sort()
+      |> add_dots([])
+    end
+  end
+
+  defp add_dots([a, b | tail], acc) when b > a + 1 do
+    add_dots([b | tail], acc ++ [a, :ellipsis])
+  end
+
+  defp add_dots([head | tail], acc) do
+    add_dots(tail, acc ++ [head])
+  end
+
+  defp add_dots([], acc), do: acc
+
   def render(assigns) do
     ~H"""
     <div class="flex-1 p-7 bg-white rounded-2xl">
@@ -133,7 +155,7 @@ defmodule YearbookWeb.Approvals do
           Página <strong>{@current_page_num}</strong> de {@total_pages}
         </span>
 
-        <div class="flex gap-2">
+        <div class="flex items-center gap-2">
           <.link
             :if={@current_page_num > 1}
             patch={~p"/backoffice/approvals?page=#{@current_page_num - 1}"}
@@ -141,6 +163,25 @@ defmodule YearbookWeb.Approvals do
           >
             <.icon name="hero-chevron-left" class="size-5" />
           </.link>
+
+          <%= for item <- page_range(@current_page_num, @total_pages) do %>
+            <%= if item == :ellipsis do %>
+              <span class="px-2 text-gray-400">...</span>
+            <% else %>
+              <.link
+                patch={~p"/backoffice/approvals?page=#{item}"}
+                class={[
+                  "px-3 py-1 rounded text-sm font-medium",
+                  if(item == @current_page_num,
+                    do: "bg-gray-800 text-white",
+                    else: "text-gray-600 hover:bg-gray-100"
+                  )
+                ]}
+              >
+                {item}
+              </.link>
+            <% end %>
+          <% end %>
 
           <.link
             :if={@current_page_num < @total_pages}
