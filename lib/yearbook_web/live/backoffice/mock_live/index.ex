@@ -6,38 +6,51 @@ defmodule YearbookWeb.Approvals do
   alias Yearbook.Entries
 
   def mount(_params, _session, socket) do
-    entries = Entries.list_pending_entries()
+    {:ok, assign(socket, selected_entry: nil)}
+  end
 
-    {:ok,
+  def handle_params(params, _url, socket) do
+    data = Entries.list_pending_entries_pagination(params)
+
+    {:noreply,
      socket
-     |> assign(current_page: :request_approvals)
-     |> assign(entries: entries)
-     |> assign(selected_entry: nil)}
+     |> assign(entries: data.entries)
+     |> assign(current_page_num: data.current_page)
+     |> assign(total_pages: data.total_pages)
+     |> assign(params: params)
+     |> assign(current_page: :request_approvals)}
   end
 
   def handle_event("approve", %{"id" => id}, socket) do
-    entry = Yearbook.Entries.get_entry!(id)
+    entry = Entries.get_entry!(id)
 
-    case Yearbook.Entries.update_entry(entry, %{status: :accepted}) do
-      {:ok, _updated_entry} ->
-        new_entries = Yearbook.Entries.list_pending_entries()
+    case Entries.update_entry(entry, %{status: :accepted}) do
+      {:ok, _} ->
+        data = Entries.list_pending_entries_pagination(socket.assigns.params)
 
-        {:noreply, assign(socket, entries: new_entries)}
+        {:noreply,
+         socket
+         |> put_flash(:info, "Entry approved successfully.")
+         |> assign_pagination_data(data)}
 
-      {:error, _changeset} ->
+      {:error, _} ->
         {:noreply, put_flash(socket, :error, "Error approving entry.")}
     end
   end
 
   def handle_event("deny", %{"id" => id}, socket) do
-    entry = Yearbook.Entries.get_entry!(id)
+    entry = Entries.get_entry!(id)
 
-    case Yearbook.Entries.update_entry(entry, %{status: :denied}) do
-      {:ok, _updated_entry} ->
-        new_entries = Yearbook.Entries.list_pending_entries()
-        {:noreply, assign(socket, entries: new_entries)}
+    case Entries.update_entry(entry, %{status: :denied}) do
+      {:ok, _} ->
+        data = Entries.list_pending_entries_pagination(socket.assigns.params)
 
-      {:error, _changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Entry denied successfully.")
+         |> assign_pagination_data(data)}
+
+      {:error, _} ->
         {:noreply, put_flash(socket, :error, "Error denying entry.")}
     end
   end
@@ -51,16 +64,24 @@ defmodule YearbookWeb.Approvals do
     {:noreply, assign(socket, selected_entry: nil)}
   end
 
+  defp assign_pagination_data(socket, data) do
+    assign(socket,
+      entries: data.entries,
+      current_page_num: data.current_page,
+      total_pages: data.total_pages
+    )
+  end
+
   def render(assigns) do
     ~H"""
-    <div class="flex-1 p-8 bg-white rounded-2xl">
+    <div class="flex-1 p-7 bg-white rounded-2xl">
       <h2 class="text-xl font-semibold mb-6 text-gray-700">Request Approvals</h2>
 
       <div class="space-y-1">
         <%= for entry <- @entries do %>
-          <div class="flex items-center border-2 border-gray-500 rounded-md p-4 ">
+          <div class="flex items-center border-2 border-gray-500 rounded-md p-4 mb-2">
             <div class="flex items-center gap-12 flex-1 min-w-0">
-              <span class=" text-gray-900 w-64 shrink-0">{entry.name}</span>
+              <span class="text-gray-900 w-64 shrink-0 font-medium">{entry.name}</span>
               <span class="text-gray-900 truncate pr-4 max-w-4xl">{entry.text}</span>
             </div>
 
@@ -68,7 +89,7 @@ defmodule YearbookWeb.Approvals do
               <button
                 phx-click="show_details"
                 phx-value-id={entry.id}
-                class="border-2 border-gray-500 px-2 py-1 rounded text-sm bg-gray-100"
+                class="border-2 border-gray-500 px-2 py-1 rounded text-sm bg-gray-100 cursor-pointer"
               >
                 Ver Detalhes
               </button>
@@ -76,15 +97,14 @@ defmodule YearbookWeb.Approvals do
                 <button
                   phx-click="approve"
                   phx-value-id={entry.id}
-                  class="text-green-400 hover:text-green-600"
+                  class="text-green-400 hover:text-green-600 cursor-pointer"
                 >
                   <.icon name="hero-check" class="size-8" />
                 </button>
-
                 <button
                   phx-click="deny"
                   phx-value-id={entry.id}
-                  class="text-red-400 hover:text-red-600"
+                  class="text-red-400 hover:text-red-600 cursor-pointer"
                 >
                   <.icon name="hero-x-mark" class="size-8" />
                 </button>
@@ -92,6 +112,30 @@ defmodule YearbookWeb.Approvals do
             </div>
           </div>
         <% end %>
+      </div>
+
+      <div class="mt-6 flex items-center justify-between border-t border-gray-500 pt-4">
+        <span class="text-sm text-gray-500">
+          Página <strong>{@current_page_num}</strong> de {@total_pages}
+        </span>
+
+        <div class="flex gap-2">
+          <.link
+            :if={@current_page_num > 1}
+            patch={~p"/backoffice/approvals?page=#{@current_page_num - 1}"}
+            class=" hover:bg-gray-50 text-sm font-medium"
+          >
+            <.icon name="hero-chevron-left" class="size-5" />
+          </.link>
+
+          <.link
+            :if={@current_page_num < @total_pages}
+            patch={~p"/backoffice/approvals?page=#{@current_page_num + 1}"}
+            class=" hover:bg-gray-50 text-sm font-medium"
+          >
+            <.icon name="hero-chevron-right" class="size-5" />
+          </.link>
+        </div>
       </div>
     </div>
 
@@ -120,7 +164,7 @@ defmodule YearbookWeb.Approvals do
 
             <div class="mb-6">
               <label class="text-xs font-bold uppercase text-gray-500 tracking-wider">
-                Quote
+                Frase
               </label>
               <p class="text-gray-800 font-semibold mt-1">
                 "{@selected_entry.text}"

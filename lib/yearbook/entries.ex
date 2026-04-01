@@ -35,6 +35,40 @@ defmodule Yearbook.Entries do
   end
 
   @doc """
+  Returns a paginated map of pending entries based on the provided parameters.
+
+  ## Examples
+      iex> list_pending_entries_pagination(%{"page" => "1"})
+      %{entries: [%Entry{}, ...], total_pages: 3, current_page: 1}
+  """
+  def list_pending_entries_pagination(params \\ %{}) do
+    Entry
+    |> where([e], e.status == :pending)
+    |> order_by([e], desc: e.inserted_at)
+    |> paginate(params)
+  end
+
+  defp paginate(query, params) do
+    page = String.to_integer(params["page"] || "1")
+    per_page = 10
+
+    entries =
+      query
+      |> limit(^per_page)
+      |> offset(^((page - 1) * per_page))
+      |> Repo.all()
+
+    total_entries = Repo.aggregate(query, :count)
+    total_pages = max(1, ceil(total_entries / per_page))
+
+    %{
+      entries: entries,
+      total_pages: total_pages,
+      current_page: page
+    }
+  end
+
+  @doc """
   Gets a single entry.
 
   Raises `Ecto.NoResultsError` if the Entry does not exist.
