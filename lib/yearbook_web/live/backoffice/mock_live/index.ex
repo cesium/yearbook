@@ -79,34 +79,48 @@ defmodule YearbookWeb.Approvals do
 
       <div class="space-y-1">
         <%= for entry <- @entries do %>
-          <div class="flex items-center border-2 border-gray-500 rounded-md p-4 mb-2">
-            <div class="flex items-center gap-12 flex-1 min-w-0">
-              <span class="text-gray-900 w-64 shrink-0 font-medium">{entry.name}</span>
-              <span class="text-gray-900 truncate pr-4 max-w-4xl">{entry.text}</span>
+          <div class="flex items-center border-2 border-gray-500 rounded-md p-3 mb-2 bg-white">
+            <div class="flex items-center gap-4 md:gap-12 flex-1 min-w-0">
+              <div class="flex flex-col min-w-0 md:w-64 shrink">
+                <label class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">
+                  Autor
+                </label>
+                <span class="text-gray-900 font-medium truncate text-sm md:text-base">
+                  {entry.name}
+                </span>
+              </div>
+
+              <div class="hidden md:flex flex-col flex-1 min-w-0 pr-4">
+                <label class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">
+                  Frase
+                </label>
+                <span class="text-gray-900 truncate max-w-4xl">{entry.text}</span>
+              </div>
             </div>
 
-            <div class="ml-auto flex flex-row items-center gap-8">
+            <div class="ml-2 flex flex-row items-center gap-2 md:gap-8 shrink-0">
               <button
                 phx-click="show_details"
                 phx-value-id={entry.id}
-                class="border-2 border-gray-500 px-2 py-1 rounded text-sm bg-gray-100 cursor-pointer"
+                class="border-2 border-gray-500 px-2 py-1 rounded text-[12px] md:text-sm bg-gray-100 cursor-pointer whitespace-nowrap"
               >
                 Ver Detalhes
               </button>
-              <div class="flex items-center gap-2">
+
+              <div class="flex items-center gap-1 md:gap-2">
                 <button
                   phx-click="approve"
                   phx-value-id={entry.id}
                   class="text-green-400 hover:text-green-600 cursor-pointer"
                 >
-                  <.icon name="hero-check" class="size-8" />
+                  <.icon name="hero-check" class="size-6 md:size-8" />
                 </button>
                 <button
                   phx-click="deny"
                   phx-value-id={entry.id}
                   class="text-red-400 hover:text-red-600 cursor-pointer"
                 >
-                  <.icon name="hero-x-mark" class="size-8" />
+                  <.icon name="hero-x-mark" class="size-6 md:size-8" />
                 </button>
               </div>
             </div>
