@@ -96,70 +96,71 @@ defmodule YearbookWeb.Approvals do
 
   def render(assigns) do
     ~H"""
-    <div class="flex-1 p-7 bg-white rounded-2xl">
-      <h2 class="text-xl font-semibold mb-6 text-gray-700">Request Approvals</h2>
+    <div class="flex-1 p-10 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 tracking-tight">Aprovações Pendentes</h2>
+      </div>
 
-      <div class="space-y-1">
+      <div class="flex items-center px-4 pb-4 text-[11px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100">
+        <div class="w-1/4">Autor</div>
+        <div class="hidden md:block flex-1">Frase</div>
+        <div class="w-32"></div>
+      </div>
+
+      <div class="divide-y divide-gray-100">
         <%= for entry <- @entries do %>
-          <div class="flex items-center border-2 border-gray-500 rounded-md p-3 mb-2 bg-white">
-            <div class="flex items-center gap-4 md:gap-12 flex-1 min-w-0">
-              <div class="flex flex-col min-w-0 md:w-64 shrink">
-                <label class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">
-                  Autor
-                </label>
-                <span class="text-gray-900 font-medium truncate text-sm md:text-base">
-                  {entry.name}
-                </span>
-              </div>
-
-              <div class="hidden md:flex flex-col flex-1 min-w-0 pr-4">
-                <label class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">
-                  Frase
-                </label>
-                <span class="text-gray-900 truncate max-w-4xl">{entry.text}</span>
-              </div>
+          <div class="group flex items-center px-4 py-5 hover:bg-gray-50/50 transition-colors duration-150">
+            <div class="w-1/4 min-w-0 pr-4">
+              <span class="text-sm font-semibold text-gray-700 truncate block">
+                {entry.name}
+              </span>
             </div>
 
-            <div class="ml-2 flex flex-row items-center gap-2 md:gap-8 shrink-0">
+            <div class="hidden md:block flex-1 min-w-0 pr-4">
+              <span class="text-sm text-gray-500 line-clamp-1 block">
+                {entry.text}
+              </span>
+            </div>
+
+            <div class="flex-1 md:flex-none md:w-32 flex justify-end items-center gap-4">
               <button
                 phx-click="show_details"
                 phx-value-id={entry.id}
-                class="border-2 border-gray-500 px-2 py-1 rounded text-[12px] md:text-sm bg-gray-100 cursor-pointer whitespace-nowrap"
+                class="text-gray-600 hover:text-gray-400 transition-colors cursor-pointer"
               >
-                Ver Detalhes
+                <.icon name="hero-eye" class="size-5" />
               </button>
 
-              <div class="flex items-center gap-1 md:gap-2">
-                <button
-                  phx-click="approve"
-                  phx-value-id={entry.id}
-                  class="text-green-400 hover:text-green-600 cursor-pointer"
-                >
-                  <.icon name="hero-check" class="size-6 md:size-8" />
-                </button>
-                <button
-                  phx-click="deny"
-                  phx-value-id={entry.id}
-                  class="text-red-400 hover:text-red-600 cursor-pointer"
-                >
-                  <.icon name="hero-x-mark" class="size-6 md:size-8" />
-                </button>
-              </div>
+              <button
+                phx-click="approve"
+                phx-value-id={entry.id}
+                class="text-gray-600 hover:text-gray-400 transition-colors cursor-pointer"
+              >
+                <.icon name="hero-check" class="size-6" />
+              </button>
+
+              <button
+                phx-click="deny"
+                phx-value-id={entry.id}
+                class="text-gray-600 hover:text-gray-400 transition-colors cursor-pointer"
+              >
+                <.icon name="hero-trash" class="size-5" />
+              </button>
             </div>
           </div>
         <% end %>
       </div>
 
-      <div class="mt-6 flex items-center justify-between border-t border-gray-500 pt-4">
-        <span class="text-sm text-gray-500">
-          Página <strong>{@current_page_num}</strong> de {@total_pages}
+      <div class="mt-7 flex items-center justify-between border-t border-gray-100 pt-3">
+        <span class="text-xs font-medium text-gray-400 uppercase tracking-wider">
+          Página <strong class="text-gray-700">{@current_page_num}</strong> de {@total_pages}
         </span>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1">
           <.link
             :if={@current_page_num > 1}
             patch={~p"/backoffice/approvals?page=#{@current_page_num - 1}"}
-            class=" hover:bg-gray-50 text-sm font-medium"
+            class="p-2 text-gray-400 hover:text-gray-700 transition-all"
           >
             <.icon name="hero-chevron-left" class="size-5" />
           </.link>
@@ -171,10 +172,10 @@ defmodule YearbookWeb.Approvals do
               <.link
                 patch={~p"/backoffice/approvals?page=#{item}"}
                 class={[
-                  "px-3 py-1 rounded text-sm font-medium",
+                  "w-8 h-8 flex items-center justify-center rounded-lg text-xs font-bold transition-all",
                   if(item == @current_page_num,
-                    do: "bg-gray-800 text-white",
-                    else: "text-gray-600 hover:bg-gray-100"
+                    do: "bg-gray-800 text-white shadow-sm",
+                    else: "text-gray-400 hover:bg-gray-100 hover:text-gray-700"
                   )
                 ]}
               >
@@ -186,7 +187,7 @@ defmodule YearbookWeb.Approvals do
           <.link
             :if={@current_page_num < @total_pages}
             patch={~p"/backoffice/approvals?page=#{@current_page_num + 1}"}
-            class=" hover:bg-gray-50 text-sm font-medium"
+            class="p-2 text-gray-400 hover:text-gray-700 transition-all"
           >
             <.icon name="hero-chevron-right" class="size-5" />
           </.link>
@@ -199,7 +200,7 @@ defmodule YearbookWeb.Approvals do
         <div class="bg-white rounded-xl max-w-md w-full shadow-2xl overflow-hidden">
           <div style="background-color: black" class="p-6 flex justify-between items-center">
             <h3 class="text-white text-xl font-bold items-center">Detalhes do Pedido</h3>
-            <button phx-click="close_modal" class="text-white/80 hover:text-white">
+            <button phx-click="close_modal" class="text-white/80 hover:text-white cursor-pointer">
               <.icon name="hero-x-mark" class="size-8" />
             </button>
           </div>
