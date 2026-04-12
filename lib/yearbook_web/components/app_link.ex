@@ -1,5 +1,5 @@
 defmodule YearbookWeb.Components.AppLink do
-  @doc """
+  @moduledoc """
   A generalized link component with distinct visual variants.
   """
 
