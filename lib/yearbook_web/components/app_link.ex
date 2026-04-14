@@ -13,7 +13,7 @@ defmodule YearbookWeb.Components.AppLink do
 
   slot :inner_block, required: true
 
-  def app_link(%{variant: :default} = assigns) do
+  def action_link(%{variant: :default} = assigns) do
     ~H"""
     <a
       href={@href}
@@ -31,7 +31,7 @@ defmodule YearbookWeb.Components.AppLink do
     """
   end
 
-  def app_link(%{variant: :secondary} = assigns) do
+  def action_link(%{variant: :secondary} = assigns) do
     ~H"""
     <a
       href={@href}
