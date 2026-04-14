@@ -6,7 +6,7 @@ defmodule YearbookWeb.Config do
     [
       %{
         key: :request_approvals,
-        title: "Pedidos",
+        title: "Requests",
         icon: "hero-pencil",
         url: "/backoffice/approvals"
       }

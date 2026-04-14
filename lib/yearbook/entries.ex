@@ -39,13 +39,30 @@ defmodule Yearbook.Entries do
 
   ## Examples
       iex> list_pending_entries_pagination(%{"page" => "1"})
-      %{entries: [%Entry{}, ...], total_pages: 3, current_page: 1}
+      %{
+        entries: [%Entry{}, ...],
+        total_pages: 9,
+        current_page: 1,
+        total_count: 83
+      }
   """
   def list_pending_entries_pagination(params \\ %{}) do
-    Entry
-    |> where([e], e.status == :pending)
-    |> order_by([e], desc: e.inserted_at)
-    |> paginate(params)
+    query =
+      Entry
+      |> where([e], e.status == :pending)
+
+    query =
+      case {List.wrap(params["order_by"]), List.wrap(params["order_directions"])} do
+        {[field | _], [dir | _]} when dir in ["asc", "desc"] ->
+          direction = String.to_atom(dir)
+          field_atom = String.to_atom(field)
+          order_by(query, [e], [{^direction, field(e, ^field_atom)}])
+
+        _ ->
+          order_by(query, [e], desc: e.inserted_at)
+      end
+
+    paginate(query, params)
   end
 
   defp paginate(query, params) do
@@ -64,7 +81,8 @@ defmodule Yearbook.Entries do
     %{
       entries: entries,
       total_pages: total_pages,
-      current_page: page
+      current_page: page,
+      total_count: total_entries
     }
   end
 

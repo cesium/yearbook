@@ -4,8 +4,6 @@
     current_page={Map.get(assigns, :current_page)}
   />
 
-  <main class="flex-1 bg-gray-50 p-6 lg:p-10">
-    <.flash_group flash={@flash} />
-    {@inner_content}
-  </main>
+  <.flash_group flash={@flash} />
+  {@inner_content}
 </div>
