@@ -8,7 +8,8 @@ defmodule Yearbook.Repo.Seeds do
 
   def run do
     [
-      "accounts.exs"
+      "accounts.exs",
+      "entries.exs"
     ]
     |> Enum.each(fn file ->
       Code.require_file("#{@seeds_dir}/#{file}")

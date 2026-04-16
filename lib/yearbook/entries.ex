@@ -22,6 +22,71 @@ defmodule Yearbook.Entries do
   end
 
   @doc """
+  Returns the list of pending entries.
+  """
+
+  def list_pending_entries do
+    query =
+      from e in Entry,
+        where: e.status == :pending,
+        order_by: [desc: e.inserted_at]
+
+    Repo.all(query)
+  end
+
+  @doc """
+  Returns a paginated map of pending entries based on the provided parameters.
+
+  ## Examples
+      iex> list_pending_entries_pagination(%{"page" => "1"})
+      %{
+        entries: [%Entry{}, ...],
+        total_pages: 9,
+        current_page: 1,
+        total_count: 83
+      }
+  """
+  def list_pending_entries_pagination(params \\ %{}) do
+    query =
+      Entry
+      |> where([e], e.status == :pending)
+
+    query =
+      case {List.wrap(params["order_by"]), List.wrap(params["order_directions"])} do
+        {[field | _], [dir | _]} when dir in ["asc", "desc"] ->
+          direction = String.to_atom(dir)
+          field_atom = String.to_atom(field)
+          order_by(query, [e], [{^direction, field(e, ^field_atom)}])
+
+        _ ->
+          order_by(query, [e], desc: e.inserted_at)
+      end
+
+    paginate(query, params)
+  end
+
+  defp paginate(query, params) do
+    page = String.to_integer(params["page"] || "1")
+    per_page = 10
+
+    entries =
+      query
+      |> limit(^per_page)
+      |> offset(^((page - 1) * per_page))
+      |> Repo.all()
+
+    total_entries = Repo.aggregate(query, :count)
+    total_pages = max(1, ceil(total_entries / per_page))
+
+    %{
+      entries: entries,
+      total_pages: total_pages,
+      current_page: page,
+      total_count: total_entries
+    }
+  end
+
+  @doc """
   Gets a single entry.
 
   Raises `Ecto.NoResultsError` if the Entry does not exist.
