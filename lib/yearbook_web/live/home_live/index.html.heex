@@ -1,6 +1,6 @@
 <div class="p-4 md:p-10 w-full min-h-screen bg-app-bg">
   <div class="max-w-7xl mx-auto">
-    <div class="mb-12">
+    <div class="mb-8">
       <div class="flex items-center gap-4">
         <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-tight">
           Yearbook
@@ -57,7 +57,7 @@
       </div>
 
       <div class="flex items-center gap-8 mt-8">
-        <div class="flex gap-8">
+        <div class="flex gap-7">
           <button
             phx-click="filter_changed"
             phx-value-masters=""
@@ -104,7 +104,7 @@
         <%= if assigns[:current_scope] && @current_scope.user do %>
           <.link
             patch={~p"/entries/new"}
-            class="flex items-center justify-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-600 hover:bg-gray-50 hover:border-orange-200 hover:text-orange-600 transition-all shadow-sm min-w-[40px]"
+            class="flex items-center justify-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-600 hover:bg-gray-50 hover:border-orange-200 hover:text-orange-600 transition-all shadow-sm min-w-10"
           >
             <.icon name="hero-plus" class="size-4 " />
 
@@ -129,10 +129,28 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-12">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-10">
       <%= for entry <- @entries do %>
         <.entry_card name={entry.name} text={entry.text} src={entry.photo} />
       <% end %>
+    </div>
+    <div :if={@total_pages > 1} class="mt-16 border-t border-gray-100">
+      <.pagination
+        params={@params}
+        meta={
+          %{
+            total_pages: @total_pages,
+            current_page: @current_page_num,
+            total_count: @total_count,
+            current_offset: (@current_page_num - 1) * 10,
+            next_offset: min(@current_page_num * 10, @total_count),
+            previous_page: @current_page_num - 1,
+            next_page: @current_page_num + 1,
+            has_previous_page?: @current_page_num > 1,
+            has_next_page?: @current_page_num < @total_pages
+          }
+        }
+      />
     </div>
   </div>
 </div>

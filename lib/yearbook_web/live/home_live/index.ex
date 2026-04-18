@@ -5,30 +5,40 @@ defmodule YearbookWeb.HomeLive.Index do
   use YearbookWeb, :landing_view
   alias Yearbook.Entries
   import YearbookWeb.Components.EntryCard
+  import YearbookWeb.Components.Pagination
+
+  @page_size 10
 
   def mount(_params, _session, socket) do
-    entries = Entries.list_accepted_entries(%{"masters" => "", "year" => ""})
-
     {:ok,
      socket
      |> assign(page_title: "Home | Yearbook")
-     |> assign(entries: entries)
-     |> assign(total_entries: Enum.count(entries))
-     |> assign(filters: %{"masters" => "", "year" => ""})}
+     |> assign(filters: %{"masters" => "", "year" => ""})
+     |> assign(page_size: @page_size)}
   end
 
-  def handle_params(_params, _url, socket) do
-    {:noreply, socket}
-  end
+  def handle_params(params, _url, socket) do
+    page = params["page"] || "1"
 
-  def handle_event("filter_changed", params, socket) do
-    entries = Entries.list_accepted_entries(params)
+    new_filters = Map.take(params, ["masters", "year"])
+    current_filters = Map.merge(socket.assigns.filters, new_filters)
+
+    results =
+      Entries.list_accepted_entries_pagination(Map.merge(current_filters, %{"page" => page}))
 
     {:noreply,
      socket
-     |> assign(entries: entries)
-     |> assign(total_entries: Enum.count(entries))
-     |> assign(filters: params)}
+     |> assign(entries: results.entries)
+     |> assign(filters: current_filters)
+     |> assign(params: params)
+     |> assign(current_page_num: results.current_page)
+     |> assign(total_pages: results.total_pages)
+     |> assign(total_count: results.total_count)}
+  end
+
+  def handle_event("filter_changed", params, socket) do
+    new_params = Map.put(params, "page", 1)
+    {:noreply, push_patch(socket, to: ~p"/?#{new_params}")}
   end
 
   defp list_academic_years do

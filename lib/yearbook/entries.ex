@@ -87,33 +87,31 @@ defmodule Yearbook.Entries do
   end
 
   @doc """
-  Returns the list of accepted entries.
-
-  ## Options
-    * `:filters` - A map of filters to apply to the query.
-      Ex: %{"masters" => "true", "year" => "2026"}
+  Returns a paginated map of accepted entries based on filters and page.
   """
-  def list_accepted_entries(filters \\ %{}) do
+  def list_accepted_entries_pagination(params \\ %{}) do
     query = from e in Entry, where: e.status == :accepted
 
     query =
-      case Map.get(filters, "masters") do
+      case Map.get(params, "masters") do
         "true" -> from e in query, where: e.masters == true
         "false" -> from e in query, where: e.masters == false
         _ -> query
       end
 
     query =
-      case Map.get(filters, "year") do
+      case Map.get(params, "year") do
         year_str when year_str in [nil, ""] ->
           query
 
         year_str ->
-          year_int = String.to_integer(year_str)
+          year_int = if is_binary(year_str), do: String.to_integer(year_str), else: year_str
           from e in query, where: e.year == ^year_int
       end
 
-    Repo.all(from e in query, order_by: [asc: e.name])
+    query = from e in query, order_by: [asc: e.name]
+
+    paginate(query, params)
   end
 
   @doc """
