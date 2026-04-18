@@ -1,0 +1,138 @@
+<div class="p-4 md:p-10 w-full min-h-screen bg-app-bg">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-12">
+      <div class="flex items-center gap-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-tight">
+          Yearbook
+        </h1>
+
+        <div class="relative inline-block text-left mt-2" id="year-menu-container">
+          <button
+            type="button"
+            phx-click={
+              Phoenix.LiveView.JS.toggle(
+                to: "#year-dropdown",
+                in: "fade-in-scale",
+                out: "fade-out-scale"
+              )
+            }
+            phx-click-away={Phoenix.LiveView.JS.hide(to: "#year-dropdown")}
+            class="flex items-center gap-2 bg-orange-50 text-orange-600 border border-orange-100 px-4 py-1.5 rounded-full text-sm font-bold focus:outline-none hover:bg-orange-100 transition-all shadow-sm"
+          >
+            <%= case @filters["year"] do %>
+              <% "" -> %>
+                <span>Ano Letivo</span>
+              <% year -> %>
+                <span>{format_academic_year(String.to_integer(year))}</span>
+            <% end %>
+            <.icon name="hero-chevron-down" class="size-4" />
+          </button>
+
+          <div
+            id="year-dropdown"
+            class="hidden absolute left-0 mt-2 w-48 origin-top-left rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 z-50 overflow-hidden border border-gray-100"
+          >
+            <div class="py-2">
+              <%= for {label, value} <- list_academic_years() do %>
+                <button
+                  phx-click={
+                    Phoenix.LiveView.JS.push("filter_changed",
+                      value: %{year: value, masters: @filters["masters"]}
+                    )
+                    |> Phoenix.LiveView.JS.hide(to: "#year-dropdown")
+                  }
+                  class={"block w-full text-left px-5 py-2.5 text-sm transition-all #{if @filters["year"] == value, do: "bg-orange-50 text-orange-600 font-bold", else: "text-gray-600 hover:bg-gray-50 hover:text-orange-500"}"}
+                >
+                  <div class="flex items-center justify-between">
+                    <span>{label}</span>
+                    <%= if @filters["year"] == value do %>
+                      <div class="size-1.5 rounded-full bg-orange-500"></div>
+                    <% end %>
+                  </div>
+                </button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-8 mt-8">
+        <div class="flex gap-8">
+          <button
+            phx-click="filter_changed"
+            phx-value-masters=""
+            phx-value-year={@filters["year"]}
+            class="pb-2 relative group focus:outline-none"
+          >
+            <span class={"text-sm font-bold tracking-wide uppercase #{if @filters["masters"] == "", do: "text-orange-600", else: "text-gray-400 hover:text-gray-600"}"}>
+              Todos
+            </span>
+            <%= if @filters["masters"] == "" do %>
+              <div class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600"></div>
+            <% end %>
+          </button>
+
+          <button
+            phx-click="filter_changed"
+            phx-value-masters="false"
+            phx-value-year={@filters["year"]}
+            class="pb-2 relative group focus:outline-none"
+          >
+            <span class={"text-sm font-bold tracking-wide uppercase #{if @filters["masters"] == "false", do: "text-orange-600", else: "text-gray-400 hover:text-gray-600"}"}>
+              Licenciatura
+            </span>
+            <%= if @filters["masters"] == "false" do %>
+              <div class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600"></div>
+            <% end %>
+          </button>
+
+          <button
+            phx-click="filter_changed"
+            phx-value-masters="true"
+            phx-value-year={@filters["year"]}
+            class="pb-2 relative group focus:outline-none"
+          >
+            <span class={"text-sm font-bold tracking-wide uppercase #{if @filters["masters"] == "true", do: "text-orange-600", else: "text-gray-400 hover:text-gray-600"}"}>
+              Mestrado
+            </span>
+            <%= if @filters["masters"] == "true" do %>
+              <div class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600"></div>
+            <% end %>
+          </button>
+        </div>
+
+        <%= if assigns[:current_scope] && @current_scope.user do %>
+          <.link
+            patch={~p"/entries/new"}
+            class="flex items-center justify-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-600 hover:bg-gray-50 hover:border-orange-200 hover:text-orange-600 transition-all shadow-sm min-w-[40px]"
+          >
+            <.icon name="hero-plus" class="size-4 " />
+
+            <span class="hidden md:inline">Adicionar</span>
+          </.link>
+        <% end %>
+      </div>
+
+      <p class="mt-6 text-gray-500 max-w-2xl text-sm leading-relaxed">
+        <%= case {@filters["masters"], @filters["year"]} do %>
+          <% {"", ""} -> %>
+            Todos os alunos registados no Yearbook.
+          <% {"true", ""} -> %>
+            Alunos do Mestrado de todos os anos letivos.
+          <% {"false", ""} -> %>
+            Alunos da Licenciatura de todos os anos letivos.
+          <% {masters, year} -> %>
+            Alunos {if masters == "true", do: "do Mestrado", else: "da Licenciatura"} do Ano Letivo {format_academic_year(
+              String.to_integer(year)
+            )}.
+        <% end %>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-12">
+      <%= for entry <- @entries do %>
+        <.entry_card name={entry.name} text={entry.text} src={entry.photo} />
+      <% end %>
+    </div>
+  </div>
+</div>

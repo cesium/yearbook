@@ -87,6 +87,36 @@ defmodule Yearbook.Entries do
   end
 
   @doc """
+  Returns the list of accepted entries.
+
+  ## Options
+    * `:filters` - A map of filters to apply to the query.
+      Ex: %{"masters" => "true", "year" => "2026"}
+  """
+  def list_accepted_entries(filters \\ %{}) do
+    query = from e in Entry, where: e.status == :accepted
+
+    query =
+      case Map.get(filters, "masters") do
+        "true" -> from e in query, where: e.masters == true
+        "false" -> from e in query, where: e.masters == false
+        _ -> query
+      end
+
+    query =
+      case Map.get(filters, "year") do
+        year_str when year_str in [nil, ""] ->
+          query
+
+        year_str ->
+          year_int = String.to_integer(year_str)
+          from e in query, where: e.year == ^year_int
+      end
+
+    Repo.all(from e in query, order_by: [asc: e.name])
+  end
+
+  @doc """
   Gets a single entry.
 
   Raises `Ecto.NoResultsError` if the Entry does not exist.
