@@ -24,6 +24,12 @@ config :yearbook,
   ecto_repos: [Yearbook.Repo],
   generators: [timestamp_type: :utc_datetime, binary_id: true]
 
+# Waffle configuration
+config :waffle,
+  storage: Waffle.Storage.Local,
+  storage_dir_prefix: "priv",
+  asset_host: {:system, "ASSET_HOST"}
+
 # Configures the endpoint
 config :yearbook, YearbookWeb.Endpoint,
   url: [host: "localhost"],
