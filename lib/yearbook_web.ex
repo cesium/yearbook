@@ -64,6 +64,14 @@ defmodule YearbookWeb do
     end
   end
 
+  def component do
+    quote do
+      use Phoenix.Component
+
+      unquote(html_helpers())
+    end
+  end
+
   def auth_view do
     quote do
       use Phoenix.LiveView,
@@ -120,6 +128,8 @@ defmodule YearbookWeb do
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())
+
+      alias Yearbook.Uploaders
     end
   end
 

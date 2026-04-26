@@ -26,6 +26,14 @@ defmodule YearbookWeb.Endpoint do
     gzip: not code_reloading?,
     only: YearbookWeb.static_paths()
 
+  # Serve uploads from the "uploads" directory in development
+  if Mix.env() == :dev do
+    plug Plug.Static,
+      at: "/uploads",
+      from: Path.expand("./priv/uploads"),
+      gzip: false
+  end
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
