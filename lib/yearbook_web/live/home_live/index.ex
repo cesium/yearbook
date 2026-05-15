@@ -19,21 +19,32 @@ defmodule YearbookWeb.HomeLive.Index do
 
   def handle_params(params, _url, socket) do
     page = params["page"] || "1"
-
     new_filters = Map.take(params, ["masters", "year"])
     current_filters = Map.merge(socket.assigns.filters, new_filters)
 
     results =
       Entries.list_accepted_entries_pagination(Map.merge(current_filters, %{"page" => page}))
 
-    {:noreply,
-     socket
-     |> assign(entries: results.entries)
-     |> assign(filters: current_filters)
-     |> assign(params: params)
-     |> assign(current_page_num: results.current_page)
-     |> assign(total_pages: results.total_pages)
-     |> assign(total_count: results.total_count)}
+    socket =
+      socket
+      |> assign(entries: results.entries)
+      |> assign(filters: current_filters)
+      |> assign(params: params)
+      |> assign(current_page_num: results.current_page)
+      |> assign(total_pages: results.total_pages)
+      |> assign(total_count: results.total_count)
+
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "Pedido | Yearbook")
+    |> assign(:entry, %Entries.Entry{})
+  end
+
+  defp apply_action(socket, _action, _params) do
+    socket
   end
 
   def handle_event("filter_changed", params, socket) do

@@ -103,7 +103,7 @@
 
         <%= if assigns[:current_scope] && @current_scope.user do %>
           <.link
-            patch={~p"/entries/new"}
+            patch={~p"/entries/new?#{@params}"}
             class="flex items-center justify-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-600 hover:bg-gray-50 hover:border-orange-200 hover:text-orange-600 transition-all shadow-sm min-w-10"
           >
             <.icon name="hero-plus" class="size-4 " />
@@ -153,4 +153,22 @@
       />
     </div>
   </div>
+
+  <%= if @live_action == :new do %>
+    <.modal
+      id="entry-modal"
+      show
+      on_cancel={JS.patch(~p"/?#{@params}")}
+    >
+      <div class="">
+        <.live_component
+          module={YearbookWeb.EntryFormComponent}
+          id={:new}
+          action={@live_action}
+          entry={%Yearbook.Entries.Entry{}}
+          patch={~p"/?#{@params}"}
+        />
+      </div>
+    </.modal>
+  <% end %>
 </div>

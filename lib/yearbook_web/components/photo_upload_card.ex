@@ -3,12 +3,14 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
   Photo upload card component.
   """
 
-  use YearbookWeb, :live_component
+  use YearbookWeb, :component
 
   import YearbookWeb.Components.PhotoUploader
 
-  @impl true
-  def render(assigns) do
+  attr :upload, :any, required: true
+  attr :staged_photo_path, :string, default: nil
+
+  def photo_upload_card(assigns) do
     ~H"""
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 w-full max-w-md mx-auto">
       <%= if @staged_photo_path do %>
@@ -20,16 +22,11 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
           <p class="text-sm font-bold text-primary">Foto carregada com sucesso!</p>
         </div>
       <% else %>
-        <form
-          id="photo-upload-form"
-          phx-target={@myself}
-          phx-change="validate"
-          phx-submit="save"
-          class="flex flex-col gap-4"
-        >
+        <div class="flex flex-col gap-4">
           <.photo_uploader
+            phx_drop_target={@upload.ref}
             class="h-48 w-48 mx-auto rounded-xl border-primary/30! hover:border-primary! hover:bg-primary/5! transition-all! overflow-hidden cursor-pointer"
-            upload={@uploads.photo}
+            upload={@upload}
             image_class="w-full h-full object-cover"
           >
             <:placeholder>
@@ -43,68 +40,20 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
             </:placeholder>
           </.photo_uploader>
 
-          <%= for err <- upload_errors(@uploads.photo) do %>
+          <%= for err <- upload_errors(@upload) do %>
             <p class="text-xs text-red-500 text-center font-bold tracking-wider">
               {error_to_string(err)}
             </p>
           <% end %>
-          <%= for entry <- @uploads.photo.entries, err <- upload_errors(@uploads.photo, entry) do %>
+          <%= for entry <- @upload.entries, err <- upload_errors(@upload, entry) do %>
             <p class="text-xs text-red-500 text-center font-bold tracking-wider">
               {error_to_string(err)}
             </p>
           <% end %>
-
-          <button
-            type="submit"
-            class="w-full py-3.5 rounded-full bg-primary text-white font-bold tracking-widest text-xs hover:bg-primary/85 active:scale-[0.98] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
-            disabled={@uploads.photo.entries == [] or upload_errors(@uploads.photo) != []}
-            phx-disable-with="A CARREGAR..."
-          >
-            UPLOAD
-          </button>
-        </form>
+        </div>
       <% end %>
     </div>
     """
-  end
-
-  @impl true
-  def mount(socket) do
-    {:ok,
-     socket
-     |> assign(:staged_photo_path, nil)
-     |> allow_upload(:photo,
-       accept: ~w(.jpg .jpeg .png),
-       max_entries: 1,
-       max_file_size: 5_000_000
-     )}
-  end
-
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("save", %{}, socket) do
-    uploaded_files =
-      consume_uploaded_entries(socket, :photo, fn %{path: path}, entry ->
-        filename = "#{Ecto.UUID.generate()}-#{entry.client_name}"
-        upload_dir = Path.join([:code.priv_dir(:yearbook), "uploads"])
-        File.mkdir_p!(upload_dir)
-        dest = Path.join(upload_dir, filename)
-        File.cp!(path, dest)
-        {:ok, "/uploads/#{filename}"}
-      end)
-
-    case uploaded_files do
-      [file_path] ->
-        send(self(), {:photo_staged, file_path})
-
-        {:noreply, assign(socket, :staged_photo_path, file_path)}
-
-      [] ->
-        {:noreply, put_flash(socket, :error, "Ocorreu um erro ao processar a foto!")}
-    end
   end
 
   defp error_to_string(:too_large), do: "Foto demasiado grande (máx 5MB)!"
