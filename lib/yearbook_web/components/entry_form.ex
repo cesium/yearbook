@@ -4,6 +4,7 @@ defmodule YearbookWeb.EntryFormComponent do
   """
   use YearbookWeb, :live_component
   alias Yearbook.Entries
+  alias YearbookWeb.Components.PhotoUploadCard
   import YearbookWeb.Components.PhotoUploadCard
 
   @impl true
@@ -178,7 +179,7 @@ defmodule YearbookWeb.EntryFormComponent do
     if entry.done? do
       file_path =
         consume_uploaded_entry(socket, entry, fn %{path: path} ->
-          {:ok, YearbookWeb.Components.PhotoUploadCard.store_photo(path, entry)}
+          {:ok, PhotoUploadCard.store_photo(path, entry)}
         end)
 
       {:noreply, assign(socket, :staged_photo_path, file_path)}
