@@ -57,7 +57,11 @@ defmodule YearbookWeb.EntryFormComponent do
             </div>
 
             <div class="shrink-0 w-full md:w-64 flex justify-center md:pt-8">
-              <.photo_upload_card upload={@uploads.photo} staged_photo_path={@staged_photo_path} />
+              <.photo_upload_card
+                upload={@uploads.photo}
+                staged_photo_path={@staged_photo_path}
+                show_upload_button={false}
+              />
             </div>
           </div>
 
@@ -174,12 +178,7 @@ defmodule YearbookWeb.EntryFormComponent do
     if entry.done? do
       file_path =
         consume_uploaded_entry(socket, entry, fn %{path: path} ->
-          filename = "#{Ecto.UUID.generate()}-#{entry.client_name}"
-          upload_dir = Path.expand("priv/uploads")
-          File.mkdir_p!(upload_dir)
-          dest = Path.join(upload_dir, filename)
-          File.cp!(path, dest)
-          {:ok, "/uploads/#{filename}"}
+          {:ok, YearbookWeb.Components.PhotoUploadCard.store_photo(path, entry)}
         end)
 
       {:noreply, assign(socket, :staged_photo_path, file_path)}
