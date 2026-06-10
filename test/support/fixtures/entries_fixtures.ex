@@ -14,7 +14,8 @@ defmodule Yearbook.EntriesFixtures do
         name: "some name",
         photo: "some photo",
         status: :pending,
-        text: "some text"
+        text: "some text",
+        year: 2026
       })
       |> Yearbook.Entries.create_entry()
 

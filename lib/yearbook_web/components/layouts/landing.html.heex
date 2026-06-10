@@ -32,14 +32,8 @@
       })();
     </script>
   </head>
-  <body class="bg-gray-100">
+  <body class="bg-app-bg">
     <div class="relative min-h-screen w-full overflow-hidden">
-      <img
-        src="/images/0.png"
-        class="absolute inset-0 h-full w-full object-cover"
-        alt="background"
-      />
-
       <div class="relative z-10 flex flex-col min-h-screen">
         <.navbar current_scope={assigns[:current_scope]} />
 
@@ -47,7 +41,7 @@
           <.flash_group flash={@flash} />
         </div>
 
-        <div class="flex grow md:items-center md:justify-center">
+        <div class="flex grow md:items-start md:justify-center">
           {@inner_content}
         </div>
         <.footer />

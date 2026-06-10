@@ -53,6 +53,16 @@ defmodule Yearbook.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
 
+      # uploads
+      {:waffle_ecto, "~> 0.0.12"},
+      {:waffle, "~> 1.1.9"},
+      {:ex_aws, "~> 2.6.0"},
+      {:ex_aws_s3, "~> 2.5.8"},
+      {:hackney, "~> 1.25.0"},
+      {:httpoison, "~> 2.2.3"},
+      {:sweet_xml, "~> 0.7.5"},
+      {:zstream, "~> 0.6.7"},
+
       # mailer
       {:swoosh, "~> 1.16"},
 

@@ -18,7 +18,10 @@ defmodule Yearbook.Repo.Seeds.Entries do
         name: name,
         text: Enum.random(@quotes),
         status: :pending,
-        photo: "https://i.pravatar.cc/150?u=entry#{i}"
+        photo: "https://i.pravatar.cc/150?u=entry#{i}",
+        masters: Enum.random([true, false]),
+        year: Enum.random(2020..2026)
+
       }
 
       case %Entry{} |> Entry.changeset(attrs) |> Repo.insert() do
