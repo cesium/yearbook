@@ -14,14 +14,25 @@ defmodule YearbookWeb.Components.PhotoUploader do
   attr :capture, :string, default: nil
   attr :accept, :string, default: nil
 
+  attr :phx_target, :any, default: nil
+  attr :phx_change, :string, default: nil
+  attr :phx_drop_target, :any, default: nil
+
   slot :placeholder, required: false, doc: "Slot for the placeholder content."
 
   def photo_uploader(assigns) do
     ~H"""
-    <.live_file_input upload={@upload} class="sr-only" capture={@capture} accept={@accept} />
+    <.live_file_input
+      upload={@upload}
+      class="sr-only"
+      capture={@capture}
+      accept={@accept}
+      phx-change={@phx_change}
+      phx-target={@phx_target}
+    />
     <label for={@upload.ref} class="block">
       <section
-        phx-drop-target={@upload.ref}
+        phx-drop-target={@phx_drop_target || @upload.ref}
         class={[
           "transition-colors hover:cursor-pointer border-2 border-dashed",
           @rounded && "rounded-full overflow-hidden",
