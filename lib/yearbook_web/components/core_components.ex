@@ -521,27 +521,41 @@ defmodule YearbookWeb.CoreComponents do
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove") |> hide_modal(@id)}
-      class="relative z-60 hidden"
+      class="relative z-50 hidden"
     >
       <div
         id={"#{@id}-bg"}
-        class="bg-black/60 backdrop-blur-sm fixed inset-0 transition-opacity"
-        aria-hidden="true"
+        class="fixed inset-0 bg-black/50 backdrop-blur-md transition-opacity"
       />
-      <div class="fixed inset-0 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4">
-          <div
-            id={"#{@id}-container"}
-            phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-            class="relative bg-white rounded-xl max-w-sm w-full shadow-2xl p-8 text-center transition"
-          >
-            <button
-              phx-click={JS.exec("data-cancel", to: "##{@id}")}
-              class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-            >
-              <.icon name="hero-x-mark" class="size-5" />
-            </button>
 
+      <div class="fixed inset-0 flex min-h-full items-start justify-center overflow-y-auto px-4 py-6 sm:items-center sm:py-10">
+        <div
+          id={"#{@id}-container"}
+          phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
+          class="
+            relative w-full max-w-2xl
+            bg-white rounded-3xl
+            shadow-[0_20px_60px_rgba(0,0,0,0.15)]
+            border border-gray-100
+            p-6 sm:p-10
+
+            animate-in fade-in zoom-in-95 duration-200
+          "
+        >
+          <button
+            phx-click={JS.exec("data-cancel", to: "##{@id}")}
+            class="
+              absolute top-5 right-5
+              w-9 h-9 flex items-center justify-center
+              text-gray-500 hover:text-gray-700
+              transition-all focus:outline-none
+              cursor-pointer
+            "
+          >
+            <.icon name="hero-x-mark" class="size-5" />
+          </button>
+
+          <div class="text-left">
             {render_slot(@inner_block)}
           </div>
         </div>

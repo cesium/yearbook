@@ -8,7 +8,7 @@ defmodule Yearbook.EntriesTest do
 
     import Yearbook.EntriesFixtures
 
-    @invalid_attrs %{name: nil, status: nil, text: nil, photo: nil}
+    @invalid_attrs %{name: nil, status: nil, text: nil, photo: nil, year: nil}
 
     test "list_entries/0 returns all entries" do
       entry = entry_fixture()
@@ -21,13 +21,20 @@ defmodule Yearbook.EntriesTest do
     end
 
     test "create_entry/1 with valid data creates a entry" do
-      valid_attrs = %{name: "some name", status: :pending, text: "some text", photo: "some photo"}
+      valid_attrs = %{
+        name: "some name",
+        status: :pending,
+        text: "some text",
+        photo: "some photo",
+        year: 2026
+      }
 
       assert {:ok, %Entry{} = entry} = Entries.create_entry(valid_attrs)
       assert entry.name == "some name"
       assert entry.status == :pending
       assert entry.text == "some text"
       assert entry.photo == "some photo"
+      assert entry.year == 2026
     end
 
     test "create_entry/1 with invalid data returns error changeset" do
@@ -41,7 +48,8 @@ defmodule Yearbook.EntriesTest do
         name: "some updated name",
         status: :accepted,
         text: "some updated text",
-        photo: "some updated photo"
+        photo: "some updated photo",
+        year: 2025
       }
 
       assert {:ok, %Entry{} = entry} = Entries.update_entry(entry, update_attrs)
@@ -49,6 +57,7 @@ defmodule Yearbook.EntriesTest do
       assert entry.status == :accepted
       assert entry.text == "some updated text"
       assert entry.photo == "some updated photo"
+      assert entry.year == 2025
     end
 
     test "update_entry/2 with invalid data returns error changeset" do
