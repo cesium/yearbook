@@ -26,36 +26,15 @@ defmodule YearbookWeb.Router do
   scope "/", YearbookWeb do
     pipe_through [:browser]
 
-    live_session :landing_page, on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}] do
+    live_session :public, on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}] do
       live "/", HomeLive.Index, :index
-    end
-  end
-
-  scope "/yearbook", YearbookWeb do
-    pipe_through [:browser]
-
-    live_session :yearbook, on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}] do
-      live "/", YearbookLive.Index, :index
-    end
-  end
-
-  scope "/request", YearbookWeb do
-    pipe_through [:browser]
-
-    live_session :request, on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}] do
-      live "/", RequestLive.Index, :index
+      live "/yearbook", YearbookLive.Index, :index
+      live "/request", RequestLive.Index, :index
+      live "/privacy-policy", PrivacyPolicyLive.Index, :index
     end
 
     live_session :request_form, on_mount: [{YearbookWeb.UserAuth, :require_authenticated}] do
-      live "/new", RequestLive.Index, :new
-    end
-  end
-
-  scope "/privacy-policy", YearbookWeb do
-    pipe_through [:browser]
-
-    live_session :privacy_policy, on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}] do
-      live "/", PrivacyPolicyLive.Index, :index
+      live "/request/new", RequestLive.Index, :new
     end
   end
 
