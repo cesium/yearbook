@@ -40,7 +40,7 @@ defmodule YearbookWeb.EntryFormComponent do
                   field={@form[:name]}
                   type="text"
                   placeholder="Ex: Angela Martin"
-                  class="w-full px-5 py-4 rounded-2xl bg-white border border-gray-300 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm"
+                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm"
                 />
               </div>
 
@@ -51,8 +51,8 @@ defmodule YearbookWeb.EntryFormComponent do
                   type="textarea"
                   maxlength="200"
                   rows="7"
-                  placeholder="Max 200 caracteres"
-                  class="w-full px-5 py-4 rounded-2xl bg-white border border-gray-300 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm resize-none"
+                  placeholder="Máx. 200 caracteres"
+                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm resize-none"
                 />
               </div>
             </div>
@@ -66,24 +66,25 @@ defmodule YearbookWeb.EntryFormComponent do
             </div>
           </div>
 
-          <label class="group flex items-center gap-3 px-2 py-4 rounded-2xl bg-orange-50 border border-orange-100 cursor-pointer">
-            <.input
-              field={@form[:masters]}
-              type="checkbox"
-              class="hidden"
-            />
+          <div class="flex gap-6">
+            <label class="flex items-center gap-2 text-sm font-medium text-gray-700 cursor-pointer">
+              <input
+                type="radio"
+                name={@form[:masters].name}
+                value="false"
+                checked={@form[:masters].value in [nil, false, "false"]}
+              /> Licenciatura
+            </label>
 
-            <div class="flex justify-center items-center w-5 h-5 rounded border border-gray-300 bg-white group-has-checked:bg-orange-200 group-has-checked:border-orange-300">
-              <.icon
-                name="hero-check"
-                class="size-4 text-gray-900 hidden group-has-checked:block"
-              />
-            </div>
-
-            <span class="text-sm font-medium text-gray-700 mt-1">
-              Acabei o Mestrado
-            </span>
-          </label>
+            <label class="flex items-center gap-2 text-sm font-medium text-gray-700 cursor-pointer">
+              <input
+                type="radio"
+                name={@form[:masters].name}
+                value="true"
+                checked={@form[:masters].value in [true, "true"]}
+              /> Mestrado
+            </label>
+          </div>
 
           <div class="pt-4">
             <button

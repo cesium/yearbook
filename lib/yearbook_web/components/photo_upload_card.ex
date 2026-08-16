@@ -15,7 +15,7 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
 
   def photo_upload_card(assigns) do
     ~H"""
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 w-full max-w-md mx-auto">
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 w-full max-w-md mx-auto">
       <%= if @staged_photo_path do %>
         <div class="flex flex-col gap-6 text-center">
           <img
