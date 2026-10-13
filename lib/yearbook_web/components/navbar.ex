@@ -100,7 +100,7 @@ defmodule YearbookWeb.Navbar do
         <.link
           navigate={~p"/users/settings"}
           phx-click={hide_mobile_navbar()}
-          class="block w-full px-4 py-2 text-sm rounded-xl hover:bg-gray-100"
+          class="block w-full px-4 py-2 text-center text-sm font-orbitron rounded-xl hover:bg-gray-100"
         >
           Settings
         </.link>
@@ -109,7 +109,7 @@ defmodule YearbookWeb.Navbar do
           href={~p"/users/log-out"}
           method="delete"
           phx-click={hide_mobile_navbar()}
-          class="block w-full text-left px-4 py-2 text-sm text-main rounded-xl hover:bg-red-50"
+          class="block w-full px-4 py-2 text-center text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
         >
           Logout
         </.link>
@@ -130,7 +130,7 @@ defmodule YearbookWeb.Navbar do
             <.link
               navigate={~p"/users/settings"}
               phx-click={hide_user_menu()}
-              class="block w-full px-4 py-2 text-sm rounded-xl hover:bg-gray-100"
+              class="block w-full px-4 py-2 text-sm font-orbitron rounded-xl hover:bg-gray-100"
             >
               Settings
             </.link>
@@ -139,7 +139,7 @@ defmodule YearbookWeb.Navbar do
               href={~p"/users/log-out"}
               method="delete"
               phx-click={hide_user_menu()}
-              class="block w-full text-left px-4 py-2 text-sm text-main rounded-xl hover:bg-red-50"
+              class="block w-full px-4 py-2 text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
             >
               Logout
             </.link>
