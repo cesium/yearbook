@@ -1,7 +1,7 @@
 <div class="max-w-screen-2xl mx-auto w-full pt-4 md:pt-10 bg-app-bg">
   <div class="mb-8">
     <div class="flex items-center gap-4">
-      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-tight">
+      <h1 class="text-4xl md:text-5xl font-orbitron font-bold text-main tracking-tight">
         Yearbook
       </h1>
 
@@ -16,7 +16,7 @@
             )
           }
           phx-click-away={Phoenix.LiveView.JS.hide(to: "#year-dropdown")}
-          class="flex items-center gap-2 bg-orange-50 text-orange-600 border border-orange-100 px-4 py-1.5 rounded-xl text-sm font-bold focus:outline-none hover:bg-orange-100 transition-all shadow-sm"
+          class="flex items-center gap-2 bg-white text-main border border-gray-100 px-4 py-1.5 rounded-xl text-sm font-orbitron font-bold focus:outline-none hover:bg-red-50 transition-all shadow-sm"
         >
           <%= case @filters["year"] do %>
             <% "" -> %>
@@ -29,7 +29,7 @@
 
         <div
           id="year-dropdown"
-          class="hidden absolute left-0 mt-2 w-48 origin-top-left rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 z-50 overflow-hidden border border-gray-100"
+          class="hidden absolute left-0 mt-2 w-48 origin-top-left rounded-2xl bg-white shadow-xl ring-1 ring-gray-400 ring-opacity-5 z-50 overflow-hidden border border-gray-100"
         >
           <div class="py-2">
             <%= for {label, value} <- list_academic_years() do %>
@@ -40,12 +40,12 @@
                   )
                   |> Phoenix.LiveView.JS.hide(to: "#year-dropdown")
                 }
-                class={"block w-full text-left px-5 py-2.5 text-sm transition-all #{if @filters["year"] == value, do: "bg-orange-50 text-orange-600 font-bold", else: "text-gray-600 hover:bg-gray-50 hover:text-orange-500"}"}
+                class={"block w-full text-left px-5 py-2.5 text-sm transition-all #{if @filters["year"] == value, do: "bg-red-50 text-main font-bold", else: "text-gray-600 hover:bg-gray-50 hover:text-main"}"}
               >
                 <div class="flex items-center justify-between">
                   <span>{label}</span>
                   <%= if @filters["year"] == value do %>
-                    <div class="size-1.5 rounded-full bg-orange-500"></div>
+                    <div class="size-1.5 rounded-full bg-main"></div>
                   <% end %>
                 </div>
               </button>
@@ -63,11 +63,11 @@
           phx-value-year={@filters["year"]}
           class="pb-2 relative group focus:outline-none"
         >
-          <span class={"text-sm font-bold tracking-wide uppercase #{if @filters["masters"] == "", do: "text-orange-600", else: "text-gray-400 hover:text-gray-600"}"}>
+          <span class={"text-sm font-orbitron font-bold tracking-wide uppercase #{if @filters["masters"] == "", do: "text-main", else: "text-gray-400 hover:text-gray-600"}"}>
             Todos
           </span>
           <%= if @filters["masters"] == "" do %>
-            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600"></div>
+            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-main"></div>
           <% end %>
         </button>
 
@@ -77,11 +77,11 @@
           phx-value-year={@filters["year"]}
           class="pb-2 relative group focus:outline-none"
         >
-          <span class={"text-sm font-bold tracking-wide uppercase #{if @filters["masters"] == "false", do: "text-orange-600", else: "text-gray-400 hover:text-gray-600"}"}>
+          <span class={"text-sm font-orbitron font-bold tracking-wide uppercase #{if @filters["masters"] == "false", do: "text-main", else: "text-gray-400 hover:text-gray-600"}"}>
             Licenciatura
           </span>
           <%= if @filters["masters"] == "false" do %>
-            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600"></div>
+            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-main"></div>
           <% end %>
         </button>
 
@@ -91,11 +91,11 @@
           phx-value-year={@filters["year"]}
           class="pb-2 relative group focus:outline-none"
         >
-          <span class={"text-sm font-bold tracking-wide uppercase #{if @filters["masters"] == "true", do: "text-orange-600", else: "text-gray-400 hover:text-gray-600"}"}>
+          <span class={"text-sm font-orbitron font-bold tracking-wide uppercase #{if @filters["masters"] == "true", do: "text-main", else: "text-gray-400 hover:text-gray-600"}"}>
             Mestrado
           </span>
           <%= if @filters["masters"] == "true" do %>
-            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600"></div>
+            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-main"></div>
           <% end %>
         </button>
       </div>

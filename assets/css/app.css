@@ -1,6 +1,7 @@
 /* See the Tailwind configuration guide for advanced usage
    https://tailwindcss.com/docs/configuration */
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import "tailwindcss" source(none);
 @source "../css";
 @source "../js";
@@ -11,8 +12,10 @@
 @plugin "../vendor/heroicons";
 
 @theme {
-  --color-primary: #ee7749;
-  --color-app-bg: #F9F9F9;
+   --font-orbitron: "Orbitron", sans-serif;
+   --color-primary: #ee7749;
+   --color-app-bg: #FFFFFF;
+   --color-main: #BD2020;
 }
 
 

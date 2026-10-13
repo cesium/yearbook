@@ -66,15 +66,15 @@ defmodule YearbookWeb.Navbar do
     <.link
       navigate={~p"/yearbook"}
       phx-click={@is_mobile && hide_mobile_navbar()}
-      class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-primary transition cursor-pointer"
+      class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main transition cursor-pointer"
     >
-      Yearbook
+      Percursos
     </.link>
 
     <.link
       navigate={~p"/request"}
       phx-click={@is_mobile && hide_mobile_navbar()}
-      class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-primary transition cursor-pointer"
+      class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main transition cursor-pointer"
     >
       Pedido
     </.link>
@@ -83,7 +83,7 @@ defmodule YearbookWeb.Navbar do
       <.link
         navigate={~p"/backoffice/approvals"}
         phx-click={@is_mobile && hide_mobile_navbar()}
-        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-primary hover:opacity-80 transition cursor-pointer"
+        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main hover:opacity-80 transition cursor-pointer"
       >
         Backoffice
       </.link>
@@ -121,7 +121,7 @@ defmodule YearbookWeb.Navbar do
             href={~p"/users/log-out"}
             method="delete"
             phx-click={hide_user_menu() && (@is_mobile && hide_mobile_navbar())}
-            class="block w-full text-left px-4 py-2 text-sm rounded-xl hover:bg-red-50"
+            class="block w-full text-left px-4 py-2 text-sm text-main rounded-xl hover:bg-red-50"
           >
             Logout
           </.link>
@@ -150,14 +150,14 @@ defmodule YearbookWeb.Navbar do
       <.link
         navigate={~p"/users/register"}
         phx-click={@is_mobile && hide_mobile_navbar()}
-        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-primary transition cursor-pointer"
+        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
         Sign Up
       </.link>
       <.link
         navigate={~p"/users/log-in"}
         phx-click={@is_mobile && hide_mobile_navbar()}
-        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-primary transition cursor-pointer"
+        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
         Sign In
       </.link>
