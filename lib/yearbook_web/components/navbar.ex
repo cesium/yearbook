@@ -96,42 +96,10 @@ defmodule YearbookWeb.Navbar do
 
     ~H"""
     <%= if @current_scope && @current_scope.user do %>
-      <div class="hidden lg:relative lg:inline-block lg:text-left" phx-click-away={hide_user_menu()}>
-        <button
-          type="button"
-          phx-click={show_user_menu()}
-          class="flex items-center justify-center p-1 rounded-full hover:bg-gray-100 transition"
-        >
-          <span class="hero-user-circle-solid text-black h-7 w-7 sm:h-8 sm:w-8"></span>
-        </button>
-
-        <div
-          id="user-menu-dropdown"
-          class="hidden absolute right-0 mt-2 w-48 rounded-2xl bg-white p-2 border border-gray-300 z-50 flex flex-col gap-1"
-        >
-          <.link
-            navigate={~p"/users/settings"}
-            phx-click={hide_user_menu() && (@is_mobile && hide_mobile_navbar())}
-            class="block w-full px-4 py-2 text-sm rounded-xl hover:bg-gray-100"
-          >
-            Settings
-          </.link>
-
-          <.link
-            href={~p"/users/log-out"}
-            method="delete"
-            phx-click={hide_user_menu() && (@is_mobile && hide_mobile_navbar())}
-            class="block w-full text-left px-4 py-2 text-sm text-main rounded-xl hover:bg-red-50"
-          >
-            Logout
-          </.link>
-        </div>
-      </div>
-
-      <div class="lg:hidden">
+      <%= if @is_mobile do %>
         <.link
           navigate={~p"/users/settings"}
-          phx-click={hide_user_menu() && (@is_mobile && hide_mobile_navbar())}
+          phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-sm rounded-xl hover:bg-gray-100"
         >
           Settings
@@ -140,12 +108,44 @@ defmodule YearbookWeb.Navbar do
         <.link
           href={~p"/users/log-out"}
           method="delete"
-          phx-click={hide_user_menu() && (@is_mobile && hide_mobile_navbar())}
-          class="block w-full text-left px-4 py-2 text-sm rounded-xl hover:bg-red-50"
+          phx-click={hide_mobile_navbar()}
+          class="block w-full text-left px-4 py-2 text-sm text-main rounded-xl hover:bg-red-50"
         >
           Logout
         </.link>
-      </div>
+      <% else %>
+        <div class="relative inline-block text-left" phx-click-away={hide_user_menu()}>
+          <button
+            type="button"
+            phx-click={show_user_menu()}
+            class="flex items-center justify-center p-1 rounded-full hover:bg-gray-100 transition"
+          >
+            <span class="hero-user-circle-solid text-black h-7 w-7 sm:h-8 sm:w-8"></span>
+          </button>
+
+          <div
+            id="user-menu-dropdown"
+            class="hidden absolute right-0 mt-2 w-48 rounded-2xl bg-white p-2 border border-gray-300 z-50 flex flex-col gap-1"
+          >
+            <.link
+              navigate={~p"/users/settings"}
+              phx-click={hide_user_menu()}
+              class="block w-full px-4 py-2 text-sm rounded-xl hover:bg-gray-100"
+            >
+              Settings
+            </.link>
+
+            <.link
+              href={~p"/users/log-out"}
+              method="delete"
+              phx-click={hide_user_menu()}
+              class="block w-full text-left px-4 py-2 text-sm text-main rounded-xl hover:bg-red-50"
+            >
+              Logout
+            </.link>
+          </div>
+        </div>
+      <% end %>
     <% else %>
       <.link
         navigate={~p"/users/register"}
@@ -169,6 +169,7 @@ defmodule YearbookWeb.Navbar do
     js
     |> JS.toggle(
       to: "#user-menu-dropdown",
+      display: "flex",
       in:
         {"transition ease-out duration-100", "transform opacity-0 scale-95",
          "transform opacity-100 scale-100"},
