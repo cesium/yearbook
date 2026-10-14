@@ -26,7 +26,7 @@ defmodule YearbookWeb.UserLive.LoginTest do
         |> follow_redirect(conn, ~p"/users/log-in")
 
       assert html =~
-         "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
+               "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
 
       assert Yearbook.Repo.get_by!(Yearbook.Accounts.UserToken, user_id: user.id).context ==
                "login"
@@ -87,7 +87,6 @@ defmodule YearbookWeb.UserLive.LoginTest do
         |> follow_redirect(conn, ~p"/users/register")
 
       assert login_html =~ "Registar-se"
-
     end
   end
 
