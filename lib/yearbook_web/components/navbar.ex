@@ -68,7 +68,7 @@ defmodule YearbookWeb.Navbar do
       phx-click={@is_mobile && hide_mobile_navbar()}
       class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main transition cursor-pointer"
     >
-      Percursos
+      {gettext("Percursos")}
     </.link>
 
     <.link
@@ -76,7 +76,7 @@ defmodule YearbookWeb.Navbar do
       phx-click={@is_mobile && hide_mobile_navbar()}
       class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main transition cursor-pointer"
     >
-      Pedido
+      {gettext("Pedido")}
     </.link>
 
     <%= if @current_scope && @current_scope.user && @current_scope.user.role == :admin do %>
@@ -85,7 +85,7 @@ defmodule YearbookWeb.Navbar do
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main hover:opacity-80 transition cursor-pointer"
       >
-        Backoffice
+        {gettext("Backoffice")}
       </.link>
     <% end %>
     """
@@ -102,7 +102,7 @@ defmodule YearbookWeb.Navbar do
           phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-center text-sm font-orbitron rounded-xl hover:bg-gray-100"
         >
-          Settings
+          {gettext("Settings")}
         </.link>
 
         <.link
@@ -111,7 +111,7 @@ defmodule YearbookWeb.Navbar do
           phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-center text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
         >
-          Logout
+          {gettext("Logout")}
         </.link>
       <% else %>
         <div class="relative inline-block text-left" phx-click-away={hide_user_menu()}>
@@ -132,7 +132,7 @@ defmodule YearbookWeb.Navbar do
               phx-click={hide_user_menu()}
               class="block w-full px-4 py-2 text-sm font-orbitron rounded-xl hover:bg-gray-100"
             >
-              Settings
+              {gettext("Settings")}
             </.link>
 
             <.link
@@ -141,7 +141,7 @@ defmodule YearbookWeb.Navbar do
               phx-click={hide_user_menu()}
               class="block w-full px-4 py-2 text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
             >
-              Logout
+              {gettext("Logout")}
             </.link>
           </div>
         </div>
@@ -152,14 +152,14 @@ defmodule YearbookWeb.Navbar do
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
-        Sign Up
+        {gettext("Sign Up")}
       </.link>
       <.link
         navigate={~p"/users/log-in"}
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
-        Sign In
+        {gettext("Sign In")}
       </.link>
     <% end %>
     """

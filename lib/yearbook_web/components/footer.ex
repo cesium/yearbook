@@ -15,7 +15,7 @@ defmodule YearbookWeb.Footer do
           class="h-10 w-auto mb-4"
         />
         <.link navigate={~p"/privacy-policy"} class="text-white">
-          <span>Política de Privacidade</span>
+          <span>{gettext("Política de Privacidade")}</span>
         </.link>
       </div>
     </footer>

@@ -10,8 +10,8 @@ defmodule YearbookWeb.UserLive.Registration do
     <div class="z-10 flex justify-end items-center grow h-full">
       <div class="flex flex-col gap-9 bg-white w-full md:w-125 h-fit rounded-2xl py-8 px-5 sm:p-8 my-auto mx-5">
         <div class="flex flex-col gap-2">
-          <h1 class="text-3xl font-bold tracking-normal text-black">Sign up to</h1>
-          <h1 class="text-5xl font-bold tracking-normal text-black">Yearbook</h1>
+          <h1 class="text-3xl font-bold tracking-normal text-black">{gettext("Registar no")}</h1>
+          <h1 class="text-5xl font-bold tracking-normal text-black">{gettext("Yearbook")}</h1>
         </div>
 
         <.form
@@ -24,27 +24,27 @@ defmodule YearbookWeb.UserLive.Registration do
           <.input
             field={@form[:email]}
             type="email"
-            label="Email"
+            label={gettext("Email")}
             autocomplete="username"
             required
             phx-mounted={JS.focus()}
           />
 
           <.button
-            phx-disable-with="Creating account..."
+            phx-disable-with={gettext("A criar conta...")}
             class="w-full h-12 rounded-lg cursor-pointer bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create an account
+            {gettext("Criar uma conta")}
           </.button>
         </.form>
 
         <div class="text-center">
-          <span class="text-black">Already have an account? </span>
+          <span class="text-black">{gettext("Já tem uma conta?")}</span>
           <.link
             class="inline-block text-primary underline cursor-pointer hover:text-[#E37044] hover:scale-110 transition-all"
             navigate={~p"/users/log-in"}
           >
-            Log in
+            {gettext("Iniciar sessão")}
           </.link>
         </div>
       </div>
@@ -78,7 +78,10 @@ defmodule YearbookWeb.UserLive.Registration do
          socket
          |> put_flash(
            :info,
-           "An email was sent to #{user.email}, please access it to confirm your account."
+           gettext(
+             "Foi enviado um email para %{email}. Aceda ao email para confirmar a sua conta.",
+             email: user.email
+           )
          )
          |> push_navigate(to: ~p"/users/log-in")}
 

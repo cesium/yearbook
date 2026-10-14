@@ -15,9 +15,12 @@ defmodule YearbookWeb.UserLive.Login do
         >
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
-            <p>You are running the local mail adapter.</p>
+            <p>{gettext("Está a utilizar o adaptador de email local.")}</p>
             <p>
-              To see sent emails, visit <.link href="/dev/mailbox" class="underline">the mailbox page</.link>.
+              {gettext("Para consultar os emails enviados, visite")} <.link
+                href="/dev/mailbox"
+                class="underline"
+              >{gettext("a página da caixa de correio")}</.link>.
             </p>
           </div>
         </div>
@@ -25,17 +28,19 @@ defmodule YearbookWeb.UserLive.Login do
       <div class="z-10 flex justify-end items-center grow h-full w-full sm:bg-transparent">
         <div class="flex flex-col gap-6 bg-white w-full md:w-125 h-fit rounded-2xl py-8 px-5 md:p-8 my-auto mx-0 md:mx-5 sm:shadow-xl">
           <div class="flex flex-col gap-2">
-            <h1 class="text-3xl font-bold tracking-normal text-black">Welcome back</h1>
-            <h1 class="text-4xl font-bold tracking-normal text-black">Log in</h1>
+            <h1 class="text-3xl font-bold tracking-normal text-black">
+              {gettext("Bem-vindo de volta")}
+            </h1>
+            <h1 class="text-4xl font-bold tracking-normal text-black">{gettext("Iniciar sessão")}</h1>
             <p class="text-base text-neutral-600 pt-2">
               <%= if @current_scope do %>
-                You need to reauthenticate to perform sensitive actions on your account.
+                {gettext("Tem de voltar a autenticar-se para realizar ações sensíveis na sua conta.")}
               <% else %>
-                Don't have an account? <.link
+                {gettext("Ainda não tem uma conta?")} <.link
                   navigate={~p"/users/register"}
                   class="font-semibold text-primary underline hover:text-[#E37044] hover:scale-110 transition-all cursor-pointer"
                   phx-no-format
-                >Sign up</.link>
+                >{gettext("Registar-se")}</.link>
               <% end %>
             </p>
           </div>
@@ -51,19 +56,19 @@ defmodule YearbookWeb.UserLive.Login do
               readonly={!!@current_scope}
               field={f[:email]}
               type="email"
-              label="Email"
+              label={gettext("Email")}
               autocomplete="username"
               required
               phx-mounted={JS.focus()}
               class="w-full"
             />
             <.button class="w-full h-12 rounded-lg cursor-pointer bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed">
-              Log in with email <span aria-hidden="true">→</span>
+              {gettext("Iniciar sessão com email")} <span aria-hidden="true">→</span>
             </.button>
           </.form>
           <div class="flex items-center gap-3 text-sm text-gray-500">
             <div class="h-px flex-1 bg-gray-200"></div>
-            <span>or</span>
+            <span>{gettext("ou")}</span>
             <div class="h-px flex-1 bg-gray-200"></div>
           </div>
           <.form
@@ -79,7 +84,7 @@ defmodule YearbookWeb.UserLive.Login do
               readonly={!!@current_scope}
               field={f[:email]}
               type="email"
-              label="Email"
+              label={gettext("Email")}
               autocomplete="username"
               required
               class="w-full"
@@ -87,7 +92,7 @@ defmodule YearbookWeb.UserLive.Login do
             <.input
               field={@form[:password]}
               type="password"
-              label="Password"
+              label={gettext("Palavra-passe")}
               autocomplete="current-password"
               class="w-full"
             />
@@ -96,7 +101,7 @@ defmodule YearbookWeb.UserLive.Login do
               name={@form[:remember_me].name}
               value="true"
             >
-              Log in and stay logged in <span aria-hidden="true">→</span>
+              {gettext("Iniciar sessão e manter sessão iniciada")} <span aria-hidden="true">→</span>
             </.button>
           </.form>
         </div>
@@ -130,7 +135,9 @@ defmodule YearbookWeb.UserLive.Login do
     end
 
     info =
-      "If your email is in our system, you will receive instructions for logging in shortly."
+      gettext(
+        "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
+      )
 
     {:noreply,
      socket
