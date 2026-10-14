@@ -1,0 +1,33 @@
+<div class="max-w-screen-2xl mx-auto flex flex-col">
+  <.link
+    navigate={~p"/privacy-policy"}
+    class="text-sm font-bold tracking-wide uppercase hover:text-main"
+  >
+    <span>Política de Privacidade</span>
+  </.link>
+
+  <.link
+    navigate={~p"/request/new"}
+    class="text-sm font-bold tracking-wide uppercase hover:text-main"
+  >
+    <span>Fazer Pedido</span>
+  </.link>
+
+  <%= if @live_action == :new do %>
+    <.modal
+      id="entry-modal"
+      show
+      on_cancel={JS.navigate(~p"/request")}
+    >
+      <div>
+        <.live_component
+          module={YearbookWeb.EntryFormComponent}
+          id={:new}
+          action={@live_action}
+          entry={%Yearbook.Entries.Entry{}}
+          patch={~p"/request"}
+        />
+      </div>
+    </.modal>
+  <% end %>
+</div>

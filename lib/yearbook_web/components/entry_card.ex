@@ -11,7 +11,7 @@ defmodule YearbookWeb.Components.EntryCard do
 
   def entry_card(assigns) do
     ~H"""
-    <div class="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 w-full h-full transition-all">
+    <div class="flex flex-col items-center gap-3 p-2 bg-gray-50 rounded-2xl border border-gray-200 w-full h-full transition-all">
       <div class="w-full aspect-square overflow-hidden rounded-xl border border-gray-50">
         <%= if @src do %>
           <img src={@src} alt={@name} class="w-full h-full object-cover" />

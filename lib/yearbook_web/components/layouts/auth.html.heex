@@ -33,7 +33,7 @@
     </script>
   </head>
   <body class="bg-gray-100">
-    <div class="relative min-h-screen w-full overflow-hidden">
+    <div class="relative min-h-screen w-full">
       <img
         src="/images/0.png"
         class="absolute inset-0 h-full w-full object-cover"
@@ -47,9 +47,9 @@
           <.flash_group flash={@flash} />
         </div>
 
-        <div class="flex grow md:items-center md:justify-center">
+        <main class="flex grow md:items-center md:justify-center">
           {@inner_content}
-        </div>
+        </main>
         <.footer />
       </div>
     </div>
