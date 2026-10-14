@@ -8,9 +8,9 @@ defmodule YearbookWeb.UserLive.LoginTest do
     test "renders login page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "Log in"
-      assert html =~ "Sign up"
-      assert html =~ "Log in with email"
+      assert html =~ "Iniciar sessão"
+      assert html =~ "Registar-se"
+      assert html =~ "Iniciar sessão com email"
     end
   end
 
@@ -25,7 +25,8 @@ defmodule YearbookWeb.UserLive.LoginTest do
         |> render_submit()
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~ "If your email is in our system"
+      assert html =~
+         "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
 
       assert Yearbook.Repo.get_by!(Yearbook.Accounts.UserToken, user_id: user.id).context ==
                "login"
@@ -39,7 +40,7 @@ defmodule YearbookWeb.UserLive.LoginTest do
         |> render_submit()
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~ "If your email is in our system"
+      assert html =~ "Se o seu email estiver registado no nosso sistema"
     end
   end
 
@@ -81,11 +82,12 @@ defmodule YearbookWeb.UserLive.LoginTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a", "Sign up")
+        |> element("a[href='/users/register'].text-primary", "Registar-se")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert login_html =~ "Sign up"
+      assert login_html =~ "Registar-se"
+
     end
   end
 
@@ -98,9 +100,9 @@ defmodule YearbookWeb.UserLive.LoginTest do
     test "shows login page with email filled in", %{conn: conn, user: user} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "You need to reauthenticate"
-      refute html =~ "Sign up"
-      assert html =~ "Log in with email"
+      assert html =~ "Tem de voltar a autenticar-se"
+      refute html =~ "Registar-se"
+      assert html =~ "Iniciar sessão com email"
 
       assert html =~
                ~s(<input type="email" name="user[email]" id="login_form_magic_email" value="#{user.email}")

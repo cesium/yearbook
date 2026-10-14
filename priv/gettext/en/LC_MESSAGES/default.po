@@ -50,25 +50,25 @@ msgstr ""
 msgid "of"
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:76
+#: lib/yearbook_web/components/entry_form.ex:80
 #: lib/yearbook_web/live/home_live/index.html.heex:8
 #: lib/yearbook_web/live/yearbook_live/index.html.heex:81
 #, elixir-autogen, elixir-format
 msgid "Licenciatura"
 msgstr "Bachelor's degree"
 
-#: lib/yearbook_web/user_auth.ex:249
+#: lib/yearbook_web/user_auth.ex:251
 #, elixir-autogen, elixir-format
 msgid "You must be an admin to access this page."
 msgstr ""
 
 #: lib/yearbook_web/user_auth.ex:233
-#: lib/yearbook_web/user_auth.ex:298
+#: lib/yearbook_web/user_auth.ex:304
 #, elixir-autogen, elixir-format
 msgid "You must log in to access this page."
 msgstr ""
 
-#: lib/yearbook_web/user_auth.ex:264
+#: lib/yearbook_web/user_auth.ex:269
 #, elixir-autogen, elixir-format
 msgid "You must re-authenticate to access this page."
 msgstr ""
@@ -98,7 +98,7 @@ msgstr "Academic Year"
 msgid "Fazer Pedido"
 msgstr "Make a Request"
 
-#: lib/yearbook_web/components/entry_form.ex:85
+#: lib/yearbook_web/components/entry_form.ex:89
 #: lib/yearbook_web/live/home_live/index.html.heex:17
 #: lib/yearbook_web/live/yearbook_live/index.html.heex:95
 #, elixir-autogen, elixir-format
@@ -138,22 +138,22 @@ msgstr "All students registered in the Yearbook."
 msgid "Yearbook"
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:114
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:115
 #, elixir-autogen, elixir-format
 msgid "da Licenciatura"
 msgstr "Bachelor's"
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:114
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:115
 #, elixir-autogen, elixir-format
 msgid "do Mestrado"
 msgstr "Master's"
 
-#: lib/yearbook_web/components/entry_form.ex:97
+#: lib/yearbook_web/components/entry_form.ex:101
 #, elixir-autogen, elixir-format
 msgid "A carregar foto..."
 msgstr "Uploading photo..."
 
-#: lib/yearbook_web/live/user_live/login.ex:34
+#: lib/yearbook_web/live/user_live/login.ex:39
 #, elixir-autogen, elixir-format
 msgid "Ainda não tem uma conta?"
 msgstr "Don't have an account yet?"
@@ -163,19 +163,19 @@ msgstr "Don't have an account yet?"
 msgid "Backoffice"
 msgstr ""
 
-#: lib/yearbook_web/live/user_live/login.ex:28
+#: lib/yearbook_web/live/user_live/login.ex:32
 #, elixir-autogen, elixir-format
 msgid "Bem-vindo de volta"
 msgstr "Welcome back"
 
-#: lib/yearbook_web/live/user_live/login.ex:54
-#: lib/yearbook_web/live/user_live/login.ex:82
+#: lib/yearbook_web/live/user_live/login.ex:59
+#: lib/yearbook_web/live/user_live/login.ex:87
 #: lib/yearbook_web/live/user_live/registration.ex:27
 #, elixir-autogen, elixir-format
 msgid "Email"
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:99
+#: lib/yearbook_web/components/entry_form.ex:103
 #, elixir-autogen, elixir-format
 msgid "Enviar Pedido"
 msgstr "Submit Request"
@@ -185,24 +185,24 @@ msgstr "Submit Request"
 msgid "Está a utilizar o adaptador de email local."
 msgstr "You are running the local email adapter."
 
-#: lib/yearbook_web/components/entry_form.ex:48
+#: lib/yearbook_web/components/entry_form.ex:51
 #, elixir-autogen, elixir-format
 msgid "Frase"
 msgstr "Quote"
 
 #: lib/yearbook_web/components/layouts.ex:77
-#: lib/yearbook_web/live/user_live/login.ex:29
+#: lib/yearbook_web/live/user_live/login.ex:34
 #: lib/yearbook_web/live/user_live/registration.ex:47
 #, elixir-autogen, elixir-format
 msgid "Iniciar sessão"
 msgstr "Log in"
 
-#: lib/yearbook_web/live/user_live/login.ex:61
+#: lib/yearbook_web/live/user_live/login.ex:66
 #, elixir-autogen, elixir-format
 msgid "Iniciar sessão com email"
 msgstr "Log in with email"
 
-#: lib/yearbook_web/live/user_live/login.ex:99
+#: lib/yearbook_web/live/user_live/login.ex:104
 #, elixir-autogen, elixir-format
 msgid "Iniciar sessão e manter sessão iniciada"
 msgstr "Log in and stay logged in"
@@ -213,7 +213,7 @@ msgstr "Log in and stay logged in"
 msgid "Logout"
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:38
+#: lib/yearbook_web/components/entry_form.ex:39
 #, elixir-autogen, elixir-format
 msgid "Nome"
 msgstr "Name"
@@ -223,7 +223,7 @@ msgstr "Name"
 msgid "Novo Pedido"
 msgstr "New Request"
 
-#: lib/yearbook_web/live/user_live/login.ex:90
+#: lib/yearbook_web/live/user_live/login.ex:95
 #, elixir-autogen, elixir-format
 msgid "Palavra-passe"
 msgstr "Password"
@@ -244,15 +244,15 @@ msgid "Preenche os dados para apareceres no Yearbook."
 msgstr "Fill in your details to appear in the Yearbook."
 
 #: lib/yearbook_web/components/layouts.ex:71
-#: lib/yearbook_web/live/user_live/login.ex:38
+#: lib/yearbook_web/live/user_live/login.ex:43
 #, elixir-autogen, elixir-format
 msgid "Registar-se"
 msgstr "Sign up"
 
-#: lib/yearbook_web/live/user_live/login.ex:133
+#: lib/yearbook_web/live/user_live/login.ex:138
 #, elixir-autogen, elixir-format
 msgid "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
-msgstr "If your email is registered in our system, you will receive instructions to log in shortly."
+msgstr "If your email is in our system, you will receive instructions for logging in shortly."
 
 #: lib/yearbook_web/components/navbar.ex:105
 #: lib/yearbook_web/components/navbar.ex:135
@@ -270,17 +270,17 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: lib/yearbook_web/live/user_live/login.ex:32
+#: lib/yearbook_web/live/user_live/login.ex:37
 #, elixir-autogen, elixir-format
 msgid "Tem de voltar a autenticar-se para realizar ações sensíveis na sua conta."
-msgstr "You must re-authenticate to perform sensitive actions on your account."
+msgstr "You need to reauthenticate to perform sensitive actions on your account."
 
-#: lib/yearbook_web/live/user_live/login.ex:20
+#: lib/yearbook_web/live/user_live/login.ex:23
 #, elixir-autogen, elixir-format
 msgid "a página da caixa de correio"
 msgstr "the mailbox page"
 
-#: lib/yearbook_web/live/user_live/login.ex:66
+#: lib/yearbook_web/live/user_live/login.ex:71
 #, elixir-autogen, elixir-format
 msgid "ou"
 msgstr "or"
@@ -334,7 +334,7 @@ msgstr "Create an account"
 #: lib/yearbook_web/live/user_live/registration.ex:81
 #, elixir-autogen, elixir-format
 msgid "Foi enviado um email para %{email}. Aceda ao email para confirmar a sua conta."
-msgstr "An email was sent to %{email}. Check your email to confirm your account."
+msgstr "An email was sent to %{email}, please access it to confirm your account."
 
 #: lib/yearbook_web/live/user_live/registration.ex:42
 #, elixir-autogen, elixir-format

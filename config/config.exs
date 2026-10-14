@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+# Gettext configuration
+config :gettext, :default_locale, "pt"
+
 config :yearbook, :scopes,
   user: [
     default: true,
@@ -82,6 +85,3 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
-
-# Configure Gettext (portuguese as default language)
-config :gettext, :default_locale, "pt"
