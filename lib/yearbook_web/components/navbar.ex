@@ -102,7 +102,7 @@ defmodule YearbookWeb.Navbar do
           phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-center text-sm font-orbitron rounded-xl hover:bg-gray-100"
         >
-          {gettext("Settings")}
+          {gettext("Definições")}
         </.link>
 
         <.link
@@ -111,7 +111,7 @@ defmodule YearbookWeb.Navbar do
           phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-center text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
         >
-          {gettext("Logout")}
+          {gettext("Terminar sessão")}
         </.link>
       <% else %>
         <div class="relative inline-block text-left" phx-click-away={hide_user_menu()}>
@@ -132,7 +132,7 @@ defmodule YearbookWeb.Navbar do
               phx-click={hide_user_menu()}
               class="block w-full px-4 py-2 text-sm font-orbitron rounded-xl hover:bg-gray-100"
             >
-              {gettext("Settings")}
+              {gettext("Definições")}
             </.link>
 
             <.link
@@ -141,7 +141,7 @@ defmodule YearbookWeb.Navbar do
               phx-click={hide_user_menu()}
               class="block w-full px-4 py-2 text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
             >
-              {gettext("Logout")}
+              {gettext("Terminar sessão")}
             </.link>
           </div>
         </div>
@@ -152,14 +152,14 @@ defmodule YearbookWeb.Navbar do
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
-        {gettext("Sign Up")}
+        {gettext("Registar-se")}
       </.link>
       <.link
         navigate={~p"/users/log-in"}
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
-        {gettext("Sign In")}
+        {gettext("Iniciar sessão")}
       </.link>
     <% end %>
     """
