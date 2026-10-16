@@ -14,10 +14,10 @@ defmodule YearbookWeb.EntryFormComponent do
       <div class="w-full max-w-2xl">
         <header class="mb-10">
           <h2 class="text-3xl font-bold text-gray-900 tracking-tight">
-            Novo Pedido
+            {gettext("Novo Pedido")}
           </h2>
           <p class="text-sm text-gray-500 mt-2">
-            Preenche os dados para apareceres no Yearbook.
+            {gettext("Preenche os dados para apareceres no Yearbook.")}"
           </p>
         </header>
 
@@ -35,7 +35,9 @@ defmodule YearbookWeb.EntryFormComponent do
           <div class="flex flex-col md:flex-row gap-12 items-start">
             <div class="grow w-full space-y-6 mt-2">
               <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-2">Nome</label>
+                <label class="block text-xs font-semibold text-gray-600 mb-2">
+                  {gettext("Nome")}
+                </label>
                 <.input
                   field={@form[:name]}
                   type="text"
@@ -45,7 +47,9 @@ defmodule YearbookWeb.EntryFormComponent do
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-2">Frase</label>
+                <label class="block text-xs font-semibold text-gray-600 mb-2">
+                  {gettext("Frase")}
+                </label>
                 <.input
                   field={@form[:text]}
                   type="textarea"
@@ -73,7 +77,7 @@ defmodule YearbookWeb.EntryFormComponent do
                 name={@form[:masters].name}
                 value="false"
                 checked={@form[:masters].value in [nil, false, "false"]}
-              /> Licenciatura
+              /> {gettext("Licenciatura")}
             </label>
 
             <label class="flex items-center gap-2 text-sm font-medium text-gray-700 cursor-pointer">
@@ -82,7 +86,7 @@ defmodule YearbookWeb.EntryFormComponent do
                 name={@form[:masters].name}
                 value="true"
                 checked={@form[:masters].value in [true, "true"]}
-              /> Mestrado
+              /> {gettext("Mestrado")}
             </label>
           </div>
 
@@ -94,9 +98,9 @@ defmodule YearbookWeb.EntryFormComponent do
               class="w-full py-4 rounded-2xl bg-black text-white text-xs font-bold tracking-widest uppercase hover:bg-gray-900 hover:shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <%= if upload_in_progress?(@uploads.photo, @staged_photo_path) do %>
-                A carregar foto...
+                {gettext("A carregar foto...")}
               <% else %>
-                Enviar Pedido
+                {gettext("Enviar Pedido")}
               <% end %>
             </button>
           </div>

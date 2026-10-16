@@ -8,8 +8,8 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
-      assert html =~ "Create an account"
-      assert html =~ "Log in"
+      assert html =~ "Criar uma conta"
+      assert html =~ "Iniciar sessão"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -30,7 +30,7 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
         |> element("#registration_form")
         |> render_change(user: %{"email" => "with spaces"})
 
-      assert result =~ "Create an account"
+      assert result =~ "Criar uma conta"
       assert result =~ "must have the @ sign and no spaces"
     end
   end
@@ -46,8 +46,8 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
         render_submit(form)
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~
-               ~r/An email was sent to .*, please access it to confirm your account/
+      assert html =~ "Foi enviado um email para"
+      assert html =~ "Aceda ao email para confirmar a sua conta"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -62,7 +62,7 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
         )
         |> render_submit()
 
-      assert result =~ "has already been taken"
+      assert result =~ "já está em uso"
     end
   end
 
@@ -72,11 +72,11 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a", "Log in")
+        |> element("a[href='/users/log-in'].text-primary", "Iniciar sessão")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert login_html =~ "Log in"
+      assert login_html =~ "Iniciar sessão"
     end
   end
 end

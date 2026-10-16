@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+# Gettext configuration
+config :gettext, :default_locale, "pt"
+
 config :yearbook, :scopes,
   user: [
     default: true,

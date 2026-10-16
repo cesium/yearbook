@@ -72,7 +72,7 @@ defmodule Yearbook.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.3"},
 
       # utilities
-      {:gettext, "~> 0.26"},
+      {:gettext, "~> 1.0"},
       {:req, "~> 0.5"},
 
       # server

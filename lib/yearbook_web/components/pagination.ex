@@ -14,11 +14,11 @@ defmodule YearbookWeb.Components.Pagination do
     ~H"""
     <nav class="flex items-center justify-between pt-6 pb-2" aria-label="Pagination">
       <span class="text-sm text-gray-500">
-        {gettext("Showing")}
+        {gettext("A Mostrar")}
         <span class="font-bold text-gray-700">
           {@meta.current_offset + 1}-{@meta.next_offset || @meta.total_count}
         </span>
-        {gettext("of")}
+        {gettext("de")}
         <span class="font-bold text-gray-700">
           {@meta.total_count}
         </span>
@@ -26,7 +26,7 @@ defmodule YearbookWeb.Components.Pagination do
 
       <ul class="inline-flex items-center -space-x-px text-sm rounded-lg shadow-sm">
         <.pagination_button
-          text={gettext("Previous")}
+          text={gettext("Anterior")}
           left_corner={true}
           disabled={!@meta.has_previous_page?}
           page={@meta.previous_page}
@@ -58,7 +58,7 @@ defmodule YearbookWeb.Components.Pagination do
         <% end %>
 
         <.pagination_button
-          text={gettext("Next")}
+          text={gettext("Seguinte")}
           right_corner={true}
           disabled={!@meta.has_next_page?}
           page={@meta.next_page}

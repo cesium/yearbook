@@ -74,7 +74,7 @@ defmodule YearbookWeb.CoreComponents do
       <button
         type="button"
         class="group cursor-pointer absolute top-1 right-1 p-2"
-        aria-label={gettext("close")}
+        aria-label={gettext("fechar")}
       >
         <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
       </button>
@@ -370,7 +370,7 @@ defmodule YearbookWeb.CoreComponents do
         <tr>
           <th :for={col <- @col}>{col[:label]}</th>
           <th :if={@action != []}>
-            <span class="sr-only">{gettext("Actions")}</span>
+            <span class="sr-only">{gettext("Ações")}</span>
           </th>
         </tr>
       </thead>
