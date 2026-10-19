@@ -22,6 +22,7 @@ defmodule YearbookWeb.Navbar do
 
           <div class="flex-1"></div>
 
+          <.language_switcher class="mr-4" />
           <.user_profile current_scope={@current_scope} />
         </div>
         <div class="lg:hidden flex items-center">
@@ -53,8 +54,34 @@ defmodule YearbookWeb.Navbar do
           <.nav_links current_scope={@current_scope} is_mobile={true} />
           <hr class="w-full border-gray-100 my-2" />
           <.user_profile current_scope={@current_scope} is_mobile={true} />
+          <hr class="w-full border-gray-100 my-2" />
+          <.language_switcher />
         </div>
       </div>
+    </div>
+    """
+  end
+
+  attr :class, :string, default: nil
+
+  defp language_switcher(assigns) do
+    assigns = assign(assigns, :current, Gettext.get_locale(YearbookWeb.Gettext))
+
+    ~H"""
+    <div class={["flex items-center gap-1 text-sm font-semibold", @class]}>
+      <.link
+        :for={{code, label} <- [{"pt", "PT"}, {"en", "EN"}]}
+        href={"?locale=#{code}"}
+        hreflang={code}
+        aria-current={@current == code && "true"}
+        class={[
+          "px-2 py-1 rounded-md transition",
+          @current == code && "text-main underline",
+          @current != code && "hover:text-main"
+        ]}
+      >
+        {label}
+      </.link>
     </div>
     """
   end
@@ -157,7 +184,7 @@ defmodule YearbookWeb.Navbar do
       <.link
         navigate={~p"/users/log-in"}
         phx-click={@is_mobile && hide_mobile_navbar()}
-        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
+        class="inline-flex items-center justify-center px-3 sm:w-fit h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
         {gettext("Iniciar sessão")}
       </.link>

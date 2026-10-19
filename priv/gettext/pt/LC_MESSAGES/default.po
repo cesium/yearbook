@@ -271,7 +271,7 @@ msgid "Já tem uma conta?"
 msgstr ""
 
 #: lib/yearbook_web/live/user_live/registration.ex:13
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Registar no"
 msgstr ""
 
@@ -311,7 +311,7 @@ msgid "Tem de iniciar sessão para aceder a esta página."
 msgstr ""
 
 #: lib/yearbook_web/user_auth.ex:269
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Tem de voltar a autenticar-se para aceder a esta página."
 msgstr ""
 
