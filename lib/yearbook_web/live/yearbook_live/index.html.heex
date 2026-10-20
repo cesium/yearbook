@@ -2,7 +2,7 @@
   <div class="mb-8">
     <div class="flex items-center gap-4">
       <h1 class="text-4xl md:text-5xl font-orbitron font-bold text-main tracking-tight">
-        Yearbook
+        {gettext("Yearbook")}
       </h1>
 
       <div class="relative inline-block text-left mt-2" id="year-menu-container">
@@ -20,7 +20,7 @@
         >
           <%= case @filters["year"] do %>
             <% "" -> %>
-              <span>Ano Letivo</span>
+              <span>{gettext("Ano Letivo")}</span>
             <% year -> %>
               <span>{format_academic_year(String.to_integer(year))}</span>
           <% end %>
@@ -64,7 +64,7 @@
           class="pb-2 relative group focus:outline-none"
         >
           <span class={"text-sm font-orbitron font-bold tracking-wide uppercase #{if @filters["masters"] == "", do: "text-main", else: "text-gray-400 hover:text-gray-600"}"}>
-            Todos
+            {gettext("Todos")}
           </span>
           <%= if @filters["masters"] == "" do %>
             <div class="absolute bottom-0 left-0 w-full h-0.5 bg-main"></div>
@@ -78,7 +78,7 @@
           class="pb-2 relative group focus:outline-none"
         >
           <span class={"text-sm font-orbitron font-bold tracking-wide uppercase #{if @filters["masters"] == "false", do: "text-main", else: "text-gray-400 hover:text-gray-600"}"}>
-            Licenciatura
+            {gettext("Licenciatura")}
           </span>
           <%= if @filters["masters"] == "false" do %>
             <div class="absolute bottom-0 left-0 w-full h-0.5 bg-main"></div>
@@ -92,7 +92,7 @@
           class="pb-2 relative group focus:outline-none"
         >
           <span class={"text-sm font-orbitron font-bold tracking-wide uppercase #{if @filters["masters"] == "true", do: "text-main", else: "text-gray-400 hover:text-gray-600"}"}>
-            Mestrado
+            {gettext("Mestrado")}
           </span>
           <%= if @filters["masters"] == "true" do %>
             <div class="absolute bottom-0 left-0 w-full h-0.5 bg-main"></div>
@@ -104,15 +104,17 @@
     <p class="mt-6 text-gray-500 max-w-2xl text-sm leading-relaxed">
       <%= case {@filters["masters"], @filters["year"]} do %>
         <% {"", ""} -> %>
-          Todos os alunos registados no Yearbook.
+          {gettext("Todos os alunos registados no Yearbook.")}
         <% {"true", ""} -> %>
-          Alunos do Mestrado de todos os anos letivos.
+          {gettext("Alunos do Mestrado de todos os anos letivos.")}
         <% {"false", ""} -> %>
-          Alunos da Licenciatura de todos os anos letivos.
+          {gettext("Alunos da Licenciatura de todos os anos letivos.")}
         <% {masters, year} -> %>
-          Alunos {if masters == "true", do: "do Mestrado", else: "da Licenciatura"} do Ano Letivo {format_academic_year(
-            String.to_integer(year)
-          )}.
+          {gettext("Alunos %{degree} do Ano Letivo %{year}.", %{
+            degree:
+              if(masters == "true", do: gettext("do Mestrado"), else: gettext("da Licenciatura")),
+            year: format_academic_year(String.to_integer(year))
+          })}
       <% end %>
     </p>
   </div>

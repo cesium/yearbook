@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-PT">
   <head>
     <title>{assigns[:page_title] || "Yearbook"}</title>
     <meta charset="utf-8" />
@@ -8,7 +8,7 @@
     <.live_title default="Yearbook" suffix=" · Phoenix Framework">
       {assigns[:page_title]}
     </.live_title>
-    <link rel="icon" type="image/x-icon" stroke="%23EE7749" href="/images/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
     </script>
@@ -20,15 +20,22 @@
             document.documentElement.removeAttribute("data-theme");
           } else {
             localStorage.setItem("phx:theme", theme);
-            document.documentElement.setAttribute("data-theme", wnite);
+            document.documentElement.setAttribute("data-theme", theme);
           }
         };
+
         if (!document.documentElement.hasAttribute("data-theme")) {
           setTheme(localStorage.getItem("phx:theme") || "system");
         }
-        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
-        
-        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+
+        window.addEventListener(
+          "storage",
+          (e) => e.key === "phx:theme" && setTheme(e.newValue || "system")
+        );
+
+        window.addEventListener("phx:set-theme", (e) =>
+          setTheme(e.target.dataset.phxTheme)
+        );
       })();
     </script>
   </head>

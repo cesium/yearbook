@@ -22,6 +22,7 @@ defmodule YearbookWeb.Navbar do
 
           <div class="flex-1"></div>
 
+          <.language_switcher class="mr-4" />
           <.user_profile current_scope={@current_scope} />
         </div>
         <div class="lg:hidden flex items-center">
@@ -53,8 +54,34 @@ defmodule YearbookWeb.Navbar do
           <.nav_links current_scope={@current_scope} is_mobile={true} />
           <hr class="w-full border-gray-100 my-2" />
           <.user_profile current_scope={@current_scope} is_mobile={true} />
+          <hr class="w-full border-gray-100 my-2" />
+          <.language_switcher />
         </div>
       </div>
+    </div>
+    """
+  end
+
+  attr :class, :string, default: nil
+
+  defp language_switcher(assigns) do
+    assigns = assign(assigns, :current, Gettext.get_locale(YearbookWeb.Gettext))
+
+    ~H"""
+    <div class={["flex items-center gap-1 text-sm font-semibold", @class]}>
+      <.link
+        :for={{code, label} <- [{"pt", "PT"}, {"en", "EN"}]}
+        href={"?locale=#{code}"}
+        hreflang={code}
+        aria-current={@current == code && "true"}
+        class={[
+          "px-2 py-1 rounded-md transition",
+          @current == code && "text-main underline",
+          @current != code && "hover:text-main"
+        ]}
+      >
+        {label}
+      </.link>
     </div>
     """
   end
@@ -68,7 +95,7 @@ defmodule YearbookWeb.Navbar do
       phx-click={@is_mobile && hide_mobile_navbar()}
       class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main transition cursor-pointer"
     >
-      Percursos
+      {gettext("Percursos")}
     </.link>
 
     <.link
@@ -76,7 +103,7 @@ defmodule YearbookWeb.Navbar do
       phx-click={@is_mobile && hide_mobile_navbar()}
       class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main transition cursor-pointer"
     >
-      Pedido
+      {gettext("Pedido")}
     </.link>
 
     <%= if @current_scope && @current_scope.user && @current_scope.user.role == :admin do %>
@@ -85,7 +112,7 @@ defmodule YearbookWeb.Navbar do
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-orbitron hover:text-main hover:opacity-80 transition cursor-pointer"
       >
-        Backoffice
+        {gettext("Backoffice")}
       </.link>
     <% end %>
     """
@@ -102,7 +129,7 @@ defmodule YearbookWeb.Navbar do
           phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-center text-sm font-orbitron rounded-xl hover:bg-gray-100"
         >
-          Settings
+          {gettext("Definições")}
         </.link>
 
         <.link
@@ -111,7 +138,7 @@ defmodule YearbookWeb.Navbar do
           phx-click={hide_mobile_navbar()}
           class="block w-full px-4 py-2 text-center text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
         >
-          Logout
+          {gettext("Terminar sessão")}
         </.link>
       <% else %>
         <div class="relative inline-block text-left" phx-click-away={hide_user_menu()}>
@@ -132,7 +159,7 @@ defmodule YearbookWeb.Navbar do
               phx-click={hide_user_menu()}
               class="block w-full px-4 py-2 text-sm font-orbitron rounded-xl hover:bg-gray-100"
             >
-              Settings
+              {gettext("Definições")}
             </.link>
 
             <.link
@@ -141,7 +168,7 @@ defmodule YearbookWeb.Navbar do
               phx-click={hide_user_menu()}
               class="block w-full px-4 py-2 text-sm font-orbitron text-main rounded-xl hover:bg-red-50"
             >
-              Logout
+              {gettext("Terminar sessão")}
             </.link>
           </div>
         </div>
@@ -152,14 +179,14 @@ defmodule YearbookWeb.Navbar do
         phx-click={@is_mobile && hide_mobile_navbar()}
         class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
-        Sign Up
+        {gettext("Registar-se")}
       </.link>
       <.link
         navigate={~p"/users/log-in"}
         phx-click={@is_mobile && hide_mobile_navbar()}
-        class="inline-flex items-center justify-center px-3 sm:w-32 h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
+        class="inline-flex items-center justify-center px-3 sm:w-fit h-9 sm:h-10 text-sm sm:text-base font-semibold hover:text-main transition cursor-pointer"
       >
-        Sign In
+        {gettext("Iniciar sessão")}
       </.link>
     <% end %>
     """

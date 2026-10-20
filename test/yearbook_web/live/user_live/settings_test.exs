@@ -21,7 +21,9 @@ defmodule YearbookWeb.UserLive.SettingsTest do
 
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/log-in"
-      assert %{"error" => "You must log in to access this page."} = flash
+
+      assert %{"error" => "Tem de iniciar sessão para aceder a esta página."} =
+               flash
     end
 
     test "redirects if user is not in sudo mode", %{conn: conn} do
@@ -33,7 +35,7 @@ defmodule YearbookWeb.UserLive.SettingsTest do
         |> live(~p"/users/settings")
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert conn.resp_body =~ "You must re-authenticate to access this page."
+      assert conn.resp_body =~ "Tem de voltar a autenticar-se para aceder a esta página."
     end
   end
 
@@ -115,7 +117,8 @@ defmodule YearbookWeb.UserLive.SettingsTest do
 
       assert redirected_to(new_password_conn) == ~p"/users/settings"
 
-      assert get_session(new_password_conn, :user_token) != get_session(conn, :user_token)
+      assert get_session(new_password_conn, :user_token) !=
+               get_session(conn, :user_token)
 
       assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
                "Password updated successfully"
@@ -137,7 +140,7 @@ defmodule YearbookWeb.UserLive.SettingsTest do
         })
 
       assert result =~ "Save Password"
-      assert result =~ "should be at least 12 character(s)"
+      assert result =~ "deve ter pelo menos 12 caracteres"
       assert result =~ "does not match password"
     end
 
@@ -155,7 +158,7 @@ defmodule YearbookWeb.UserLive.SettingsTest do
         |> render_submit()
 
       assert result =~ "Save Password"
-      assert result =~ "should be at least 12 character(s)"
+      assert result =~ "deve ter pelo menos 12 caracteres"
       assert result =~ "does not match password"
     end
   end
@@ -173,7 +176,12 @@ defmodule YearbookWeb.UserLive.SettingsTest do
       %{conn: log_in_user(conn, user), token: token, email: email, user: user}
     end
 
-    test "updates the user email once", %{conn: conn, user: user, token: token, email: email} do
+    test "updates the user email once", %{
+      conn: conn,
+      user: user,
+      token: token,
+      email: email
+    } do
       {:error, redirect} = live(conn, ~p"/users/settings/confirm-email/#{token}")
 
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
@@ -183,8 +191,9 @@ defmodule YearbookWeb.UserLive.SettingsTest do
       refute Accounts.get_user_by_email(user.email)
       assert Accounts.get_user_by_email(email)
 
-      # use confirm token again
+      # Use confirm token again
       {:error, redirect} = live(conn, ~p"/users/settings/confirm-email/#{token}")
+
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/settings"
       assert %{"error" => message} = flash
@@ -193,6 +202,7 @@ defmodule YearbookWeb.UserLive.SettingsTest do
 
     test "does not update email with invalid token", %{conn: conn, user: user} do
       {:error, redirect} = live(conn, ~p"/users/settings/confirm-email/oops")
+
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/settings"
       assert %{"error" => message} = flash
@@ -202,9 +212,12 @@ defmodule YearbookWeb.UserLive.SettingsTest do
 
     test "redirects if user is not logged in", %{token: token} do
       conn = build_conn()
+
       {:error, redirect} = live(conn, ~p"/users/settings/confirm-email/#{token}")
+
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/log-in"
+
       assert %{"error" => message} = flash
       assert message == "You must log in to access this page."
     end

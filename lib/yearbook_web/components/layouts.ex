@@ -54,27 +54,27 @@ defmodule YearbookWeb.Layouts do
               navigate={~p"/users/settings"}
               class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
             >
-              Settings
+              {gettext("Definições")}
             </.link>
             <.link
               href={~p"/users/log-out"}
               method="delete"
               class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
             >
-              Logout
+              {gettext("Terminar sessão")}
             </.link>
           <% else %>
             <.link
               navigate={~p"/users/register"}
               class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
             >
-              Sign Up
+              {gettext("Registar-se")}
             </.link>
             <.link
               navigate={~p"/users/log-in"}
               class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
             >
-              Sign In
+              {gettext("Iniciar sessão")}
             </.link>
           <% end %>
         </div>
@@ -102,30 +102,30 @@ defmodule YearbookWeb.Layouts do
   def flash_group(assigns) do
     ~H"""
     <div id={@id} aria-live="polite">
-      <.flash kind={:info} flash={@flash} title="Info" />
-      <.flash kind={:error} flash={@flash} title="Error" />
+      <.flash kind={:info} flash={@flash} title={gettext("Informação")} />
+      <.flash kind={:error} flash={@flash} title={gettext("Erro")} />
 
       <.flash
         id="client-error"
         kind={:error}
-        title={gettext("We can't find the internet")}
+        title={gettext("Não foi possível estabelecer ligação à Internet")}
         phx-disconnected={show(".phx-client-error #client-error") |> JS.remove_attribute("hidden")}
         phx-connected={hide("#client-error") |> JS.set_attribute({"hidden", ""})}
         hidden
       >
-        {gettext("Attempting to reconnect")}
+        {gettext("A tentar restabelecer a ligação")}
         <.icon name="hero-arrow-path" class="ml-1 size-3 motion-safe:animate-spin" />
       </.flash>
 
       <.flash
         id="server-error"
         kind={:error}
-        title={gettext("Something went wrong!")}
+        title={gettext("Ocorreu um erro!")}
         phx-disconnected={show(".phx-server-error #server-error") |> JS.remove_attribute("hidden")}
         phx-connected={hide("#server-error") |> JS.set_attribute({"hidden", ""})}
         hidden
       >
-        {gettext("Attempting to reconnect")}
+        {gettext("A tentar restabelecer a ligação")}
         <.icon name="hero-arrow-path" class="ml-1 size-3 motion-safe:animate-spin" />
       </.flash>
     </div>

@@ -50,7 +50,9 @@ defmodule YearbookWeb.Components.PhotoUploader do
                 <% else %>
                   <div class="select-none flex flex-col gap-2 items-center">
                     <.icon name={@icon} class="w-12 h-12" />
-                    <p class="px-4 text-center">{gettext("Upload a file or drag and drop.")}</p>
+                    <p class="px-4 text-center">
+                      {gettext("Carregue um ficheiro ou arraste e largue.")}
+                    </p>
                   </div>
                 <% end %>
               <% end %>

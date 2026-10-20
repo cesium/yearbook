@@ -3,14 +3,14 @@
     navigate={~p"/privacy-policy"}
     class="text-sm font-bold tracking-wide uppercase hover:text-main"
   >
-    <span>Política de Privacidade</span>
+    <span>{gettext("Política de Privacidade")}</span>
   </.link>
 
   <.link
     navigate={~p"/request/new"}
     class="text-sm font-bold tracking-wide uppercase hover:text-main"
   >
-    <span>Fazer Pedido</span>
+    <span>{gettext("Fazer Pedido")}</span>
   </.link>
 
   <%= if @live_action == :new do %>

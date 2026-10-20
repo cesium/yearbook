@@ -10,12 +10,13 @@ defmodule YearbookWeb.ConnCase do
   Finally, if the test case interacts with the database,
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
-  PostgreSQL, you can even run database tests asynchronously
-  by setting `use YearbookWeb.ConnCase, async: true`, although
-  this option is not recommended for other databases.
+  PostgreSQL, you can even run database tests
+  asynchronously by setting `use YearbookWeb.ConnCase, async: true`,
+  although this option is not recommended for other databases.
   """
 
   use ExUnit.CaseTemplate
+
   alias Yearbook.Accounts
   alias Yearbook.AccountsFixtures
 
@@ -29,6 +30,7 @@ defmodule YearbookWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
+
       alias Yearbook.Accounts
       alias Yearbook.AccountsFixtures
 
@@ -38,7 +40,12 @@ defmodule YearbookWeb.ConnCase do
 
   setup tags do
     Yearbook.DataCase.setup_sandbox(tags)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+
+    conn =
+      Phoenix.ConnTest.build_conn()
+      |> Phoenix.ConnTest.init_test_session(%{"locale" => "pt"})
+
+    {:ok, conn: conn}
   end
 
   @doc """
@@ -72,7 +79,6 @@ defmodule YearbookWeb.ConnCase do
     maybe_set_token_authenticated_at(token, opts[:token_authenticated_at])
 
     conn
-    |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
   end
 
