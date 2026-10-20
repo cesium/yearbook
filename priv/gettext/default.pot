@@ -50,7 +50,7 @@ msgstr ""
 msgid "Mestrado"
 msgstr ""
 
-#: lib/yearbook_web/components/navbar.ex:79
+#: lib/yearbook_web/components/navbar.ex:106
 #: lib/yearbook_web/live/home_live/index.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "Pedido"
@@ -103,7 +103,7 @@ msgstr ""
 msgid "Ainda não tem uma conta?"
 msgstr ""
 
-#: lib/yearbook_web/components/navbar.ex:88
+#: lib/yearbook_web/components/navbar.ex:115
 #, elixir-autogen, elixir-format
 msgid "Backoffice"
 msgstr ""
@@ -136,7 +136,7 @@ msgid "Frase"
 msgstr ""
 
 #: lib/yearbook_web/components/layouts.ex:77
-#: lib/yearbook_web/components/navbar.ex:162
+#: lib/yearbook_web/components/navbar.ex:189
 #: lib/yearbook_web/live/user_live/login.ex:34
 #: lib/yearbook_web/live/user_live/registration.ex:47
 #, elixir-autogen, elixir-format
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Para consultar os emails enviados, visite"
 msgstr ""
 
-#: lib/yearbook_web/components/navbar.ex:71
+#: lib/yearbook_web/components/navbar.ex:98
 #, elixir-autogen, elixir-format
 msgid "Percursos"
 msgstr ""
@@ -184,7 +184,7 @@ msgid "Preenche os dados para apareceres no Yearbook."
 msgstr ""
 
 #: lib/yearbook_web/components/layouts.ex:71
-#: lib/yearbook_web/components/navbar.ex:155
+#: lib/yearbook_web/components/navbar.ex:182
 #: lib/yearbook_web/live/user_live/login.ex:43
 #, elixir-autogen, elixir-format
 msgid "Registar-se"
@@ -217,8 +217,8 @@ msgid "A tentar restabelecer a ligação"
 msgstr ""
 
 #: lib/yearbook_web/components/layouts.ex:57
-#: lib/yearbook_web/components/navbar.ex:105
-#: lib/yearbook_web/components/navbar.ex:135
+#: lib/yearbook_web/components/navbar.ex:132
+#: lib/yearbook_web/components/navbar.ex:162
 #, elixir-autogen, elixir-format
 msgid "Definições"
 msgstr ""
@@ -244,8 +244,8 @@ msgid "Ocorreu um erro!"
 msgstr ""
 
 #: lib/yearbook_web/components/layouts.ex:64
-#: lib/yearbook_web/components/navbar.ex:114
-#: lib/yearbook_web/components/navbar.ex:144
+#: lib/yearbook_web/components/navbar.ex:141
+#: lib/yearbook_web/components/navbar.ex:171
 #, elixir-autogen, elixir-format
 msgid "Terminar sessão"
 msgstr ""
@@ -292,7 +292,7 @@ msgstr ""
 msgid "Ações"
 msgstr ""
 
-#: lib/yearbook_web/components/photo_uploader.ex:53
+#: lib/yearbook_web/components/photo_uploader.ex:54
 #, elixir-autogen, elixir-format
 msgid "Carregue um ficheiro ou arraste e largue."
 msgstr ""
@@ -303,14 +303,14 @@ msgstr ""
 msgid "Seguinte"
 msgstr ""
 
-#: lib/yearbook_web/user_auth.ex:233
-#: lib/yearbook_web/user_auth.ex:251
-#: lib/yearbook_web/user_auth.ex:305
+#: lib/yearbook_web/user_auth.ex:235
+#: lib/yearbook_web/user_auth.ex:254
+#: lib/yearbook_web/user_auth.ex:307
 #, elixir-autogen, elixir-format
 msgid "Tem de iniciar sessão para aceder a esta página."
 msgstr ""
 
-#: lib/yearbook_web/user_auth.ex:269
+#: lib/yearbook_web/user_auth.ex:272
 #, elixir-autogen, elixir-format
 msgid "Tem de voltar a autenticar-se para aceder a esta página."
 msgstr ""
