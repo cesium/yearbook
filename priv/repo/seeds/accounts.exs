@@ -18,7 +18,7 @@ defmodule Yearbook.Repo.Seeds.Accounts do
   end
 
   def seed_students(names) do
-    for {name, i} <- Enum.with_index(names) do
+    for {_, i} <- Enum.with_index(names) do
       email = "student#{i}@yearbook.pt"
 
       attrs = %{
@@ -39,7 +39,7 @@ defmodule Yearbook.Repo.Seeds.Accounts do
   def seed_admins(names) do
     admins_to_create = Enum.take(names, 2)
 
-    for {name, i} <- Enum.with_index(admins_to_create) do
+    for {_, i} <- Enum.with_index(admins_to_create) do
       email = "admin#{i}@yearbook.pt"
 
       attrs = %{
