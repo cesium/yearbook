@@ -29,15 +29,15 @@ defmodule YearbookWeb.EntryFormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-          <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
-            <div class="w-full md:w-64 md:shrink-0">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+          <div class="w-full md:w-64 md:shrink-0">
             <.photo_upload_card
               upload={@uploads.photo}
               staged_photo_path={@staged_photo_path}
               show_upload_button={false}
             />
           </div>
-            <div class="w-full min-w-0 flex-1 flex flex-col gap-5">
+          <div class="w-full min-w-0 flex-1 flex flex-col gap-5">
             <div>
               <label class="block text-xs font-inter font-medium text-primary mb-2">
                 {gettext("Ano Letivo")}
