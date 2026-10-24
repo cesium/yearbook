@@ -6,48 +6,91 @@ defmodule YearbookWeb.EntryFormComponent do
   alias Yearbook.Entries
   alias YearbookWeb.Components.PhotoUploadCard
   import YearbookWeb.Components.PhotoUploadCard
+  import YearbookWeb.Components.AcademicYear
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="w-full flex justify-center">
-      <div class="w-full max-w-2xl">
-        <header class="mb-10">
-          <h2 class="text-3xl font-bold text-gray-900 tracking-tight">
-            {gettext("Novo Pedido")}
-          </h2>
-          <p class="text-sm text-gray-500 mt-2">
-            {gettext("Preenche os dados para apareceres no Yearbook.")}"
-          </p>
-        </header>
+    <div class="w-full max-w-screen-2xl">
+      <header class="mb-8">
+        <h2 class="text-xl font-medium font-orbitron text-primary tracking-tight">
+          {gettext("Realiza aqui o teu pedido")}
+        </h2>
+        <p class="text-sm text-gray-500 mt-2">
+          {gettext("Preenche os dados para apareceres no Yearbook.")}
+        </p>
+      </header>
 
-        <.form
-          for={@form}
-          id="entry-form"
-          as={:entry}
-          phx-target={@myself}
-          phx-change="validate"
-          phx-submit="save"
-          class="space-y-6"
-        >
-          <.input field={@form[:year]} type="hidden" value={@current_year} />
+      <.form
+        for={@form}
+        id="entry-form"
+        as={:entry}
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+      >
+          <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+            <div class="w-full md:w-64 md:shrink-0">
+            <.photo_upload_card
+              upload={@uploads.photo}
+              staged_photo_path={@staged_photo_path}
+              show_upload_button={false}
+            />
+          </div>
+            <div class="w-full min-w-0 flex-1 flex flex-col gap-5">
+            <div>
+              <label class="block text-xs font-inter font-medium text-primary mb-2">
+                {gettext("Ano Letivo")}
+              </label>
+              <.academic_year
+                year={@academic_year}
+                masters=""
+                target={@myself}
+                include_all={false}
+                include_title={false}
+              />
+            </div>
 
-          <div class="flex flex-col md:flex-row gap-12 items-start">
-            <div class="grow w-full space-y-6 mt-2">
+            <div>
+              <label class="block text-xs font-inter font-medium text-primary mb-2">
+                {gettext("Sou finalista de")}
+              </label>
+              <div class="flex flex-wrap gap-x-5 gap-y-2">
+                <label class="flex items-center gap-2 text-sm font-medium text-primary cursor-pointer">
+                  <input
+                    type="radio"
+                    name={@form[:masters].name}
+                    value="false"
+                    checked={@form[:masters].value in [nil, false, "false"]}
+                  /> {gettext("Licenciatura")}
+                </label>
+
+                <label class="flex items-center gap-2 text-sm font-medium text-primary cursor-pointer">
+                  <input
+                    type="radio"
+                    name={@form[:masters].name}
+                    value="true"
+                    checked={@form[:masters].value in [true, "true"]}
+                  /> {gettext("Mestrado")}
+                </label>
+              </div>
+            </div>
+
+            <div class="space-y-5 min-w-0">
               <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-2">
+                <label class="block text-xs font-inter font-medium text-primary mb-2">
                   {gettext("Nome")}
                 </label>
                 <.input
                   field={@form[:name]}
                   type="text"
                   placeholder="Ex: Angela Martin"
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm"
+                  class="w-full px-5 py-2 rounded-xl bg-white border border-gray-300 focus:bg-white focus:text-primary focus:outline-none focus:ring-1 focus:ring-main transition-all text-sm"
                 />
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-2">
+                <label class="block text-xs font-inter font-medium text-primary mb-2">
                   {gettext("Frase")}
                 </label>
                 <.input
@@ -56,56 +99,28 @@ defmodule YearbookWeb.EntryFormComponent do
                   maxlength="200"
                   rows="7"
                   placeholder="Máx. 200 caracteres"
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm resize-none"
+                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:text-primary focus:outline-none focus:ring-1 focus:ring-main transition-all text-sm resize-none"
                 />
               </div>
             </div>
 
-            <div class="shrink-0 w-full md:w-64 flex justify-center md:pt-8">
-              <.photo_upload_card
-                upload={@uploads.photo}
-                staged_photo_path={@staged_photo_path}
-                show_upload_button={false}
-              />
+            <div class="pt-1">
+              <button
+                type="submit"
+                phx-disable-with="A enviar..."
+                disabled={upload_in_progress?(@uploads.photo, @staged_photo_path)}
+                class="w-fit px-4 py-2 rounded-xl bg-main text-white text-xs font-bold tracking-widest uppercase hover:bg-gray-900 hover:shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <%= if upload_in_progress?(@uploads.photo, @staged_photo_path) do %>
+                  {gettext("A carregar foto...")}
+                <% else %>
+                  {gettext("Enviar Pedido")}
+                <% end %>
+              </button>
             </div>
           </div>
-
-          <div class="flex gap-6">
-            <label class="flex items-center gap-2 text-sm font-medium text-gray-700 cursor-pointer">
-              <input
-                type="radio"
-                name={@form[:masters].name}
-                value="false"
-                checked={@form[:masters].value in [nil, false, "false"]}
-              /> {gettext("Licenciatura")}
-            </label>
-
-            <label class="flex items-center gap-2 text-sm font-medium text-gray-700 cursor-pointer">
-              <input
-                type="radio"
-                name={@form[:masters].name}
-                value="true"
-                checked={@form[:masters].value in [true, "true"]}
-              /> {gettext("Mestrado")}
-            </label>
-          </div>
-
-          <div class="pt-4">
-            <button
-              type="submit"
-              phx-disable-with="A enviar..."
-              disabled={upload_in_progress?(@uploads.photo, @staged_photo_path)}
-              class="w-full py-4 rounded-2xl bg-black text-white text-xs font-bold tracking-widest uppercase hover:bg-gray-900 hover:shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <%= if upload_in_progress?(@uploads.photo, @staged_photo_path) do %>
-                {gettext("A carregar foto...")}
-              <% else %>
-                {gettext("Enviar Pedido")}
-              <% end %>
-            </button>
-          </div>
-        </.form>
-      </div>
+        </div>
+      </.form>
     </div>
     """
   end
@@ -114,6 +129,7 @@ defmodule YearbookWeb.EntryFormComponent do
   def mount(socket) do
     {:ok,
      socket
+     |> assign(:academic_year, "")
      |> assign(:staged_photo_path, nil)
      |> allow_upload(:photo,
        accept: ~w(.jpg .jpeg .png),
@@ -126,13 +142,13 @@ defmodule YearbookWeb.EntryFormComponent do
 
   @impl true
   def update(%{entry: entry} = assigns, socket) do
-    current_year = Date.utc_today().year
-    changeset = Entries.change_entry(entry, %{"year" => current_year})
+    academic_year = Map.get(assigns, :academic_year, socket.assigns.academic_year)
+    changeset = Entries.change_entry(entry, %{"year" => academic_year})
 
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:current_year, current_year)
+     |> assign(:academic_year, academic_year)
      |> assign(:staged_photo_path, Map.get(assigns, :staged_photo_path))
      |> assign_form(changeset)}
   end
@@ -162,7 +178,7 @@ defmodule YearbookWeb.EntryFormComponent do
     entry_params =
       entry_params
       |> Map.put("photo", socket.assigns.staged_photo_path)
-      |> Map.put_new("year", socket.assigns.current_year)
+      |> Map.put("year", socket.assigns.academic_year)
 
     case Entries.create_entry(entry_params) do
       {:ok, _entry} ->
@@ -174,6 +190,15 @@ defmodule YearbookWeb.EntryFormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}
     end
+  end
+
+  def handle_event("filter_changed", %{"year" => year}, socket) do
+    changeset = Entries.change_entry(socket.assigns.entry, %{"year" => year})
+
+    {:noreply,
+     socket
+     |> assign(:academic_year, year)
+     |> assign_form(changeset)}
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do

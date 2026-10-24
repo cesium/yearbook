@@ -13,6 +13,9 @@ defmodule YearbookWeb.Components.AcademicYear do
   attr :year, :string, default: ""
   attr :masters, :string, default: ""
   attr :id, :string, default: "academic-year"
+  attr :target, :any, default: nil
+  attr :include_all, :boolean, default: true
+  attr :include_title, :boolean, default: true
 
   def academic_year(assigns) do
     ~H"""
@@ -24,7 +27,11 @@ defmodule YearbookWeb.Components.AcademicYear do
         class="flex items-center gap-2 bg-white text-main border border-gray-100 px-4 py-1.5 rounded-xl text-sm font-orbitron font-bold focus:outline-none hover:bg-red-50 transition-all shadow-sm"
       >
         <%= if @year == "" do %>
-          <span>{gettext("Ano Letivo")}</span>
+          <span>
+            {if @include_title,
+              do: gettext("Ano Letivo"),
+              else: most_recent_academic_year()}
+          </span>
         <% else %>
           <span>{format_academic_year(String.to_integer(@year))}</span>
         <% end %>
@@ -36,9 +43,10 @@ defmodule YearbookWeb.Components.AcademicYear do
         class="hidden absolute right-0 sm:left-0 sm:right-auto mt-2 w-48 origin-top-left rounded-2xl bg-white shadow-xl ring-1 ring-gray-400 ring-opacity-5 z-50 overflow-hidden border border-gray-100"
       >
         <div class="py-2">
-          <%= for {label, value} <- list_academic_years() do %>
+          <%= for {label, value} <- list_academic_years(@include_all) do %>
             <button
               type="button"
+              phx-target={@target}
               phx-click={
                 JS.push("filter_changed", value: %{year: value, masters: @masters})
                 |> JS.hide(to: "##{@id}-dropdown")
@@ -61,7 +69,7 @@ defmodule YearbookWeb.Components.AcademicYear do
     """
   end
 
-  defp list_academic_years do
+  defp list_academic_years(include_all) do
     current_year = Date.utc_today().year
 
     years =
@@ -69,7 +77,12 @@ defmodule YearbookWeb.Components.AcademicYear do
       |> Enum.map(fn year -> {format_academic_year(year), "#{year}"} end)
       |> Enum.reverse()
 
-    [{gettext("Todos os Anos"), ""} | years]
+    if include_all, do: [{gettext("Todos os Anos"), ""} | years], else: years
+  end
+
+  defp most_recent_academic_year do
+    Date.utc_today().year
+    |> format_academic_year()
   end
 
   defp format_academic_year(year) do

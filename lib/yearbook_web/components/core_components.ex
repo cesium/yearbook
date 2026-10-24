@@ -288,7 +288,11 @@ defmodule YearbookWeb.CoreComponents do
           value={Form.normalize_value(@type, @value)}
           class={[
             "w-full rounded-lg border bg-white border-black/40 px-3.5 py-2.5 text-sm placeholder:text-gray-400",
-            "focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none",
+            if(@class && String.contains?(to_string(@class), "focus:"),
+              do: nil,
+              else: "focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none"
+            ),
+            @class,
             @errors != [] &&
               (@error_class || "border-red-400 focus:border-red-500 focus:ring-red-200")
           ]}
