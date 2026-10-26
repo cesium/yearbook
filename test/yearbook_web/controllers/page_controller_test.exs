@@ -1,9 +1,9 @@
 defmodule YearbookWeb.PageControllerTest do
   use YearbookWeb.ConnCase
 
-  test "GET / redirects to login when logged out", %{conn: conn} do
+  test "GET / renders the home page when logged out", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert redirected_to(conn) == ~p"/users/log-in"
+    assert html_response(conn, 200) =~ "Licenciatura"
   end
 
   describe "when logged in" do

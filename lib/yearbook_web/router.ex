@@ -32,6 +32,8 @@ defmodule YearbookWeb.Router do
         {YearbookWeb.UserAuth, :mount_current_scope},
         {YearbookWeb.LocaleHook, :default}
       ] do
+      live "/", HomeLive.Index, :index
+      live "/yearbook", YearbookLive.Index, :index
       live "/privacy-policy", PrivacyPolicyLive.Index, :index
     end
   end
@@ -82,8 +84,6 @@ defmodule YearbookWeb.Router do
         {YearbookWeb.UserAuth, :require_authenticated},
         {YearbookWeb.LocaleHook, :default}
       ] do
-      live "/", HomeLive.Index, :index
-      live "/yearbook", YearbookLive.Index, :index
       live "/request", RequestLive.Index, :index
       live "/request/new", RequestLive.Index, :new
       live "/users/settings", UserLive.Settings, :edit
