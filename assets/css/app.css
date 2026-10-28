@@ -13,10 +13,16 @@
 
 @theme {
    --font-orbitron: "Orbitron", sans-serif;
-   --color-primary: #ee7749;
+   --font-inter: "Inter", sans-serif; 
+   --color-primary: #000000;
    --color-app-bg: #FFFFFF;
    --color-main: #BD2020;
 }
+
+input[type="radio"] {
+  accent-color: #bd2020; 
+}
+
 
 
 /* Add variants based on LiveView classes */

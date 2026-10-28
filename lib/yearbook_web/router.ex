@@ -34,14 +34,6 @@ defmodule YearbookWeb.Router do
       live "/request", RequestLive.Index, :index
       live "/privacy-policy", PrivacyPolicyLive.Index, :index
     end
-
-    live_session :request_form,
-      on_mount: [
-        {YearbookWeb.UserAuth, :require_authenticated},
-        {YearbookWeb.LocaleHook, :default}
-      ] do
-      live "/request/new", RequestLive.Index, :new
-    end
   end
 
   scope "/backoffice", YearbookWeb do

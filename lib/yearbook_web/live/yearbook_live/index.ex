@@ -4,6 +4,7 @@ defmodule YearbookWeb.YearbookLive.Index do
   """
   use YearbookWeb, :landing_view
   alias Yearbook.Entries
+  import YearbookWeb.Components.AcademicYear
   import YearbookWeb.Components.EntryCard
   import YearbookWeb.Components.Pagination
 
@@ -44,17 +45,6 @@ defmodule YearbookWeb.YearbookLive.Index do
       |> Map.put("page", 1)
 
     {:noreply, push_patch(socket, to: ~p"/yearbook?#{new_params}")}
-  end
-
-  defp list_academic_years do
-    current_year = Date.utc_today().year
-
-    years =
-      2020..current_year
-      |> Enum.map(fn y -> {format_academic_year(y), "#{y}"} end)
-      |> Enum.reverse()
-
-    [{"Todos os Anos", ""} | years]
   end
 
   defp format_academic_year(year) do
