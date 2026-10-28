@@ -24,6 +24,7 @@ defmodule YearbookWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Public pages
   scope "/", YearbookWeb do
     pipe_through [:browser]
 
@@ -76,6 +77,7 @@ defmodule YearbookWeb.Router do
 
   ## Authentication routes
 
+  # Login required
   scope "/", YearbookWeb do
     pipe_through [:browser, :require_authenticated_user]
 
