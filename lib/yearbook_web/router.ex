@@ -24,14 +24,17 @@ defmodule YearbookWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Public pages
   scope "/", YearbookWeb do
     pipe_through [:browser]
 
     live_session :public,
-      on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}, {YearbookWeb.LocaleHook, :default}] do
+      on_mount: [
+        {YearbookWeb.UserAuth, :mount_current_scope},
+        {YearbookWeb.LocaleHook, :default}
+      ] do
       live "/", HomeLive.Index, :index
       live "/yearbook", YearbookLive.Index, :index
-      live "/request", RequestLive.Index, :index
       live "/privacy-policy", PrivacyPolicyLive.Index, :index
     end
   end
@@ -74,6 +77,7 @@ defmodule YearbookWeb.Router do
 
   ## Authentication routes
 
+  # Login required
   scope "/", YearbookWeb do
     pipe_through [:browser, :require_authenticated_user]
 
@@ -82,6 +86,7 @@ defmodule YearbookWeb.Router do
         {YearbookWeb.UserAuth, :require_authenticated},
         {YearbookWeb.LocaleHook, :default}
       ] do
+      live "/request", RequestLive.Index, :index
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
     end
@@ -93,7 +98,10 @@ defmodule YearbookWeb.Router do
     pipe_through [:browser]
 
     live_session :current_user,
-      on_mount: [{YearbookWeb.UserAuth, :mount_current_scope}, {YearbookWeb.LocaleHook, :default}] do
+      on_mount: [
+        {YearbookWeb.UserAuth, :mount_current_scope},
+        {YearbookWeb.LocaleHook, :default}
+      ] do
       live "/users/register", UserLive.Registration, :new
       live "/users/log-in", UserLive.Login, :new
       live "/users/log-in/:token", UserLive.Confirmation, :new
