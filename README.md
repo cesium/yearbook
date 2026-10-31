@@ -12,7 +12,7 @@
 [![CI Test][ci-test-status]][ci-test-workflow]
 [![CI Style][ci-style-status]][ci-style-workflow]
 
-Yearbook is CeSIUM's online yearbook for LEI students at UMinho. Built with [Elixir](https://elixir-lang.org/) and [Phoenix Framework](https://www.phoenixframework.org/), it is the place where students leave their mark on each academic year with a photo, their name and a short phrase.
+Yearbook is CeSIUM's online yearbook for UMinho's Software Engineering students across bachelor's and master's degrees. Built with [Elixir](https://elixir-lang.org/) and [Phoenix Framework](https://www.phoenixframework.org/), it is the place where students leave their mark on each academic year with a photo, their name and a short phrase.
 
 It is responsible for receiving and storing entry requests, moderating them through an admin backoffice, and publicly displaying the approved entries, filterable by academic year and by bachelor's or master's.
 
