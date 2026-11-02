@@ -88,16 +88,16 @@ defmodule YearbookWeb.CoreComponents do
   ## Examples
 
       <.button>Send!</.button>
-      <.button phx-click="go" variant="primary">Send!</.button>
+      <.button phx-click="go" variant="black">Send!</.button>
       <.button navigate={~p"/"}>Home</.button>
   """
   attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
   attr :class, :any
-  attr :variant, :string, values: ~w(primary)
+  attr :variant, :string, values: ~w(black)
   slot :inner_block, required: true
 
   def button(%{rest: rest} = assigns) do
-    variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
+    variants = %{"black" => "btn-black", nil => "btn-black btn-soft"}
 
     assigns =
       assign_new(assigns, :class, fn ->
@@ -290,7 +290,7 @@ defmodule YearbookWeb.CoreComponents do
             "w-full rounded-lg border bg-white border-black/40 px-3.5 py-2.5 text-sm placeholder:text-gray-400",
             if(@class && String.contains?(to_string(@class), "focus:"),
               do: nil,
-              else: "focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none"
+              else: "focus:border-black focus:ring-2 focus:ring-black/30 focus:outline-none"
             ),
             @class,
             @errors != [] &&
