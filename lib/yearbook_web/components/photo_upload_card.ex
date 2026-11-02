@@ -20,9 +20,9 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
         <div class="flex flex-col gap-6 text-center">
           <img
             src={@staged_photo_path}
-            class="w-48 h-48 object-cover rounded-xl mx-auto border-2 border-primary"
+            class="w-48 h-48 object-cover rounded-xl mx-auto border-2 border-black"
           />
-          <p class="text-sm font-bold text-primary">Foto carregada com sucesso!</p>
+          <p class="text-sm font-bold text-black">Foto carregada com sucesso!</p>
         </div>
       <% else %>
         <div class="flex flex-col gap-4">
@@ -36,12 +36,12 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
             phx_target={@phx_target}
             phx_change="validate"
             phx_drop_target={@upload.ref}
-            class="h-48 w-48 mx-auto rounded-xl border-primary/30! hover:border-primary! hover:bg-primary/5! transition-all! overflow-hidden cursor-pointer"
+            class="h-48 w-48 mx-auto rounded-xl border-black/30! hover:border-black! hover:bg-black/5! transition-all! overflow-hidden cursor-pointer"
             upload={@upload}
             image_class="w-full h-full object-cover"
           >
             <:placeholder>
-              <div class="flex flex-col gap-2 items-center justify-center h-full text-primary/50 hover:text-primary transition-colors p-4">
+              <div class="flex flex-col gap-2 items-center justify-center h-full text-black/50 hover:text-black transition-colors p-4">
                 <.icon name="hero-arrow-up-tray" class="w-8 h-8" />
                 <p class="text-sm font-medium text-gray-600">Escolha uma foto</p>
                 <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">
@@ -65,7 +65,7 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
           <%= if @show_upload_button do %>
             <button
               type="submit"
-              class="w-full py-3.5 rounded-full bg-primary text-white font-bold tracking-widest text-xs hover:bg-primary/85 active:scale-[0.98] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              class="w-full py-3.5 rounded-full bg-black text-white font-bold tracking-widest text-xs hover:bg-black/85 active:scale-[0.98] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
               disabled={@upload.entries == [] or upload_errors(@upload) != []}
               phx-disable-with="A CARREGAR..."
             >
@@ -76,11 +76,11 @@ defmodule YearbookWeb.Components.PhotoUploadCard do
               <div class="space-y-2">
                 <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
                   <div
-                    class="h-full rounded-full bg-primary transition-all duration-300"
+                    class="h-full rounded-full bg-black transition-all duration-300"
                     style={"width: #{entry.progress}%"}
                   />
                 </div>
-                <p class="text-[10px] text-center font-bold text-primary tracking-widest">
+                <p class="text-[10px] text-center font-bold text-black tracking-widest">
                   A CARREGAR {entry.progress}%
                 </p>
               </div>

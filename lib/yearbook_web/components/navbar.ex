@@ -42,7 +42,7 @@ defmodule YearbookWeb.Navbar do
 
       <div
         id="mobile-navbar"
-        class="relative bg-white border-b-2 border-primary w-full flex flex-col p-4 shadow-lg"
+        class="relative bg-white border-b-2 border-black w-full flex flex-col p-4 shadow-lg"
       >
         <div class="flex justify-end mb-4">
           <button type="button" phx-click={hide_mobile_navbar()}>

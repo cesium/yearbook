@@ -39,7 +39,7 @@ defmodule YearbookWeb.Layouts do
   def app(assigns) do
     ~H"""
     <div class="h-screen w-full">
-      <div class="bg-white flex items-center justify-between w-full h-20 px-4 border-b-3 border-primary">
+      <div class="bg-white flex items-center justify-between w-full h-20 px-4 border-b-3 border-blakc">
         <div class="flex z-10 justify-between h-full items-center">
           <div class="p-3 rounded-2xl">
             <.link navigate={~p"/"} class="flex items-center gap-3 cursor-pointer">
@@ -52,27 +52,27 @@ defmodule YearbookWeb.Layouts do
           <%= if @current_scope && @current_scope.user do %>
             <.link
               navigate={~p"/users/settings"}
-              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-black text-black font-medium hover:bg-black/10 transition"
             >
               {gettext("Definições")}
             </.link>
             <.link
               href={~p"/users/log-out"}
               method="delete"
-              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-black text-black font-medium hover:bg-black/10 transition"
             >
               {gettext("Terminar sessão")}
             </.link>
           <% else %>
             <.link
               navigate={~p"/users/register"}
-              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-black text-black font-medium hover:bg-black/10 transition"
             >
               {gettext("Registar-se")}
             </.link>
             <.link
               navigate={~p"/users/log-in"}
-              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition"
+              class="inline-flex items-center justify-center w-32 h-10 rounded-lg border border-black text-black font-medium hover:bg-black/10 transition"
             >
               {gettext("Iniciar sessão")}
             </.link>

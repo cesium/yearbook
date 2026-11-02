@@ -28,7 +28,7 @@ defmodule Yearbook.Entries.Entry do
     entry
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> validate_number(:year, greater_than: 2020, less_than_or_equal_to: current_year)
+    |> validate_number(:year, greater_than_or_equal_to: 2020, less_than_or_equal_to: current_year)
     |> validate_length(:text, max: 200)
   end
 end

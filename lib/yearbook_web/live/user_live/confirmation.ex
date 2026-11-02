@@ -28,13 +28,13 @@ defmodule YearbookWeb.UserLive.Confirmation do
             name={@form[:remember_me].name}
             value="true"
             phx-disable-with="Confirming..."
-            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full h-12 rounded-lg bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Confirm and stay logged in
           </.button>
           <.button
             phx-disable-with="Confirming..."
-            class="w-full h-12 rounded-lg border border-primary text-primary font-semibold hover:bg-primary/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full h-12 rounded-lg border border-black text-black font-semibold hover:bg-black/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Confirm and log in only this time
           </.button>
@@ -54,7 +54,7 @@ defmodule YearbookWeb.UserLive.Confirmation do
           <%= if @current_scope do %>
             <.button
               phx-disable-with="Logging in..."
-              class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full h-12 rounded-lg bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Log in
             </.button>
@@ -63,13 +63,13 @@ defmodule YearbookWeb.UserLive.Confirmation do
               name={@form[:remember_me].name}
               value="true"
               phx-disable-with="Logging in..."
-              class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full h-12 rounded-lg bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Keep me logged in on this device
             </.button>
             <.button
               phx-disable-with="Logging in..."
-              class="w-full h-12 rounded-lg border border-primary text-primary font-semibold hover:bg-primary/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full h-12 rounded-lg border border-black text-black font-semibold hover:bg-black/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Log me in only this time
             </.button>
@@ -78,7 +78,7 @@ defmodule YearbookWeb.UserLive.Confirmation do
 
         <p
           :if={!@user.confirmed_at}
-          class="rounded-lg border border-primary/40 bg-primary/5 px-4 py-3 text-sm text-primary"
+          class="rounded-lg border border-black/40 bg-black/5 px-4 py-3 text-sm text-black"
         >
           Tip: If you prefer passwords, you can enable them in the user settings.
         </p>
