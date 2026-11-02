@@ -331,3 +331,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Sou finalista de"
 msgstr ""
+
+#: lib/yearbook_web/components/entry_form.ex:187
+#, elixir-autogen, elixir-format
+msgid "Entrada criada com sucesso!"
+msgstr ""

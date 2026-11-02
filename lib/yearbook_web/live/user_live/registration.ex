@@ -32,7 +32,7 @@ defmodule YearbookWeb.UserLive.Registration do
 
           <.button
             phx-disable-with={gettext("A criar conta...")}
-            class="w-full h-12 rounded-lg cursor-pointer bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full h-12 rounded-lg cursor-pointer bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {gettext("Criar uma conta")}
           </.button>
@@ -41,7 +41,7 @@ defmodule YearbookWeb.UserLive.Registration do
         <div class="text-center">
           <span class="text-black">{gettext("Já tem uma conta?")}</span>
           <.link
-            class="inline-block text-primary underline cursor-pointer hover:text-[#E37044] hover:scale-110 transition-all"
+            class="inline-block text-black underline cursor-pointer hover:text-[#E37044] hover:scale-110 transition-all"
             navigate={~p"/users/log-in"}
           >
             {gettext("Iniciar sessão")}

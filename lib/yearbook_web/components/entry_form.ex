@@ -13,7 +13,7 @@ defmodule YearbookWeb.EntryFormComponent do
     ~H"""
     <div class="w-full max-w-screen-2xl">
       <header class="mb-8">
-        <h2 class="text-xl font-medium font-orbitron text-primary tracking-tight">
+        <h2 class="text-xl font-medium font-orbitron text-black tracking-tight">
           {gettext("Realiza aqui o teu pedido")}
         </h2>
         <p class="text-sm text-gray-500 mt-2">
@@ -39,7 +39,7 @@ defmodule YearbookWeb.EntryFormComponent do
           </div>
           <div class="w-full min-w-0 flex-1 flex flex-col gap-5">
             <div>
-              <label class="block text-xs font-inter font-medium text-primary mb-2">
+              <label class="block text-xs font-inter font-medium text-black mb-2">
                 {gettext("Ano Letivo")}
               </label>
               <.academic_year
@@ -52,11 +52,11 @@ defmodule YearbookWeb.EntryFormComponent do
             </div>
 
             <div>
-              <label class="block text-xs font-inter font-medium text-primary mb-2">
+              <label class="block text-xs font-inter font-medium text-black mb-2">
                 {gettext("Sou finalista de")}
               </label>
               <div class="flex flex-wrap gap-x-5 gap-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium text-primary cursor-pointer">
+                <label class="flex items-center gap-2 text-sm font-medium text-black cursor-pointer">
                   <input
                     type="radio"
                     name={@form[:masters].name}
@@ -65,7 +65,7 @@ defmodule YearbookWeb.EntryFormComponent do
                   /> {gettext("Licenciatura")}
                 </label>
 
-                <label class="flex items-center gap-2 text-sm font-medium text-primary cursor-pointer">
+                <label class="flex items-center gap-2 text-sm font-medium text-black cursor-pointer">
                   <input
                     type="radio"
                     name={@form[:masters].name}
@@ -78,19 +78,19 @@ defmodule YearbookWeb.EntryFormComponent do
 
             <div class="space-y-5 min-w-0">
               <div>
-                <label class="block text-xs font-inter font-medium text-primary mb-2">
+                <label class="block text-xs font-inter font-medium text-black mb-2">
                   {gettext("Nome")}
                 </label>
                 <.input
                   field={@form[:name]}
                   type="text"
                   placeholder="Ex: Angela Martin"
-                  class="w-full px-5 py-2 rounded-xl bg-white border border-gray-300 focus:bg-white focus:text-primary focus:outline-none focus:ring-1 focus:ring-main transition-all text-sm"
+                  class="w-full px-5 py-2 rounded-xl bg-white border border-gray-300 focus:bg-white focus:text-black focus:outline-none focus:ring-1 focus:ring-main transition-all text-sm"
                 />
               </div>
 
               <div>
-                <label class="block text-xs font-inter font-medium text-primary mb-2">
+                <label class="block text-xs font-inter font-medium text-black mb-2">
                   {gettext("Frase")}
                 </label>
                 <.input
@@ -99,7 +99,7 @@ defmodule YearbookWeb.EntryFormComponent do
                   maxlength="200"
                   rows="7"
                   placeholder="Máx. 200 caracteres"
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:text-primary focus:outline-none focus:ring-1 focus:ring-main transition-all text-sm resize-none"
+                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:bg-white focus:text-black focus:outline-none focus:ring-1 focus:ring-main transition-all text-sm resize-none"
                 />
               </div>
             </div>
@@ -129,7 +129,7 @@ defmodule YearbookWeb.EntryFormComponent do
   def mount(socket) do
     {:ok,
      socket
-     |> assign(:academic_year, "")
+     |> assign(:academic_year, Integer.to_string(Date.utc_today().year))
      |> assign(:staged_photo_path, nil)
      |> allow_upload(:photo,
        accept: ~w(.jpg .jpeg .png),
@@ -184,7 +184,7 @@ defmodule YearbookWeb.EntryFormComponent do
       {:ok, _entry} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Entrada criada com sucesso!")
+         |> put_flash(:info, {gettext("Entrada criada com sucesso!")})
          |> redirect(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
