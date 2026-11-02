@@ -38,7 +38,7 @@ defmodule YearbookWeb.UserLive.Login do
               <% else %>
                 {gettext("Ainda não tem uma conta?")} <.link
                   navigate={~p"/users/register"}
-                  class="font-semibold text-primary underline hover:text-[#E37044] hover:scale-110 transition-all cursor-pointer"
+                  class="font-semibold text-black underline hover:text-[#E37044] hover:scale-110 transition-all cursor-pointer"
                   phx-no-format
                 >{gettext("Registar-se")}</.link>
               <% end %>
@@ -62,7 +62,7 @@ defmodule YearbookWeb.UserLive.Login do
               phx-mounted={JS.focus()}
               class="w-full"
             />
-            <.button class="w-full h-12 rounded-lg cursor-pointer bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed">
+            <.button class="w-full h-12 rounded-lg cursor-pointer bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed">
               {gettext("Iniciar sessão com email")} <span aria-hidden="true">→</span>
             </.button>
           </.form>
@@ -97,7 +97,7 @@ defmodule YearbookWeb.UserLive.Login do
               class="w-full"
             />
             <.button
-              class="w-full h-12 rounded-lg bg-primary cursor-pointer text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full h-12 rounded-lg bg-black cursor-pointer text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
               name={@form[:remember_me].name}
               value="true"
             >

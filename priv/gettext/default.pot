@@ -11,41 +11,37 @@
 msgid ""
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:80
+#: lib/yearbook_web/components/entry_form.ex:65
 #: lib/yearbook_web/live/home_live/index.html.heex:8
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:81
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Licenciatura"
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:113
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:68
 #, elixir-autogen, elixir-format
 msgid "Alunos %{degree} do Ano Letivo %{year}."
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:111
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:66
 #, elixir-autogen, elixir-format
 msgid "Alunos da Licenciatura de todos os anos letivos."
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:109
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:64
 #, elixir-autogen, elixir-format
 msgid "Alunos do Mestrado de todos os anos letivos."
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:23
+#: lib/yearbook_web/components/academic_year.ex:32
+#: lib/yearbook_web/components/entry_form.ex:43
 #, elixir-autogen, elixir-format
 msgid "Ano Letivo"
 msgstr ""
 
-#: lib/yearbook_web/live/request_live/index.html.heex:13
-#, elixir-autogen, elixir-format
-msgid "Fazer Pedido"
-msgstr ""
-
-#: lib/yearbook_web/components/entry_form.ex:89
+#: lib/yearbook_web/components/entry_form.ex:74
 #: lib/yearbook_web/live/home_live/index.html.heex:17
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:95
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Mestrado"
 msgstr ""
@@ -67,12 +63,12 @@ msgstr ""
 msgid "Página da Política de Privacidade"
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:67
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Todos"
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:107
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:62
 #, elixir-autogen, elixir-format
 msgid "Todos os alunos registados no Yearbook."
 msgstr ""
@@ -83,17 +79,17 @@ msgstr ""
 msgid "Yearbook"
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:115
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:70
 #, elixir-autogen, elixir-format
 msgid "da Licenciatura"
 msgstr ""
 
-#: lib/yearbook_web/live/yearbook_live/index.html.heex:115
+#: lib/yearbook_web/live/yearbook_live/index.html.heex:70
 #, elixir-autogen, elixir-format
 msgid "do Mestrado"
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:101
+#: lib/yearbook_web/components/entry_form.ex:115
 #, elixir-autogen, elixir-format
 msgid "A carregar foto..."
 msgstr ""
@@ -120,7 +116,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:103
+#: lib/yearbook_web/components/entry_form.ex:117
 #, elixir-autogen, elixir-format
 msgid "Enviar Pedido"
 msgstr ""
@@ -130,7 +126,7 @@ msgstr ""
 msgid "Está a utilizar o adaptador de email local."
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:51
+#: lib/yearbook_web/components/entry_form.ex:94
 #, elixir-autogen, elixir-format
 msgid "Frase"
 msgstr ""
@@ -153,14 +149,9 @@ msgstr ""
 msgid "Iniciar sessão e manter sessão iniciada"
 msgstr ""
 
-#: lib/yearbook_web/components/entry_form.ex:39
+#: lib/yearbook_web/components/entry_form.ex:82
 #, elixir-autogen, elixir-format
 msgid "Nome"
-msgstr ""
-
-#: lib/yearbook_web/components/entry_form.ex:17
-#, elixir-autogen, elixir-format
-msgid "Novo Pedido"
 msgstr ""
 
 #: lib/yearbook_web/live/user_live/login.ex:95
@@ -287,7 +278,7 @@ msgstr ""
 msgid "Anterior"
 msgstr ""
 
-#: lib/yearbook_web/components/core_components.ex:373
+#: lib/yearbook_web/components/core_components.ex:377
 #, elixir-autogen, elixir-format
 msgid "Ações"
 msgstr ""
@@ -324,4 +315,24 @@ msgstr ""
 #: lib/yearbook_web/components/core_components.ex:77
 #, elixir-autogen, elixir-format
 msgid "fechar"
+msgstr ""
+
+#: lib/yearbook_web/components/entry_form.ex:17
+#, elixir-autogen, elixir-format
+msgid "Realiza aqui o teu pedido"
+msgstr ""
+
+#: lib/yearbook_web/components/academic_year.ex:80
+#, elixir-autogen, elixir-format
+msgid "Todos os Anos"
+msgstr ""
+
+#: lib/yearbook_web/components/entry_form.ex:56
+#, elixir-autogen, elixir-format
+msgid "Sou finalista de"
+msgstr ""
+
+#: lib/yearbook_web/components/entry_form.ex:187
+#, elixir-autogen, elixir-format
+msgid "Entrada criada com sucesso!"
 msgstr ""

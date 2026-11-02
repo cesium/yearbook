@@ -87,7 +87,6 @@ defmodule YearbookWeb.Router do
         {YearbookWeb.LocaleHook, :default}
       ] do
       live "/request", RequestLive.Index, :index
-      live "/request/new", RequestLive.Index, :new
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
     end

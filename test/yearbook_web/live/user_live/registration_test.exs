@@ -72,7 +72,7 @@ defmodule YearbookWeb.UserLive.RegistrationTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a[href='/users/log-in'].text-primary", "Iniciar sessão")
+        |> element("a[href='/users/log-in'].text-black", "Iniciar sessão")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log-in")
 

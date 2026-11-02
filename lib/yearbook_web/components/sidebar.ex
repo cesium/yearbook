@@ -11,7 +11,7 @@ defmodule YearbookWeb.Sidebar do
 
   def sidebar(assigns) do
     ~H"""
-    <div class="lg:hidden bg-white flex items-center justify-between w-full h-16 sm:h-20 px-3 sm:px-4 border-b-2 border-primary sticky top-0 z-40">
+    <div class="lg:hidden bg-white flex items-center justify-between w-full h-16 sm:h-20 px-3 sm:px-4 border-b-2 border-black sticky top-0 z-40">
       <div class="flex z-10 justify-between h-full items-center">
         <div class="p-2 sm:p-3 rounded-2xl">
           <.link navigate={~p"/"} class="flex items-center gap-2 sm:gap-3 cursor-pointer">

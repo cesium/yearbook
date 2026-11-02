@@ -34,7 +34,7 @@ defmodule YearbookWeb.UserLive.Settings do
           />
           <.button
             phx-disable-with="Changing..."
-            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full h-12 rounded-lg bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Change Email
           </.button>
@@ -76,7 +76,7 @@ defmodule YearbookWeb.UserLive.Settings do
           />
           <.button
             phx-disable-with="Saving..."
-            class="w-full h-12 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full h-12 rounded-lg bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Save Password
           </.button>
