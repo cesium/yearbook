@@ -92,32 +92,31 @@ mix precommit
 For data persistence this project uses a PostgreSQL database. You should have
 PostgreSQL up and running.
 
-If you want to setup the required database using docker containers you can
-easily do it with [docker-compose](https://docs.docker.com/compose/install/).
+If you want to set up the required database using Docker containers you can
+easily do it with [Docker Compose](https://docs.docker.com/compose/install/).
 
 Create and start the database containers. You should use `linux.yml` if running on Linux and `darwin.yml` if running on macOS.
 
 ```
-cp .env.dev.sample .env.dev
-docker-compose -f compose.dev.yml -f {linux,darwin}.yml up db
+docker compose -f compose.dev.yml -f {linux,darwin}.yml up db
 ```
 
 Start the previously created containers.
 
 ```
-docker-compose -f compose.dev.yml -f {linux,darwin}.yml start
+docker compose -f compose.dev.yml -f {linux,darwin}.yml start
 ```
 
 Stop the containers.
 
 ```
-docker-compose -f compose.dev.yml -f {linux,darwin}.yml stop
+docker compose -f compose.dev.yml -f {linux,darwin}.yml stop
 ```
 
 Destroy the containers and volumes created.
 
 ```
-docker-compose -f compose.dev.yml -f {linux,darwin}.yml down -v
+docker compose -f compose.dev.yml -f {linux,darwin}.yml down -v
 ```
 
 ## 🔗 References
