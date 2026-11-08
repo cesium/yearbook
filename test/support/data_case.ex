@@ -45,9 +45,9 @@ defmodule Yearbook.DataCase do
   @doc """
   A helper that transforms changeset errors into a map of messages.
 
-      assert {:error, changeset} = Accounts.create_user(%{password: "short"})
-      assert "password is too short" in errors_on(changeset).password
-      assert %{password: ["password is too short"]} = errors_on(changeset)
+      assert {:error, changeset} = Accounts.register_user(%{new_password: "short"})
+      assert "password is too short" in errors_on(changeset).new_password
+      assert %{new_password: ["password is too short"]} = errors_on(changeset)
 
   """
   def errors_on(changeset) do

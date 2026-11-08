@@ -6,26 +6,25 @@ defmodule Yearbook.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(email password)a
+  @required_fields ~w(email new_password)a
   @optional_fields ~w(role confirmed_at)a
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
     field :email, :string
-    field :password, :string, virtual: true, redact: true
+    field :current_password, :string, virtual: true, redact: true
+    field :new_password, :string, virtual: true, redact: true
+    field :new_password_confirmation, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
-    field :authenticated_at, :utc_datetime, virtual: true
     field :role, Ecto.Enum, values: [:student, :admin], default: :student
 
     timestamps(type: :utc_datetime)
   end
 
   @doc """
-  A user changeset for registering or changing the email.
-
-  It requires the email to change otherwise an error is added.
+  A changeset for registering a user with an email address and password.
 
   ## Options
 
@@ -37,20 +36,15 @@ defmodule Yearbook.Accounts.User do
     user
     |> cast(attrs, @required_fields)
     |> validate_email(opts)
-    |> validate_password(opts)
+    |> validate_confirmation(:new_password, required: true)
+    |> validate_password(:new_password, opts)
   end
 
   def changeset(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email([])
-    |> validate_password([])
-  end
-
-  def email_changeset(user, attrs, opts \\ []) do
-    user
-    |> cast(attrs, [:email])
-    |> validate_email(opts)
+    |> validate_password(:new_password, [])
   end
 
   defp validate_email(changeset, opts) do
@@ -67,15 +61,6 @@ defmodule Yearbook.Accounts.User do
       changeset
       |> unsafe_validate_unique(:email, Yearbook.Repo)
       |> unique_constraint(:email)
-      |> validate_email_changed()
-    else
-      changeset
-    end
-  end
-
-  defp validate_email_changed(changeset) do
-    if get_field(changeset, :email) && get_change(changeset, :email) == nil do
-      add_error(changeset, :email, "did not change")
     else
       changeset
     end
@@ -89,8 +74,8 @@ defmodule Yearbook.Accounts.User do
 
   ## Options
 
-    * `:hash_password` - Hashes the password so it can be stored securely
-      in the database and ensures the password field is cleared to prevent
+    * `:hash_password` - Hashes the new password so it can be stored securely
+      in the database and ensures the `new_password` field is cleared to prevent
       leaks in the logs. If password hashing is not needed and clearing the
       password field is not desired (like when using this changeset for
       validations on a LiveView form), this option can be set to `false`.
@@ -98,34 +83,49 @@ defmodule Yearbook.Accounts.User do
   """
   def password_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:password])
-    |> validate_confirmation(:password, message: "does not match password")
-    |> validate_password(opts)
+    |> cast(attrs, [:new_password, :current_password])
+    |> validate_confirmation(:new_password, required: true)
+    |> validate_current_password()
+    |> validate_password(:new_password, opts)
   end
 
-  defp validate_password(changeset, opts) do
+  defp validate_current_password(changeset) do
+    case get_change(changeset, :current_password) do
+      current_password when is_binary(current_password) and current_password != "" ->
+        if valid_password?(changeset.data, current_password) do
+          changeset
+        else
+          add_error(changeset, :current_password, "does not match current password")
+        end
+
+      _ ->
+        add_error(changeset, :current_password, "can't be blank")
+    end
+  end
+
+  defp validate_password(changeset, field, opts) do
     changeset
-    |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
+    |> validate_required([field])
+    |> validate_length(field, min: 12, max: 72)
     # Examples of additional password validation:
-    # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
-    # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
-    |> maybe_hash_password(opts)
+    # |> validate_format(:new_password, ~r/[a-z]/, message: "at least one lower case character")
+    # |> validate_format(:new_password, ~r/[A-Z]/, message: "at least one upper case character")
+    # |> validate_format(:new_password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> maybe_hash_password(field, opts)
   end
 
-  defp maybe_hash_password(changeset, opts) do
+  defp maybe_hash_password(changeset, field, opts) do
     hash_password? = Keyword.get(opts, :hash_password, true)
-    password = get_change(changeset, :password)
+    new_password = get_change(changeset, field)
 
-    if hash_password? && password && changeset.valid? do
+    if hash_password? && new_password && changeset.valid? do
       changeset
       # If using Bcrypt, then further validate it is at most 72 bytes long
-      |> validate_length(:password, max: 72, count: :bytes)
+      |> validate_length(field, max: 72, count: :bytes)
       # Hashing could be done with `Ecto.Changeset.prepare_changes/2`, but that
       # would keep the database transaction open longer and hurt performance.
-      |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
-      |> delete_change(:password)
+      |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(new_password))
+      |> delete_change(field)
     else
       changeset
     end

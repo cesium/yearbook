@@ -139,11 +139,6 @@ msgstr ""
 msgid "Iniciar sessão"
 msgstr ""
 
-#: lib/yearbook_web/live/user_live/login.ex:66
-#, elixir-autogen, elixir-format
-msgid "Iniciar sessão com email"
-msgstr ""
-
 #: lib/yearbook_web/live/user_live/login.ex:104
 #, elixir-autogen, elixir-format
 msgid "Iniciar sessão e manter sessão iniciada"
@@ -157,6 +152,11 @@ msgstr ""
 #: lib/yearbook_web/live/user_live/login.ex:95
 #, elixir-autogen, elixir-format
 msgid "Palavra-passe"
+msgstr ""
+
+#: lib/yearbook_web/live/user_live/registration.ex
+#, elixir-autogen, elixir-format
+msgid "Confirmar palavra-passe"
 msgstr ""
 
 #: lib/yearbook_web/live/user_live/login.ex:20
@@ -179,16 +179,6 @@ msgstr ""
 #: lib/yearbook_web/live/user_live/login.ex:43
 #, elixir-autogen, elixir-format
 msgid "Registar-se"
-msgstr ""
-
-#: lib/yearbook_web/live/user_live/login.ex:138
-#, elixir-autogen, elixir-format
-msgid "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
-msgstr ""
-
-#: lib/yearbook_web/live/user_live/login.ex:37
-#, elixir-autogen, elixir-format
-msgid "Tem de voltar a autenticar-se para realizar ações sensíveis na sua conta."
 msgstr ""
 
 #: lib/yearbook_web/live/user_live/login.ex:23
@@ -299,11 +289,6 @@ msgstr ""
 #: lib/yearbook_web/user_auth.ex:307
 #, elixir-autogen, elixir-format
 msgid "Tem de iniciar sessão para aceder a esta página."
-msgstr ""
-
-#: lib/yearbook_web/user_auth.ex:272
-#, elixir-autogen, elixir-format
-msgid "Tem de voltar a autenticar-se para aceder a esta página."
 msgstr ""
 
 #: lib/yearbook_web/components/pagination.ex:21

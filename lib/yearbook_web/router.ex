@@ -88,7 +88,6 @@ defmodule YearbookWeb.Router do
       ] do
       live "/request", RequestLive.Index, :index
       live "/users/settings", UserLive.Settings, :edit
-      live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
     end
 
     post "/users/update-password", UserSessionController, :update_password
@@ -104,10 +103,11 @@ defmodule YearbookWeb.Router do
       ] do
       live "/users/register", UserLive.Registration, :new
       live "/users/log-in", UserLive.Login, :new
-      live "/users/log-in/:token", UserLive.Confirmation, :new
+      live "/users/confirm/:token", UserLive.Confirmation, :new
     end
 
     post "/users/log-in", UserSessionController, :create
+    post "/users/confirm", UserSessionController, :confirm
     delete "/users/log-out", UserSessionController, :delete
   end
 end

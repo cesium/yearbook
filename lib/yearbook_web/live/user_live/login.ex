@@ -1,8 +1,6 @@
 defmodule YearbookWeb.UserLive.Login do
   use YearbookWeb, :auth_view
 
-  alias Yearbook.Accounts
-
   @impl true
   @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
@@ -33,9 +31,7 @@ defmodule YearbookWeb.UserLive.Login do
             </h1>
             <h1 class="text-4xl font-bold tracking-normal text-black">{gettext("Iniciar sessão")}</h1>
             <p class="text-base text-neutral-600 pt-2">
-              <%= if @current_scope do %>
-                {gettext("Tem de voltar a autenticar-se para realizar ações sensíveis na sua conta.")}
-              <% else %>
+              <%= if is_nil(@current_scope && @current_scope.user) do %>
                 {gettext("Ainda não tem uma conta?")} <.link
                   navigate={~p"/users/register"}
                   class="font-semibold text-black underline hover:text-[#E37044] hover:scale-110 transition-all cursor-pointer"
@@ -43,33 +39,6 @@ defmodule YearbookWeb.UserLive.Login do
                 >{gettext("Registar-se")}</.link>
               <% end %>
             </p>
-          </div>
-          <.form
-            :let={f}
-            for={@form}
-            id="login_form_magic"
-            action={~p"/users/log-in"}
-            phx-submit="submit_magic"
-            class="flex flex-col gap-4"
-          >
-            <.input
-              readonly={!!@current_scope}
-              field={f[:email]}
-              type="email"
-              label={gettext("Email")}
-              autocomplete="username"
-              required
-              phx-mounted={JS.focus()}
-              class="w-full"
-            />
-            <.button class="w-full h-12 rounded-lg cursor-pointer bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed">
-              {gettext("Iniciar sessão com email")} <span aria-hidden="true">→</span>
-            </.button>
-          </.form>
-          <div class="flex items-center gap-3 text-sm text-gray-500">
-            <div class="h-px flex-1 bg-gray-200"></div>
-            <span>{gettext("ou")}</span>
-            <div class="h-px flex-1 bg-gray-200"></div>
           </div>
           <.form
             :let={f}
@@ -101,7 +70,7 @@ defmodule YearbookWeb.UserLive.Login do
               name={@form[:remember_me].name}
               value="true"
             >
-              {gettext("Iniciar sessão e manter sessão iniciada")} <span aria-hidden="true">→</span>
+              {gettext("Iniciar sessão e manter sessão iniciada")}
             </.button>
           </.form>
         </div>
@@ -124,25 +93,6 @@ defmodule YearbookWeb.UserLive.Login do
   @impl true
   def handle_event("submit_password", _params, socket) do
     {:noreply, assign(socket, :trigger_submit, true)}
-  end
-
-  def handle_event("submit_magic", %{"user" => %{"email" => email}}, socket) do
-    if user = Accounts.get_user_by_email(email) do
-      Accounts.deliver_login_instructions(
-        user,
-        &url(~p"/users/log-in/#{&1}")
-      )
-    end
-
-    info =
-      gettext(
-        "Se o seu email estiver registado no nosso sistema, receberá em breve instruções para iniciar sessão."
-      )
-
-    {:noreply,
-     socket
-     |> put_flash(:info, info)
-     |> push_navigate(to: ~p"/users/log-in")}
   end
 
   defp local_mail_adapter? do

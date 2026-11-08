@@ -4,29 +4,8 @@ defmodule YearbookWeb.UserSessionController do
   alias Yearbook.Accounts
   alias YearbookWeb.UserAuth
 
-  def create(conn, %{"_action" => "confirmed"} = params) do
-    create(conn, params, "User confirmed successfully.")
-  end
-
   def create(conn, params) do
     create(conn, params, "Welcome back!")
-  end
-
-  # magic link login
-  defp create(conn, %{"user" => %{"token" => token} = user_params}, info) do
-    case Accounts.login_user_by_magic_link(token) do
-      {:ok, {user, tokens_to_disconnect}} ->
-        UserAuth.disconnect_sessions(tokens_to_disconnect)
-
-        conn
-        |> put_flash(:info, info)
-        |> UserAuth.log_in_user(user, user_params)
-
-      _ ->
-        conn
-        |> put_flash(:error, "The link is invalid or it has expired.")
-        |> redirect(to: ~p"/users/log-in")
-    end
   end
 
   # email + password login
@@ -46,17 +25,38 @@ defmodule YearbookWeb.UserSessionController do
     end
   end
 
-  def update_password(conn, %{"user" => user_params} = params) do
+  def update_password(conn, %{"user" => user_params}) do
     user = conn.assigns.current_scope.user
-    true = Accounts.sudo_mode?(user)
-    {:ok, {_user, expired_tokens}} = Accounts.update_user_password(user, user_params)
 
-    # disconnect all existing LiveViews with old sessions
-    UserAuth.disconnect_sessions(expired_tokens)
+    case Accounts.update_user_password(user, user_params) do
+      {:ok, {updated_user, expired_tokens}} ->
+        # disconnect all existing LiveViews with old sessions
+        UserAuth.disconnect_sessions(expired_tokens)
 
-    conn
-    |> put_session(:user_return_to, ~p"/users/settings")
-    |> create(params, "Password updated successfully!")
+        conn
+        |> put_session(:user_return_to, ~p"/users/settings")
+        |> put_flash(:info, "Password updated successfully!")
+        |> UserAuth.log_in_user(updated_user, user_params)
+
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "Could not update password. Check your entries and try again.")
+        |> redirect(to: ~p"/users/settings")
+    end
+  end
+
+  def confirm(conn, %{"user" => %{"token" => token}}) do
+    case Accounts.confirm_user(token) do
+      {:ok, _user} ->
+        conn
+        |> put_flash(:info, "Email confirmed successfully. You can now log in.")
+        |> redirect(to: ~p"/users/log-in")
+
+      {:error, :invalid_token} ->
+        conn
+        |> put_flash(:error, "The confirmation link is invalid or has expired.")
+        |> redirect(to: ~p"/users/log-in")
+    end
   end
 
   def delete(conn, _params) do
