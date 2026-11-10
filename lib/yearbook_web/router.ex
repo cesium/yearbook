@@ -104,10 +104,14 @@ defmodule YearbookWeb.Router do
       live "/users/register", UserLive.Registration, :new
       live "/users/log-in", UserLive.Login, :new
       live "/users/confirm/:token", UserLive.Confirmation, :new
+      live "/users/forgot-password", UserLive.ForgotPassword, :new
+      live "/users/reset-password/:token", UserLive.ResetPassword, :edit
     end
 
     post "/users/log-in", UserSessionController, :create
     post "/users/confirm", UserSessionController, :confirm
+    post "/users/forgot-password", UserSessionController, :forgot
+    post "/users/reset-password", UserSessionController, :reset_password
     delete "/users/log-out", UserSessionController, :delete
   end
 end

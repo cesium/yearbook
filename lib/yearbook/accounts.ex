@@ -110,6 +110,11 @@ defmodule Yearbook.Accounts do
     User.password_changeset(user, attrs, opts)
   end
 
+  @doc "Returns a changeset for a password reset authorized by a valid email token."
+  def change_user_reset_password(user, attrs \\ %{}, opts \\ []) do
+    User.password_reset_changeset(user, attrs, opts)
+  end
+
   @doc """
   Updates the user password.
 
@@ -206,5 +211,79 @@ defmodule Yearbook.Accounts do
         {:ok, {user, tokens_to_expire}}
       end
     end)
+  end
+
+  @doc "Delivers password reset instructions to the given user."
+  def deliver_password_reset_instructions(%User{} = user, reset_url_fun)
+      when is_function(reset_url_fun, 1) do
+    {encoded_token, user_token} = UserToken.build_email_token(user, "reset_password")
+    Repo.insert!(user_token)
+
+    UserNotifier.deliver_password_reset_instructions(
+      user,
+      reset_url_fun.(encoded_token)
+    )
+  end
+
+  @doc "Delivers password reset instructions when an account exists for the email."
+  def forgot_password(email, reset_url_fun)
+      when is_binary(email) and is_function(reset_url_fun, 1) do
+    email = email |> String.trim() |> String.downcase()
+
+    case get_user_by_email(email) do
+      %User{} = user -> deliver_password_reset_instructions(user, reset_url_fun)
+      nil -> :ok
+    end
+  end
+
+  @doc "Gets the user associated with a valid password reset token."
+  def get_user_by_password_reset_token(token) do
+    with {:ok, query} <- UserToken.verify_password_reset_token_query(token),
+         {user, _token} <- Repo.one(query) do
+      user
+    else
+      _ -> nil
+    end
+  end
+
+  @doc "Resets a user's password with a valid, single-use reset token."
+  def reset_user_password(token, attrs) do
+    case UserToken.verify_password_reset_token_query(token) do
+      {:ok, query} -> reset_password_with_token(query, attrs)
+      :error -> {:error, :invalid_token}
+    end
+  end
+
+  defp reset_password_with_token(query, attrs) do
+    Repo.transact(fn ->
+      case Repo.one(query) do
+        {%User{} = user, %UserToken{} = reset_token} ->
+          update_password_with_reset_token(user, reset_token, attrs)
+
+        _ ->
+          Repo.rollback(:invalid_token)
+      end
+    end)
+  end
+
+  defp update_password_with_reset_token(user, reset_token, attrs) do
+    case Repo.delete_all(from(t in UserToken, where: t.id == ^reset_token.id)) do
+      {1, _} -> update_password_and_delete_sessions(user, attrs)
+      _ -> Repo.rollback(:invalid_token)
+    end
+  end
+
+  defp update_password_and_delete_sessions(user, attrs) do
+    case user |> User.password_reset_changeset(attrs) |> Repo.update() do
+      {:ok, updated_user} ->
+        tokens_to_expire = Repo.all_by(UserToken, user_id: user.id)
+
+        Repo.delete_all(from(t in UserToken, where: t.id in ^Enum.map(tokens_to_expire, & &1.id)))
+
+        {:ok, {updated_user, tokens_to_expire}}
+
+      {:error, changeset} ->
+        Repo.rollback(changeset)
+    end
   end
 end

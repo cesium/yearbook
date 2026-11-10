@@ -89,6 +89,14 @@ defmodule Yearbook.Accounts.User do
     |> validate_password(:new_password, opts)
   end
 
+  @doc "A changeset for setting a new password after validating a reset token."
+  def password_reset_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:new_password])
+    |> validate_confirmation(:new_password, required: true)
+    |> validate_password(:new_password, opts)
+  end
+
   defp validate_current_password(changeset) do
     case get_change(changeset, :current_password) do
       current_password when is_binary(current_password) and current_password != "" ->

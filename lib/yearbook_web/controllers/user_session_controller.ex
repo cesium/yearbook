@@ -59,6 +59,46 @@ defmodule YearbookWeb.UserSessionController do
     end
   end
 
+  def forgot(conn, %{"user" => user_params}) do
+    %{"email" => email} = user_params
+
+    _ =
+      Accounts.forgot_password(
+        email,
+        &url(~p"/users/reset-password/#{&1}")
+      )
+
+    conn
+    |> put_flash(
+      :info,
+      gettext(
+        "If an account exists for that email, password reset instructions will be sent shortly."
+      )
+    )
+    |> redirect(to: ~p"/users/log-in")
+  end
+
+  def reset_password(conn, %{"user" => %{"token" => token} = user_params}) do
+    case Accounts.reset_user_password(token, user_params) do
+      {:ok, {_user, expired_tokens}} ->
+        UserAuth.disconnect_sessions(expired_tokens)
+
+        conn
+        |> put_flash(:info, gettext("Your password has been reset. You can now log in."))
+        |> redirect(to: ~p"/users/log-in")
+
+      {:error, %Ecto.Changeset{}} ->
+        conn
+        |> put_flash(:error, gettext("Please check the new password and confirmation."))
+        |> redirect(to: ~p"/users/reset-password/#{token}")
+
+      {:error, :invalid_token} ->
+        conn
+        |> put_flash(:error, gettext("This password reset link is invalid or has expired."))
+        |> redirect(to: ~p"/users/log-in")
+    end
+  end
+
   def delete(conn, _params) do
     conn
     |> put_flash(:info, "Logged out successfully.")

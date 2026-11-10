@@ -25,6 +25,24 @@ defmodule Yearbook.Accounts.UserNotifier do
     deliver_confirmation_instructions(user, url)
   end
 
+  @doc "Deliver password reset instructions."
+  def deliver_password_reset_instructions(user, url) do
+    deliver(user.email, "Password reset instructions", """
+
+    ==============================
+
+    Hi #{user.email},
+
+    You can reset your password by visiting the URL below:
+
+    #{url}
+
+    If you didn't request a password reset, please ignore this.
+
+    ==============================
+    """)
+  end
+
   defp deliver_confirmation_instructions(user, url) do
     deliver(user.email, "Confirmation instructions", """
 

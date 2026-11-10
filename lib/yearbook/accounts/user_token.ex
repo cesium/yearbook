@@ -11,6 +11,7 @@ defmodule Yearbook.Accounts.UserToken do
   @rand_size 32
 
   @email_confirmation_validity_in_days 7
+  @password_reset_validity_in_hours 1
   @session_validity_in_days 14
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -113,6 +114,26 @@ defmodule Yearbook.Accounts.UserToken do
           from token in by_token_and_context_query(hashed_token, "confirm"),
             join: user in assoc(token, :user),
             where: token.inserted_at > ago(^@email_confirmation_validity_in_days, "day"),
+            where: token.sent_to == user.email,
+            select: {user, token}
+
+        {:ok, query}
+
+      :error ->
+        :error
+    end
+  end
+
+  @doc "Checks if a password reset token is valid and returns its lookup query."
+  def verify_password_reset_token_query(token) do
+    case Base.url_decode64(token, padding: false) do
+      {:ok, decoded_token} ->
+        hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
+
+        query =
+          from token in by_token_and_context_query(hashed_token, "reset_password"),
+            join: user in assoc(token, :user),
+            where: token.inserted_at > ago(^@password_reset_validity_in_hours, "hour"),
             where: token.sent_to == user.email,
             select: {user, token}
 

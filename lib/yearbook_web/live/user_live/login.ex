@@ -26,15 +26,12 @@ defmodule YearbookWeb.UserLive.Login do
       <div class="z-10 flex justify-end items-center grow h-full w-full sm:bg-transparent">
         <div class="flex flex-col gap-6 bg-white w-full md:w-125 h-fit rounded-2xl py-8 px-5 md:p-8 my-auto mx-0 md:mx-5 sm:shadow-xl">
           <div class="flex flex-col gap-2">
-            <h1 class="text-3xl font-bold tracking-normal text-black">
-              {gettext("Bem-vindo de volta")}
-            </h1>
             <h1 class="text-4xl font-bold tracking-normal text-black">{gettext("Iniciar sessão")}</h1>
-            <p class="text-base text-neutral-600 pt-2">
+            <p class="text-sm text-neutral-600 pt-2">
               <%= if is_nil(@current_scope && @current_scope.user) do %>
                 {gettext("Ainda não tem uma conta?")} <.link
                   navigate={~p"/users/register"}
-                  class="font-semibold text-black underline hover:text-[#E37044] hover:scale-110 transition-all cursor-pointer"
+                  class="font-semibold text-black underline hover:text-main hover:scale-110 transition-all cursor-pointer"
                   phx-no-format
                 >{gettext("Registar-se")}</.link>
               <% end %>
@@ -65,6 +62,15 @@ defmodule YearbookWeb.UserLive.Login do
               autocomplete="current-password"
               class="w-full"
             />
+            <p class="text-sm text-neutral-600">
+              <%= if is_nil(@current_scope && @current_scope.user) do %>
+                <.link
+                  navigate={~p"/users/forgot-password"}
+                  class="font-semibold text-black underline hover:text-main hover:scale-110 transition-all cursor-pointer"
+                  phx-no-format
+                >{gettext("Esqueceu-se da palavra-passe?")}</.link>
+              <% end %>
+            </p>
             <.button
               class="w-full h-12 rounded-lg bg-black cursor-pointer text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
               name={@form[:remember_me].name}

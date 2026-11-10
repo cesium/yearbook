@@ -94,7 +94,7 @@ msgstr "Master's"
 msgid "A carregar foto..."
 msgstr "Uploading photo..."
 
-#: lib/yearbook_web/live/user_live/login.ex:39
+#: lib/yearbook_web/live/user_live/login.ex:32
 #, elixir-autogen, elixir-format
 msgid "Ainda não tem uma conta?"
 msgstr "Don't have an account yet?"
@@ -104,13 +104,8 @@ msgstr "Don't have an account yet?"
 msgid "Backoffice"
 msgstr ""
 
-#: lib/yearbook_web/live/user_live/login.ex:32
-#, elixir-autogen, elixir-format
-msgid "Bem-vindo de volta"
-msgstr "Welcome back"
-
-#: lib/yearbook_web/live/user_live/login.ex:59
-#: lib/yearbook_web/live/user_live/login.ex:87
+#: lib/yearbook_web/live/user_live/forgot_password.ex:31
+#: lib/yearbook_web/live/user_live/login.ex:53
 #: lib/yearbook_web/live/user_live/registration.ex:27
 #, elixir-autogen, elixir-format
 msgid "Email"
@@ -121,7 +116,7 @@ msgstr ""
 msgid "Enviar Pedido"
 msgstr "Submit Request"
 
-#: lib/yearbook_web/live/user_live/login.ex:18
+#: lib/yearbook_web/live/user_live/login.ex:16
 #, elixir-autogen, elixir-format
 msgid "Está a utilizar o adaptador de email local."
 msgstr "You are running the local email adapter."
@@ -133,33 +128,39 @@ msgstr "Quote"
 
 #: lib/yearbook_web/components/layouts.ex:77
 #: lib/yearbook_web/components/navbar.ex:189
-#: lib/yearbook_web/live/user_live/login.ex:34
-#: lib/yearbook_web/live/user_live/registration.ex:47
+#: lib/yearbook_web/live/user_live/login.ex:29
+#: lib/yearbook_web/live/user_live/registration.ex:63
 #, elixir-autogen, elixir-format
 msgid "Iniciar sessão"
 msgstr "Log in"
 
-#: lib/yearbook_web/live/user_live/login.ex:104
+#: lib/yearbook_web/live/user_live/login.ex:79
 #, elixir-autogen, elixir-format
 msgid "Iniciar sessão e manter sessão iniciada"
 msgstr "Log in and stay logged in"
+
+#: lib/yearbook_web/controllers/user_session_controller.ex:74
+#, elixir-autogen, elixir-format
+msgid "If an account exists for that email, password reset instructions will be sent shortly."
+msgstr ""
 
 #: lib/yearbook_web/components/entry_form.ex:82
 #, elixir-autogen, elixir-format
 msgid "Nome"
 msgstr "Name"
 
-#: lib/yearbook_web/live/user_live/login.ex:95
+#: lib/yearbook_web/live/user_live/login.ex:61
+#: lib/yearbook_web/live/user_live/registration.ex:36
 #, elixir-autogen, elixir-format
 msgid "Palavra-passe"
 msgstr "Password"
 
-#: lib/yearbook_web/live/user_live/registration.ex
+#: lib/yearbook_web/live/user_live/registration.ex:44
 #, elixir-autogen, elixir-format
 msgid "Confirmar palavra-passe"
 msgstr "Confirm password"
 
-#: lib/yearbook_web/live/user_live/login.ex:20
+#: lib/yearbook_web/live/user_live/login.ex:18
 #, elixir-autogen, elixir-format
 msgid "Para consultar os emails enviados, visite"
 msgstr "To see sent emails, visit"
@@ -176,20 +177,15 @@ msgstr "Fill in your details to appear in the Yearbook."
 
 #: lib/yearbook_web/components/layouts.ex:71
 #: lib/yearbook_web/components/navbar.ex:182
-#: lib/yearbook_web/live/user_live/login.ex:43
+#: lib/yearbook_web/live/user_live/login.ex:36
 #, elixir-autogen, elixir-format
 msgid "Registar-se"
 msgstr "Sign up"
 
-#: lib/yearbook_web/live/user_live/login.ex:23
+#: lib/yearbook_web/live/user_live/login.ex:21
 #, elixir-autogen, elixir-format
 msgid "a página da caixa de correio"
 msgstr "the mailbox page"
-
-#: lib/yearbook_web/live/user_live/login.ex:71
-#, elixir-autogen, elixir-format
-msgid "ou"
-msgstr "or"
 
 #: lib/yearbook_web/components/layouts.ex:116
 #: lib/yearbook_web/components/layouts.ex:128
@@ -231,22 +227,22 @@ msgstr "Something went wrong!"
 msgid "Terminar sessão"
 msgstr "Log out"
 
-#: lib/yearbook_web/live/user_live/registration.ex:34
+#: lib/yearbook_web/live/user_live/registration.ex:50
 #, elixir-autogen, elixir-format
 msgid "A criar conta..."
 msgstr "Creating account..."
 
-#: lib/yearbook_web/live/user_live/registration.ex:37
+#: lib/yearbook_web/live/user_live/registration.ex:53
 #, elixir-autogen, elixir-format
 msgid "Criar uma conta"
 msgstr "Create an account"
 
-#: lib/yearbook_web/live/user_live/registration.ex:81
+#: lib/yearbook_web/live/user_live/registration.ex:97
 #, elixir-autogen, elixir-format
 msgid "Foi enviado um email para %{email}. Aceda ao email para confirmar a sua conta."
 msgstr "An email was sent to %{email}, please access it to confirm your account."
 
-#: lib/yearbook_web/live/user_live/registration.ex:42
+#: lib/yearbook_web/live/user_live/registration.ex:58
 #, elixir-autogen, elixir-format
 msgid "Já tem uma conta?"
 msgstr "Already have an account?"
@@ -284,9 +280,9 @@ msgstr "Upload a file or drag and drop."
 msgid "Seguinte"
 msgstr "Next"
 
-#: lib/yearbook_web/user_auth.ex:235
-#: lib/yearbook_web/user_auth.ex:254
-#: lib/yearbook_web/user_auth.ex:307
+#: lib/yearbook_web/user_auth.ex:234
+#: lib/yearbook_web/user_auth.ex:253
+#: lib/yearbook_web/user_auth.ex:288
 #, elixir-autogen, elixir-format
 msgid "Tem de iniciar sessão para aceder a esta página."
 msgstr "You must log in to access this page."
@@ -320,4 +316,56 @@ msgstr "I have just completed"
 #: lib/yearbook_web/components/entry_form.ex:187
 #, elixir-autogen, elixir-format
 msgid "Entrada criada com sucesso!"
+msgstr ""
+
+#: lib/yearbook_web/live/user_live/reset_password.ex:46
+#, elixir-autogen, elixir-format
+msgid "Confirmar nova palavra-passe"
+msgstr "Confirm new password"
+
+#: lib/yearbook_web/live/user_live/forgot_password.ex:38
+#, elixir-autogen, elixir-format
+msgid "Enviar"
+msgstr "Submit Request"
+
+#: lib/yearbook_web/live/user_live/reset_password.ex:21
+#, elixir-autogen, elixir-format
+msgid "Escolhe uma nova palavra-passe para a tua conta."
+msgstr "Choose a new password for your account."
+
+#: lib/yearbook_web/live/user_live/login.ex:71
+#, elixir-autogen, elixir-format
+msgid "Esqueceu-se da palavra-passe?"
+msgstr "Forgot your password?"
+
+#: lib/yearbook_web/live/user_live/reset_password.ex:51
+#, elixir-autogen, elixir-format
+msgid "Guardar nova palavra-passe"
+msgstr "Save new password"
+
+#: lib/yearbook_web/live/user_live/reset_password.ex:39
+#, elixir-autogen, elixir-format
+msgid "Nova palavra-passe"
+msgstr "New password"
+
+#: lib/yearbook_web/controllers/user_session_controller.ex:92
+#, elixir-autogen, elixir-format
+msgid "Please check the new password and confirmation."
+msgstr ""
+
+#: lib/yearbook_web/live/user_live/forgot_password.ex:16
+#: lib/yearbook_web/live/user_live/reset_password.ex:18
+#, elixir-autogen, elixir-format
+msgid "Redefinir palavra-passe"
+msgstr "Reset password"
+
+#: lib/yearbook_web/controllers/user_session_controller.ex:97
+#: lib/yearbook_web/live/user_live/reset_password.ex:75
+#, elixir-autogen, elixir-format
+msgid "This password reset link is invalid or has expired."
+msgstr ""
+
+#: lib/yearbook_web/controllers/user_session_controller.ex:87
+#, elixir-autogen, elixir-format
+msgid "Your password has been reset. You can now log in."
 msgstr ""
