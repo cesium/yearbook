@@ -33,6 +33,11 @@ defmodule Yearbook.AccountsTest do
       assert %User{id: ^id} =
                Accounts.get_user_by_email_and_password(user.email, valid_user_password())
     end
+
+    test "does not return an unconfirmed user" do
+      user = unconfirmed_user_fixture() |> set_password()
+      refute Accounts.get_user_by_email_and_password(user.email, valid_user_password())
+    end
   end
 
   describe "get_user!/1" do
@@ -61,6 +66,17 @@ defmodule Yearbook.AccountsTest do
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
 
+    test "requires matching password confirmation" do
+      {:error, changeset} =
+        Accounts.register_user(%{
+          email: unique_user_email(),
+          new_password: valid_user_password(),
+          new_password_confirmation: "different password"
+        })
+
+      assert %{new_password_confirmation: ["does not match confirmation"]} = errors_on(changeset)
+    end
+
     test "validates maximum values for email for security" do
       too_long = String.duplicate("db", 100)
       {:error, changeset} = Accounts.register_user(%{email: too_long})
@@ -77,127 +93,43 @@ defmodule Yearbook.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
     end
 
-    test "registers users without password" do
+    test "registers users with a password" do
       email = unique_user_email()
       {:ok, user} = Accounts.register_user(valid_user_attributes(email: email))
       assert user.email == email
-      assert is_nil(user.hashed_password)
+      assert user.hashed_password
       assert is_nil(user.confirmed_at)
-      assert is_nil(user.password)
+      assert is_nil(user.new_password)
     end
   end
 
-  describe "sudo_mode?/2" do
-    test "validates the authenticated_at time" do
-      now = DateTime.utc_now()
-
-      assert Accounts.sudo_mode?(%User{authenticated_at: DateTime.utc_now()})
-      assert Accounts.sudo_mode?(%User{authenticated_at: DateTime.add(now, -19, :minute)})
-      refute Accounts.sudo_mode?(%User{authenticated_at: DateTime.add(now, -21, :minute)})
-
-      # minute override
-      refute Accounts.sudo_mode?(
-               %User{authenticated_at: DateTime.add(now, -11, :minute)},
-               -10
-             )
-
-      # not authenticated
-      refute Accounts.sudo_mode?(%User{})
-    end
-  end
-
-  describe "change_user_email/3" do
+  describe "change_user_registration/3" do
     test "returns a user changeset" do
-      assert %Ecto.Changeset{} = changeset = Accounts.change_user_email(%User{})
-      assert changeset.required == [:email]
-    end
-  end
-
-  describe "deliver_user_update_email_instructions/3" do
-    setup do
-      %{user: user_fixture()}
-    end
-
-    test "sends token through notification", %{user: user} do
-      token =
-        extract_user_token(fn url ->
-          Accounts.deliver_user_update_email_instructions(user, "current@example.com", url)
-        end)
-
-      {:ok, token} = Base.url_decode64(token, padding: false)
-      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
-      assert user_token.user_id == user.id
-      assert user_token.sent_to == user.email
-      assert user_token.context == "change:current@example.com"
-    end
-  end
-
-  describe "update_user_email/2" do
-    setup do
-      user = unconfirmed_user_fixture()
-      email = unique_user_email()
-
-      token =
-        extract_user_token(fn url ->
-          Accounts.deliver_user_update_email_instructions(%{user | email: email}, user.email, url)
-        end)
-
-      %{user: user, token: token, email: email}
-    end
-
-    test "updates the email with a valid token", %{user: user, token: token, email: email} do
-      assert {:ok, %{email: ^email}} = Accounts.update_user_email(user, token)
-      changed_user = Repo.get!(User, user.id)
-      assert changed_user.email != user.email
-      assert changed_user.email == email
-      refute Repo.get_by(UserToken, user_id: user.id)
-    end
-
-    test "does not update email with invalid token", %{user: user} do
-      assert Accounts.update_user_email(user, "oops") ==
-               {:error, :transaction_aborted}
-
-      assert Repo.get!(User, user.id).email == user.email
-      assert Repo.get_by(UserToken, user_id: user.id)
-    end
-
-    test "does not update email if user email changed", %{user: user, token: token} do
-      assert Accounts.update_user_email(%{user | email: "current@example.com"}, token) ==
-               {:error, :transaction_aborted}
-
-      assert Repo.get!(User, user.id).email == user.email
-      assert Repo.get_by(UserToken, user_id: user.id)
-    end
-
-    test "does not update email if token expired", %{user: user, token: token} do
-      {1, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
-
-      assert Accounts.update_user_email(user, token) ==
-               {:error, :transaction_aborted}
-
-      assert Repo.get!(User, user.id).email == user.email
-      assert Repo.get_by(UserToken, user_id: user.id)
+      assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
+      assert Enum.sort(changeset.required) == Enum.sort([:email, :new_password])
     end
   end
 
   describe "change_user_password/3" do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_password(%User{})
-      assert changeset.required == [:password]
+      assert changeset.required == [:new_password]
     end
 
     test "allows fields to be set" do
       changeset =
         Accounts.change_user_password(
-          %User{},
+          user_fixture(),
           %{
-            "password" => "new valid password"
+            "current_password" => valid_user_password(),
+            "new_password" => "new valid password",
+            "new_password_confirmation" => "new valid password"
           },
           hash_password: false
         )
 
       assert changeset.valid?
-      assert get_change(changeset, :password) == "new valid password"
+      assert get_change(changeset, :new_password) == "new valid password"
       assert is_nil(get_change(changeset, :hashed_password))
     end
   end
@@ -210,13 +142,14 @@ defmodule Yearbook.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.update_user_password(user, %{
-          password: "not valid",
-          password_confirmation: "another"
+          current_password: valid_user_password(),
+          new_password: "not valid",
+          new_password_confirmation: "another"
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
-               password_confirmation: ["does not match password"]
+               new_password: ["should be at least 12 character(s)"],
+               new_password_confirmation: ["does not match confirmation"]
              } = errors_on(changeset)
     end
 
@@ -224,19 +157,25 @@ defmodule Yearbook.AccountsTest do
       too_long = String.duplicate("db", 100)
 
       {:error, changeset} =
-        Accounts.update_user_password(user, %{password: too_long})
+        Accounts.update_user_password(user, %{
+          current_password: valid_user_password(),
+          new_password: too_long,
+          new_password_confirmation: too_long
+        })
 
-      assert "should be at most 72 character(s)" in errors_on(changeset).password
+      assert "should be at most 72 character(s)" in errors_on(changeset).new_password
     end
 
     test "updates the password", %{user: user} do
       {:ok, {user, expired_tokens}} =
         Accounts.update_user_password(user, %{
-          password: "new valid password"
+          current_password: valid_user_password(),
+          new_password: "new valid password",
+          new_password_confirmation: "new valid password"
         })
 
       assert expired_tokens == []
-      assert is_nil(user.password)
+      assert is_nil(user.new_password)
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 
@@ -245,7 +184,9 @@ defmodule Yearbook.AccountsTest do
 
       {:ok, {_, _}} =
         Accounts.update_user_password(user, %{
-          password: "new valid password"
+          current_password: valid_user_password(),
+          new_password: "new valid password",
+          new_password_confirmation: "new valid password"
         })
 
       refute Repo.get_by(UserToken, user_id: user.id)
@@ -261,7 +202,7 @@ defmodule Yearbook.AccountsTest do
       token = Accounts.generate_user_session_token(user)
       assert user_token = Repo.get_by(UserToken, token: token)
       assert user_token.context == "session"
-      assert user_token.authenticated_at != nil
+      assert user_token.user_id == user.id
 
       # Creating the same token for another user should fail
       assert_raise Ecto.ConstraintError, fn ->
@@ -273,12 +214,10 @@ defmodule Yearbook.AccountsTest do
       end
     end
 
-    test "duplicates the authenticated_at of given user in new token", %{user: user} do
-      user = %{user | authenticated_at: DateTime.add(DateTime.utc_now(:second), -3600)}
+    test "creates a unique token for each session", %{user: user} do
       token = Accounts.generate_user_session_token(user)
       assert user_token = Repo.get_by(UserToken, token: token)
-      assert user_token.authenticated_at == user.authenticated_at
-      assert DateTime.compare(user_token.inserted_at, user.authenticated_at) == :gt
+      assert user_token.inserted_at
     end
   end
 
@@ -292,7 +231,6 @@ defmodule Yearbook.AccountsTest do
     test "returns user by token", %{user: user, token: token} do
       assert {session_user, token_inserted_at} = Accounts.get_user_by_session_token(token)
       assert session_user.id == user.id
-      assert session_user.authenticated_at != nil
       assert token_inserted_at != nil
     end
 
@@ -302,62 +240,80 @@ defmodule Yearbook.AccountsTest do
 
     test "does not return user for expired token", %{token: token} do
       dt = ~N[2020-01-01 00:00:00]
-      {1, nil} = Repo.update_all(UserToken, set: [inserted_at: dt, authenticated_at: dt])
+      {1, nil} = Repo.update_all(UserToken, set: [inserted_at: dt])
       refute Accounts.get_user_by_session_token(token)
     end
   end
 
-  describe "get_user_by_magic_link_token/1" do
+  describe "get_user_by_confirmation_token/1" do
     setup do
-      user = user_fixture()
-      {encoded_token, _hashed_token} = generate_user_magic_link_token(user)
-      %{user: user, token: encoded_token}
+      user = unconfirmed_user_fixture()
+      token = generate_user_confirmation_token(user)
+      %{user: user, token: token}
     end
 
     test "returns user by token", %{user: user, token: token} do
-      assert session_user = Accounts.get_user_by_magic_link_token(token)
-      assert session_user.id == user.id
+      assert confirmation_user = Accounts.get_user_by_confirmation_token(token)
+      assert confirmation_user.id == user.id
     end
 
     test "does not return user for invalid token" do
-      refute Accounts.get_user_by_magic_link_token("oops")
+      refute Accounts.get_user_by_confirmation_token("oops")
     end
 
     test "does not return user for expired token", %{token: token} do
       {1, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
-      refute Accounts.get_user_by_magic_link_token(token)
+      refute Accounts.get_user_by_confirmation_token(token)
     end
   end
 
-  describe "login_user_by_magic_link/1" do
+  describe "confirm_user/1" do
     test "confirms user and expires tokens" do
       user = unconfirmed_user_fixture()
       refute user.confirmed_at
-      {encoded_token, hashed_token} = generate_user_magic_link_token(user)
+      encoded_token = generate_user_confirmation_token(user)
 
-      assert {:ok, {user, [%{token: ^hashed_token}]}} =
-               Accounts.login_user_by_magic_link(encoded_token)
+      assert {:ok, confirmed_user} = Accounts.confirm_user(encoded_token)
 
-      assert user.confirmed_at
+      assert confirmed_user.confirmed_at
+      refute Repo.get_by(UserToken, user_id: user.id)
     end
 
-    test "returns user and (deleted) token for confirmed user" do
-      user = user_fixture()
-      assert user.confirmed_at
-      {encoded_token, _hashed_token} = generate_user_magic_link_token(user)
-      assert {:ok, {^user, []}} = Accounts.login_user_by_magic_link(encoded_token)
-      # one time use only
-      assert {:error, :not_found} = Accounts.login_user_by_magic_link(encoded_token)
+    test "does not confirm user for invalid token" do
+      assert {:error, :invalid_token} = Accounts.confirm_user("oops")
     end
 
-    test "raises when unconfirmed user has password set" do
+    test "does not confirm user for expired token" do
       user = unconfirmed_user_fixture()
-      {1, nil} = Repo.update_all(User, set: [hashed_password: "hashed"])
-      {encoded_token, _hashed_token} = generate_user_magic_link_token(user)
+      token = generate_user_confirmation_token(user)
+      {1, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
 
-      assert_raise RuntimeError, ~r/magic link log in is not allowed/, fn ->
-        Accounts.login_user_by_magic_link(encoded_token)
-      end
+      assert {:error, :invalid_token} = Accounts.confirm_user(token)
+      refute Accounts.get_user!(user.id).confirmed_at
+    end
+
+    test "does not reuse a confirmation token" do
+      user = unconfirmed_user_fixture()
+      token = generate_user_confirmation_token(user)
+      assert {:ok, _confirmed_user} = Accounts.confirm_user(token)
+      assert {:error, :invalid_token} = Accounts.confirm_user(token)
+    end
+
+    test "does not confirm if the user's email has changed" do
+      user = unconfirmed_user_fixture()
+      token = generate_user_confirmation_token(user)
+      Repo.update!(Ecto.Changeset.change(user, email: "changed@example.com"))
+
+      assert {:error, :invalid_token} = Accounts.confirm_user(token)
+      refute Accounts.get_user!(user.id).confirmed_at
+    end
+
+    test "does not confirm an already confirmed user" do
+      user = user_fixture()
+      token = generate_user_confirmation_token(user)
+
+      assert {:error, :invalid_token} = Accounts.confirm_user(token)
+      assert Accounts.get_user!(user.id).confirmed_at
     end
   end
 
@@ -370,7 +326,7 @@ defmodule Yearbook.AccountsTest do
     end
   end
 
-  describe "deliver_login_instructions/2" do
+  describe "deliver_user_confirmation_instructions/2" do
     setup do
       %{user: unconfirmed_user_fixture()}
     end
@@ -378,20 +334,20 @@ defmodule Yearbook.AccountsTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Accounts.deliver_login_instructions(user, url)
+          Accounts.deliver_user_confirmation_instructions(user, url)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
       assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
-      assert user_token.context == "login"
+      assert user_token.context == "confirm"
     end
   end
 
   describe "inspect/2 for the User module" do
     test "does not include password" do
-      refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
+      refute inspect(%User{new_password: "123456"}) =~ "new_password: \"123456\""
     end
   end
 end

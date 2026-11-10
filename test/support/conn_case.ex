@@ -56,16 +56,11 @@ defmodule YearbookWeb.ConnCase do
   It stores an updated connection and a registered user in the
   test context.
   """
-  def register_and_log_in_user(%{conn: conn} = context) do
+  def register_and_log_in_user(%{conn: conn}) do
     user = AccountsFixtures.user_fixture()
     scope = Accounts.Scope.for_user(user)
 
-    opts =
-      context
-      |> Map.take([:token_authenticated_at])
-      |> Enum.into([])
-
-    %{conn: log_in_user(conn, user, opts), user: user, scope: scope}
+    %{conn: log_in_user(conn, user), user: user, scope: scope}
   end
 
   @doc """
@@ -73,18 +68,10 @@ defmodule YearbookWeb.ConnCase do
 
   It returns an updated `conn`.
   """
-  def log_in_user(conn, user, opts \\ []) do
+  def log_in_user(conn, user) do
     token = Accounts.generate_user_session_token(user)
-
-    maybe_set_token_authenticated_at(token, opts[:token_authenticated_at])
 
     conn
     |> Plug.Conn.put_session(:user_token, token)
-  end
-
-  defp maybe_set_token_authenticated_at(_token, nil), do: nil
-
-  defp maybe_set_token_authenticated_at(token, authenticated_at) do
-    AccountsFixtures.override_token_authenticated_at(token, authenticated_at)
   end
 end

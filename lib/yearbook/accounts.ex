@@ -41,7 +41,7 @@ defmodule Yearbook.Accounts do
   def get_user_by_email_and_password(email, password)
       when is_binary(email) and is_binary(password) do
     user = Repo.get_by(User, email: email)
-    if User.valid_password?(user, password), do: user
+    if User.valid_password?(user, password) && user.confirmed_at, do: user
   end
 
   @doc """
@@ -76,60 +76,23 @@ defmodule Yearbook.Accounts do
   """
   def register_user(attrs) do
     %User{}
-    |> User.email_changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
   end
 
-  ## Settings
-
   @doc """
-  Checks whether the user is in sudo mode.
+  Returns an `%Ecto.Changeset{}` for registering a user.
 
-  The user is in sudo mode when the last authentication was done no further
-  than 20 minutes ago. The limit can be given as second argument in minutes.
-  """
-  def sudo_mode?(user, minutes \\ -20)
-
-  def sudo_mode?(%User{authenticated_at: ts}, minutes) when is_struct(ts, DateTime) do
-    DateTime.after?(ts, DateTime.utc_now() |> DateTime.add(minutes, :minute))
-  end
-
-  def sudo_mode?(_user, _minutes), do: false
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for changing the user email.
-
-  See `Yearbook.Accounts.User.email_changeset/3` for a list of supported options.
+  See `Yearbook.Accounts.User.registration_changeset/3` for supported options.
 
   ## Examples
 
-      iex> change_user_email(user)
+      iex> change_user_registration(user)
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user_email(user, attrs \\ %{}, opts \\ []) do
-    User.email_changeset(user, attrs, opts)
-  end
-
-  @doc """
-  Updates the user email using the given token.
-
-  If the token matches, the user email is updated and the token is deleted.
-  """
-  def update_user_email(user, token) do
-    context = "change:#{user.email}"
-
-    Repo.transact(fn ->
-      with {:ok, query} <- UserToken.verify_change_email_token_query(token, context),
-           %UserToken{sent_to: email} <- Repo.one(query),
-           {:ok, user} <- Repo.update(User.email_changeset(user, %{email: email})),
-           {_count, _result} <-
-             Repo.delete_all(from(UserToken, where: [user_id: ^user.id, context: ^context])) do
-        {:ok, user}
-      else
-        _ -> {:error, :transaction_aborted}
-      end
-    end)
+  def change_user_registration(user, attrs \\ %{}, opts \\ []) do
+    User.registration_changeset(user, attrs, opts)
   end
 
   @doc """
@@ -147,6 +110,11 @@ defmodule Yearbook.Accounts do
     User.password_changeset(user, attrs, opts)
   end
 
+  @doc "Returns a changeset for a password reset authorized by a valid email token."
+  def change_user_reset_password(user, attrs \\ %{}, opts \\ []) do
+    User.password_reset_changeset(user, attrs, opts)
+  end
+
   @doc """
   Updates the user password.
 
@@ -154,16 +122,17 @@ defmodule Yearbook.Accounts do
 
   ## Examples
 
-      iex> update_user_password(user, %{password: ...})
+      iex> update_user_password(user, %{new_password: ...})
       {:ok, {%User{}, [...]}}
 
-      iex> update_user_password(user, %{password: "too short"})
+      iex> update_user_password(user, %{new_password: "too short"})
       {:error, %Ecto.Changeset{}}
 
   """
   def update_user_password(user, attrs) do
     user
     |> User.password_changeset(attrs)
+    |> Ecto.Changeset.delete_change(:current_password)
     |> update_user_and_delete_all_tokens()
   end
 
@@ -188,11 +157,9 @@ defmodule Yearbook.Accounts do
     Repo.one(query)
   end
 
-  @doc """
-  Gets the user with the given magic link token.
-  """
-  def get_user_by_magic_link_token(token) do
-    with {:ok, query} <- UserToken.verify_magic_link_token_query(token),
+  @doc "Gets the user associated with a valid email confirmation token."
+  def get_user_by_confirmation_token(token) do
+    with {:ok, query} <- UserToken.verify_confirmation_token_query(token),
          {user, _token} <- Repo.one(query) do
       user
     else
@@ -200,77 +167,28 @@ defmodule Yearbook.Accounts do
     end
   end
 
-  @doc """
-  Logs the user in by magic link.
-
-  There are three cases to consider:
-
-  1. The user has already confirmed their email. They are logged in
-     and the magic link is expired.
-
-  2. The user has not confirmed their email and no password is set.
-     In this case, the user gets confirmed, logged in, and all tokens -
-     including session ones - are expired. In theory, no other tokens
-     exist but we delete all of them for best security practices.
-
-  3. The user has not confirmed their email but a password is set.
-     This cannot happen in the default implementation but may be the
-     source of security pitfalls. See the "Mixing magic link and password registration" section of
-     `mix help phx.gen.auth`.
-  """
-  def login_user_by_magic_link(token) do
-    {:ok, query} = UserToken.verify_magic_link_token_query(token)
-
-    case Repo.one(query) do
-      # Prevent session fixation attacks by disallowing magic links for unconfirmed users with password
-      {%User{confirmed_at: nil, hashed_password: hash}, _token} when not is_nil(hash) ->
-        raise """
-        magic link log in is not allowed for unconfirmed users with a password set!
-
-        This cannot happen with the default implementation, which indicates that you
-        might have adapted the code to a different use case. Please make sure to read the
-        "Mixing magic link and password registration" section of `mix help phx.gen.auth`.
-        """
-
-      {%User{confirmed_at: nil} = user, _token} ->
-        user
-        |> User.confirm_changeset()
-        |> update_user_and_delete_all_tokens()
-
-      {user, token} ->
-        Repo.delete!(token)
-        {:ok, {user, []}}
-
-      nil ->
-        {:error, :not_found}
+  @doc "Confirms a user's email address with a valid confirmation token."
+  def confirm_user(token) do
+    with {:ok, query} <- UserToken.verify_confirmation_token_query(token),
+         {%User{confirmed_at: nil} = user, _token} <- Repo.one(query),
+         {:ok, {confirmed_user, _expired_tokens}} <-
+           user |> User.confirm_changeset() |> update_user_and_delete_all_tokens() do
+      {:ok, confirmed_user}
+    else
+      _ -> {:error, :invalid_token}
     end
   end
 
-  @doc ~S"""
-  Delivers the update email instructions to the given user.
-
-  ## Examples
-
-      iex> deliver_user_update_email_instructions(user, current_email, &url(~p"/users/settings/confirm-email/#{&1}"))
-      {:ok, %{to: ..., body: ...}}
-
-  """
-  def deliver_user_update_email_instructions(%User{} = user, current_email, update_email_url_fun)
-      when is_function(update_email_url_fun, 1) do
-    {encoded_token, user_token} = UserToken.build_email_token(user, "change:#{current_email}")
-
+  @doc "Delivers email confirmation instructions to a newly registered user."
+  def deliver_user_confirmation_instructions(%User{} = user, confirmation_url_fun)
+      when is_function(confirmation_url_fun, 1) do
+    {encoded_token, user_token} = UserToken.build_email_token(user, "confirm")
     Repo.insert!(user_token)
-    UserNotifier.deliver_update_email_instructions(user, update_email_url_fun.(encoded_token))
-  end
 
-  @doc """
-  Delivers the magic link login instructions to the given user.
-  """
-  def deliver_login_instructions(%User{} = user, magic_link_url_fun)
-      when is_function(magic_link_url_fun, 1) do
-    {encoded_token, user_token} = UserToken.build_email_token(user, "login")
-    Repo.insert!(user_token)
-    UserNotifier.deliver_login_instructions(user, magic_link_url_fun.(encoded_token))
+    UserNotifier.deliver_user_confirmation_instructions(
+      user,
+      confirmation_url_fun.(encoded_token)
+    )
   end
 
   @doc """
@@ -293,5 +211,79 @@ defmodule Yearbook.Accounts do
         {:ok, {user, tokens_to_expire}}
       end
     end)
+  end
+
+  @doc "Delivers password reset instructions to the given user."
+  def deliver_password_reset_instructions(%User{} = user, reset_url_fun)
+      when is_function(reset_url_fun, 1) do
+    {encoded_token, user_token} = UserToken.build_email_token(user, "reset_password")
+    Repo.insert!(user_token)
+
+    UserNotifier.deliver_password_reset_instructions(
+      user,
+      reset_url_fun.(encoded_token)
+    )
+  end
+
+  @doc "Delivers password reset instructions when an account exists for the email."
+  def forgot_password(email, reset_url_fun)
+      when is_binary(email) and is_function(reset_url_fun, 1) do
+    email = email |> String.trim() |> String.downcase()
+
+    case get_user_by_email(email) do
+      %User{} = user -> deliver_password_reset_instructions(user, reset_url_fun)
+      nil -> :ok
+    end
+  end
+
+  @doc "Gets the user associated with a valid password reset token."
+  def get_user_by_password_reset_token(token) do
+    with {:ok, query} <- UserToken.verify_password_reset_token_query(token),
+         {user, _token} <- Repo.one(query) do
+      user
+    else
+      _ -> nil
+    end
+  end
+
+  @doc "Resets a user's password with a valid, single-use reset token."
+  def reset_user_password(token, attrs) do
+    case UserToken.verify_password_reset_token_query(token) do
+      {:ok, query} -> reset_password_with_token(query, attrs)
+      :error -> {:error, :invalid_token}
+    end
+  end
+
+  defp reset_password_with_token(query, attrs) do
+    Repo.transact(fn ->
+      case Repo.one(query) do
+        {%User{} = user, %UserToken{} = reset_token} ->
+          update_password_with_reset_token(user, reset_token, attrs)
+
+        _ ->
+          Repo.rollback(:invalid_token)
+      end
+    end)
+  end
+
+  defp update_password_with_reset_token(user, reset_token, attrs) do
+    case Repo.delete_all(from(t in UserToken, where: t.id == ^reset_token.id)) do
+      {1, _} -> update_password_and_delete_sessions(user, attrs)
+      _ -> Repo.rollback(:invalid_token)
+    end
+  end
+
+  defp update_password_and_delete_sessions(user, attrs) do
+    case user |> User.password_reset_changeset(attrs) |> Repo.update() do
+      {:ok, updated_user} ->
+        tokens_to_expire = Repo.all_by(UserToken, user_id: user.id)
+
+        Repo.delete_all(from(t in UserToken, where: t.id in ^Enum.map(tokens_to_expire, & &1.id)))
+
+        {:ok, {updated_user, tokens_to_expire}}
+
+      {:error, changeset} ->
+        Repo.rollback(changeset)
+    end
   end
 end

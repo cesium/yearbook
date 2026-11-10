@@ -30,6 +30,22 @@ defmodule YearbookWeb.UserLive.Registration do
             phx-mounted={JS.focus()}
           />
 
+          <.input
+            field={@form[:new_password]}
+            type="password"
+            label={gettext("Palavra-passe")}
+            autocomplete="new-password"
+            required
+          />
+
+          <.input
+            field={@form[:new_password_confirmation]}
+            type="password"
+            label={gettext("Confirmar palavra-passe")}
+            autocomplete="new-password"
+            required
+          />
+
           <.button
             phx-disable-with={gettext("A criar conta...")}
             class="w-full h-12 rounded-lg cursor-pointer bg-black text-white font-semibold hover:bg-black/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
@@ -59,7 +75,7 @@ defmodule YearbookWeb.UserLive.Registration do
   end
 
   def mount(_params, _session, socket) do
-    changeset = Accounts.change_user_email(%User{}, %{}, validate_unique: false)
+    changeset = Accounts.change_user_registration(%User{}, %{}, validate_unique: false)
 
     {:ok, assign_form(socket, changeset), temporary_assigns: [form: nil]}
   end
@@ -69,9 +85,9 @@ defmodule YearbookWeb.UserLive.Registration do
     case Accounts.register_user(user_params) do
       {:ok, user} ->
         {:ok, _} =
-          Accounts.deliver_login_instructions(
+          Accounts.deliver_user_confirmation_instructions(
             user,
-            &url(~p"/users/log-in/#{&1}")
+            &url(~p"/users/confirm/#{&1}")
           )
 
         {:noreply,
@@ -91,7 +107,7 @@ defmodule YearbookWeb.UserLive.Registration do
   end
 
   def handle_event("validate_registration", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user_email(%User{}, user_params, validate_unique: false)
+    changeset = Accounts.change_user_registration(%User{}, user_params, validate_unique: false)
     {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
   end
 
