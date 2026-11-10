@@ -34,7 +34,7 @@ defmodule YearbookWeb.UserSessionController do
         UserAuth.disconnect_sessions(expired_tokens)
 
         conn
-        |> put_session(:user_return_to, ~p"/users/settings")
+        |> put_session(:user_return_to, ~p"/")
         |> put_flash(:info, "Password updated successfully!")
         |> UserAuth.log_in_user(updated_user, user_params)
 
