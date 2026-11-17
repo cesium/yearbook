@@ -108,6 +108,17 @@ defmodule Yearbook.AccountsTest do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
       assert Enum.sort(changeset.required) == Enum.sort([:email, :new_password])
     end
+
+    test "does not hash the password while validating registration" do
+      attrs = valid_user_attributes()
+
+      changeset =
+        Accounts.change_user_registration(%User{}, attrs, validate_unique: false)
+
+      assert changeset.valid?
+      assert get_change(changeset, :new_password) == attrs.new_password
+      assert is_nil(get_change(changeset, :hashed_password))
+    end
   end
 
   describe "change_user_password/3" do
@@ -342,6 +353,29 @@ defmodule Yearbook.AccountsTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "confirm"
+    end
+  end
+
+  describe "reset_user_password/2" do
+    test "confirms an unconfirmed user when resetting their password" do
+      user = unconfirmed_user_fixture()
+
+      token =
+        extract_user_token(fn url ->
+          Accounts.deliver_password_reset_instructions(user, url)
+        end)
+
+      new_password = "a new secure password"
+
+      assert {:ok, {updated_user, _expired_tokens}} =
+               Accounts.reset_user_password(token, %{
+                 new_password: new_password,
+                 new_password_confirmation: new_password
+               })
+
+      assert updated_user.confirmed_at
+
+      assert Accounts.get_user_by_email_and_password(user.email, new_password)
     end
   end
 

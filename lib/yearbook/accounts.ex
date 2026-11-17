@@ -92,7 +92,11 @@ defmodule Yearbook.Accounts do
 
   """
   def change_user_registration(user, attrs \\ %{}, opts \\ []) do
-    User.registration_changeset(user, attrs, opts)
+    User.registration_changeset(
+      user,
+      attrs,
+      Keyword.put_new(opts, :hash_password, false)
+    )
   end
 
   @doc """
@@ -274,7 +278,12 @@ defmodule Yearbook.Accounts do
   end
 
   defp update_password_and_delete_sessions(user, attrs) do
-    case user |> User.password_reset_changeset(attrs) |> Repo.update() do
+    changeset =
+      user
+      |> User.password_reset_changeset(attrs)
+      |> maybe_confirm_user(user)
+
+    case Repo.update(changeset) do
       {:ok, updated_user} ->
         tokens_to_expire = Repo.all_by(UserToken, user_id: user.id)
 
@@ -286,4 +295,10 @@ defmodule Yearbook.Accounts do
         Repo.rollback(changeset)
     end
   end
+
+  defp maybe_confirm_user(changeset, %{confirmed_at: nil}) do
+    Ecto.Changeset.put_change(changeset, :confirmed_at, DateTime.utc_now(:second))
+  end
+
+  defp maybe_confirm_user(changeset, _user), do: changeset
 end
