@@ -12,6 +12,7 @@ defmodule Yearbook.Repo.Seeds.Accounts do
       [] ->
         seed_admins(admin_names)
         seed_students(student_names)
+
       _ ->
         Mix.shell().error("Users already exist in the database. Aborting Accounts seeding.")
     end
@@ -23,16 +24,19 @@ defmodule Yearbook.Repo.Seeds.Accounts do
 
       attrs = %{
         email: email,
-        password: "password1234"
+        new_password: "password1234",
+        new_password_confirmation: "password1234"
       }
 
       case %User{} |> User.registration_changeset(attrs) |> Repo.insert() do
         {:ok, user} ->
           user |> User.confirm_changeset() |> Repo.update!()
+
         {:error, changeset} ->
           Mix.shell().error("Error creating student #{email}: #{inspect(changeset.errors)}")
       end
     end
+
     Mix.shell().info("Seeds: Students created successfully.")
   end
 
@@ -44,17 +48,19 @@ defmodule Yearbook.Repo.Seeds.Accounts do
 
       attrs = %{
         email: email,
-        password: "password1234",
+        new_password: "password1234",
         role: :admin
       }
 
       case %User{} |> User.changeset(attrs) |> Repo.insert() do
         {:ok, user} ->
           user |> User.confirm_changeset() |> Repo.update!()
+
         {:error, changeset} ->
           Mix.shell().error("Error creating admin #{email}: #{inspect(changeset.errors)}")
       end
     end
+
     Mix.shell().info("Seeds: Admins created successfully.")
   end
 end

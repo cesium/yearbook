@@ -14,7 +14,9 @@ defmodule Yearbook.AccountsFixtures do
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
-      email: unique_user_email()
+      email: unique_user_email(),
+      new_password: valid_user_password(),
+      new_password_confirmation: valid_user_password()
     })
   end
 
@@ -32,11 +34,10 @@ defmodule Yearbook.AccountsFixtures do
 
     token =
       extract_user_token(fn url ->
-        Accounts.deliver_login_instructions(user, url)
+        Accounts.deliver_user_confirmation_instructions(user, url)
       end)
 
-    {:ok, {user, _expired_tokens}} =
-      Accounts.login_user_by_magic_link(token)
+    {:ok, user} = Accounts.confirm_user(token)
 
     user
   end
@@ -52,7 +53,11 @@ defmodule Yearbook.AccountsFixtures do
 
   def set_password(user) do
     {:ok, {user, _expired_tokens}} =
-      Accounts.update_user_password(user, %{password: valid_user_password()})
+      Accounts.update_user_password(user, %{
+        current_password: valid_user_password(),
+        new_password: valid_user_password(),
+        new_password_confirmation: valid_user_password()
+      })
 
     user
   end
@@ -63,19 +68,10 @@ defmodule Yearbook.AccountsFixtures do
     token
   end
 
-  def override_token_authenticated_at(token, authenticated_at) when is_binary(token) do
-    Yearbook.Repo.update_all(
-      from(t in Accounts.UserToken,
-        where: t.token == ^token
-      ),
-      set: [authenticated_at: authenticated_at]
-    )
-  end
-
-  def generate_user_magic_link_token(user) do
-    {encoded_token, user_token} = Accounts.UserToken.build_email_token(user, "login")
+  def generate_user_confirmation_token(user) do
+    {encoded_token, user_token} = Accounts.UserToken.build_email_token(user, "confirm")
     Yearbook.Repo.insert!(user_token)
-    {encoded_token, user_token.token}
+    encoded_token
   end
 
   def offset_user_token(token, amount_to_add, unit) do
@@ -83,7 +79,7 @@ defmodule Yearbook.AccountsFixtures do
 
     Yearbook.Repo.update_all(
       from(ut in Accounts.UserToken, where: ut.token == ^token),
-      set: [inserted_at: dt, authenticated_at: dt]
+      set: [inserted_at: dt]
     )
   end
 end

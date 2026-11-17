@@ -17,7 +17,7 @@ defmodule YearbookWeb.UserAuthTest do
       |> Map.replace!(:secret_key_base, YearbookWeb.Endpoint.config(:secret_key_base))
       |> init_test_session(%{})
 
-    %{user: %{user_fixture() | authenticated_at: DateTime.utc_now(:second)}, conn: conn}
+    %{user: user_fixture(), conn: conn}
   end
 
   describe "log_in_user/3" do
@@ -34,7 +34,7 @@ defmodule YearbookWeb.UserAuthTest do
       refute get_session(conn, :to_be_removed)
     end
 
-    test "keeps session when re-authenticating", %{conn: conn, user: user} do
+    test "keeps session when logging in as the current user", %{conn: conn, user: user} do
       conn =
         conn
         |> assign(:current_scope, Scope.for_user(user))
@@ -44,7 +44,7 @@ defmodule YearbookWeb.UserAuthTest do
       assert get_session(conn, :to_be_removed)
     end
 
-    test "clears session when user does not match when re-authenticating", %{
+    test "clears session when logging in as a different user", %{
       conn: conn,
       user: user
     } do
@@ -151,7 +151,6 @@ defmodule YearbookWeb.UserAuthTest do
         conn |> put_session(:user_token, user_token) |> UserAuth.fetch_current_scope_for_user([])
 
       assert conn.assigns.current_scope.user.id == user.id
-      assert conn.assigns.current_scope.user.authenticated_at == user.authenticated_at
       assert get_session(conn, :user_token) == user_token
     end
 
@@ -168,7 +167,6 @@ defmodule YearbookWeb.UserAuthTest do
         |> UserAuth.fetch_current_scope_for_user([])
 
       assert conn.assigns.current_scope.user.id == user.id
-      assert conn.assigns.current_scope.user.authenticated_at == user.authenticated_at
       assert get_session(conn, :user_token) == user_token
       assert get_session(conn, :user_remember_me)
 
@@ -201,7 +199,6 @@ defmodule YearbookWeb.UserAuthTest do
         |> UserAuth.fetch_current_scope_for_user([])
 
       assert conn.assigns.current_scope.user.id == user.id
-      assert conn.assigns.current_scope.user.authenticated_at == user.authenticated_at
       assert new_token = get_session(conn, :user_token)
       assert new_token != token
       assert %{value: new_signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
@@ -279,38 +276,6 @@ defmodule YearbookWeb.UserAuthTest do
 
       {:halt, updated_socket} = UserAuth.on_mount(:require_authenticated, %{}, session, socket)
       assert updated_socket.assigns.current_scope == nil
-    end
-  end
-
-  describe "on_mount :require_sudo_mode" do
-    test "allows users that have authenticated in the last 10 minutes", %{conn: conn, user: user} do
-      user_token = Accounts.generate_user_session_token(user)
-      session = conn |> put_session(:user_token, user_token) |> get_session()
-
-      socket = %LiveView.Socket{
-        endpoint: YearbookWeb.Endpoint,
-        assigns: %{__changed__: %{}, flash: %{}}
-      }
-
-      assert {:cont, _updated_socket} =
-               UserAuth.on_mount(:require_sudo_mode, %{}, session, socket)
-    end
-
-    test "redirects when authentication is too old", %{conn: conn, user: user} do
-      eleven_minutes_ago = DateTime.utc_now(:second) |> DateTime.add(-11, :minute)
-      user = %{user | authenticated_at: eleven_minutes_ago}
-      user_token = Accounts.generate_user_session_token(user)
-      {user, token_inserted_at} = Accounts.get_user_by_session_token(user_token)
-      assert DateTime.compare(token_inserted_at, user.authenticated_at) == :gt
-      session = conn |> put_session(:user_token, user_token) |> get_session()
-
-      socket = %LiveView.Socket{
-        endpoint: YearbookWeb.Endpoint,
-        assigns: %{__changed__: %{}, flash: %{}}
-      }
-
-      assert {:halt, _updated_socket} =
-               UserAuth.on_mount(:require_sudo_mode, %{}, session, socket)
     end
   end
 

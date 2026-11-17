@@ -27,6 +27,9 @@ msgstr "está reservado"
 msgid "does not match confirmation"
 msgstr "não corresponde à confirmação"
 
+msgid "does not match current password"
+msgstr "não corresponde à palavra-passe atual"
+
 msgid "is still associated with this entry"
 msgstr "ainda está associado a esta entrada"
 
