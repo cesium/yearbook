@@ -1,4 +1,7 @@
 defmodule YearbookWeb.Components.AcademicJourneyCard do
+  @moduledoc """
+  Academic journey card.
+  """
 
   use Phoenix.Component
   import YearbookWeb.CoreComponents, only: [button: 1, icon: 1]
@@ -18,9 +21,15 @@ defmodule YearbookWeb.Components.AcademicJourneyCard do
         {@description}
       </div>
       <div class="flex justify-end mr-3">
-        <.button class="text-main font-medium cursor-pointer group hover:text-black transition duration-500 ease-in-out" navigate={@link} >
+        <.button
+          class="text-main font-medium cursor-pointer group hover:text-black transition duration-500 ease-in-out"
+          navigate={@link}
+        >
           {@button_name}
-          <.icon class="text-black group-hover:text-main transition duration-500 ease-in-out" name="hero-arrow-long-right" />
+          <.icon
+            class="text-black group-hover:text-main transition duration-500 ease-in-out"
+            name="hero-arrow-long-right"
+          />
         </.button>
       </div>
     </div>
