@@ -1,4 +1,8 @@
 defmodule YearbookWeb.Components.Logo do
+  @moduledoc """
+  Yearbook logo component, with red and grey variants.
+  """
+
   use YearbookWeb, :html
 
   attr :variant, :atom, values: [:color, :grey], default: :color
