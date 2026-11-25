@@ -13,11 +13,11 @@ defmodule YearbookWeb.Components.AcademicJourneyCard do
 
   def academic_journey_card(assigns) do
     ~H"""
-    <div class="w-3/4 bg-red-100/50 rounded-md outline-2 outline-orange-300/35 p-5">
-      <div class="pt-2 pb-1 text-main font-orbitron text-2xl font-semibold">
+    <div class="w-3/4 bg-red-100/50 rounded-md outline-2 outline-orange-300/35 p-6 lg-p8">
+      <div class="pt-2 pb-1 text-main font-orbitron text-base lg:text-xl font-semibold">
         {@title}
       </div>
-      <div class="pb-10 pr-10 text-black/75">
+      <div class="pb-10 pr-10 text-black/65 text-sm lg:text-base">
         {@description}
       </div>
       <div class="flex justify-end mr-3">
